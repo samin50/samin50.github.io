@@ -1,14 +1,26 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors')
+
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}", "./*.{html,js,ts,jsx}"],
-  mode: "jit",
+  darkMode: 'class',
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./*.{html,js,ts,jsx}",
+    "./node_modules/flowbite/**/*.js"],
+  mode: "aot",
   theme: {
     extend: {
       colors: {
-        primary: "#00040f",
-        secondary: "#00f6ff",
-        dimWhite: "rgba(255, 255, 255, 0.7)",
-        dimBlue: "rgba(9, 151, 124, 0.1)",
+        // Dark mode theme
+        primarydark: colors.stone[800],
+        secondarydark: colors.rose[700],
+        tertiarydark: colors.rose[400],
+        textdark: 'rgba(255, 255, 255, 0.7)',
+        // Light mode theme
+        primary: colors.stone[300],
+        secondary: colors.rose[700],
+        tertiary: colors.rose[400],
+        textlight: 'rgba(0, 0, 0, 0.7)',
       },
       fontFamily: {
         poppins: ["sans-serif"],
@@ -23,5 +35,7 @@ module.exports = {
       xl: "1700px",
     },
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+  ]
 };
