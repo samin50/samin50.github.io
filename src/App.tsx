@@ -1,4 +1,4 @@
-import { Navbar, NavbarBite } from "./components";
+import { Navbar, NavbarBite, SidebarBite, HeroBite} from "./components";
 import React, { useEffect } from 'react';
 import 'flowbite';
 
@@ -50,20 +50,14 @@ function App() {
     };
 }, []);
   return (
-    <div className="min-h-screen w-full grid grid-rows-[auto,1fr]">
-    <NavbarBite />
-    <div style={{ height: '3000px', backgroundColor: 'lightblue' }}>
-      1 <br />
-      2 <br />
-      3 <br />
-      4 <br />
-      5 <br />
-      6 <br />
-      7 <br />
+    <div>
+        <NavbarBite />
+        <div className="flex flex-row">
+            <SidebarBite />
+            <HeroBite />
+        </div>
     </div>
-  </div>
   );
 }
-
 
 export default App;

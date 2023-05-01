@@ -7,7 +7,7 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
     "./*.{html,js,ts,jsx}",
     "./node_modules/flowbite/**/*.js"],
-  mode: "aot",
+  mode: "jit",
   theme: {
     extend: {
       colors: {
