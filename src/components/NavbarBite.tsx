@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useState } from 'react';
 import styles from "../style";
 
 function NavbarBite() {
+  const [isNavbarVisible, setIsNavbarVisible] = useState(false);
+  const handleHamburgerClick = () => {
+    setIsNavbarVisible(!isNavbarVisible);
+  };
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const handleDropdownClick = () => {
+    setIsDropdownVisible(!isDropdownVisible);
+  };
   return (
     <nav className="bg-primary border-tertiary dark:bg-primarydark dark:border-secondarydark border-b-[3px] sticky top-0">
        {/* Dark Mode button */}
@@ -21,11 +29,11 @@ function NavbarBite() {
             </div>
         </div>
         {/* Hamburger icon on small screen */}
-        <button data-collapse-toggle="navbar-multi-level" type="button" className="border-none inline-flex items-center bg-transparent p-2 ml-3 text-sm text-textlight dark:text-textdark md:hidden focus:outline-none focus:ring-tertiary dark:focus:ring-tertiarydark" aria-controls="navbar-multi-level" aria-expanded="false">
+        <button data-collapse-toggle="navbar-multi-level" type="button" className="border-none inline-flex items-center bg-transparent p-2 ml-3 text-sm text-textlight dark:text-textdark md:hidden focus:outline-none focus:ring-tertiary dark:focus:ring-tertiarydark" aria-controls="navbar-multi-level" aria-expanded="false" onClick={handleHamburgerClick}>
           <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
         </button>
         {/* Navbar items, shown on larger screens */}
-        <div className="hidden w-full md:block md:w-auto" id="navbar-multi-level">
+        <div className={`${isNavbarVisible ? '' : 'hidden'} w-full md:block md:w-auto`} id="navbar-multi-level">
           <ul className="flex flex-col font-medium p-3 md:p-0 mt-2 border rounded-md bg-primary md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-primary dark:bg-primarydark md:dark:bg-primarydark dark:border-secondary">
             <li>
               <a href="#" className={styles.navbarTitleActive} aria-current="page">Home</a>
@@ -33,8 +41,8 @@ function NavbarBite() {
             {/* Dropdown menu */}
             <li>
                 {/* Parent container for the dropdown button */}
-                <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className={`flex items-center justify-between w-full ${styles.navbarTitleInactive}`}>Portfolio <svg className="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button>
-                <div id="dropdownNavbar" className="z-10 hidden font-normal bg-primary rounded-lg shadow w-44 dark:bg-secondary">
+                <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className={`flex items-center justify-between w-full ${styles.navbarTitleInactive}`} onClick={handleDropdownClick}>Portfolio <svg className="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button>
+                <div id="dropdownNavbar" className={`${isNavbarVisible ? '' : 'hidden'} z-10 font-normal bg-primary rounded-lg shadow w-44 dark:bg-secondary`}>
                     <ul className="py-2" aria-labelledby="dropdownLargeButton">
                       <li>
                         <a href="#" className={styles.navbarDropdownMenu}>Professional <svg className="w-4 h-3" fill="currentColor" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 330 330"><g id="SVGRepo_bgCarrier" stroke-width="0"><path id="XMLID_222_" d="M250.606,154.389l-150-149.996c-5.857-5.858-15.355-5.858-21.213,0.001 c-5.857,5.858-5.857,15.355,0.001,21.213l139.393,139.39L79.393,304.394c-5.857,5.858-5.857,15.355,0.001,21.213 C82.322,328.536,86.161,330,90,330s7.678-1.464,10.607-4.394l149.999-150.004c2.814-2.813,4.394-6.628,4.394-10.606 C255,161.018,253.42,157.202,250.606,154.389z"></path> </g></svg></a>
