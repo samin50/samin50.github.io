@@ -1,5 +1,5 @@
-import { Navbar, NavbarBite, SidebarBite, HeroBite} from "./components";
-import React, { useEffect } from 'react';
+import { Navbar, Sidebar, Hero, ProPortfolio, PersPortfolio, Contact } from "./components";
+import React, { useEffect, useState } from 'react';
 import 'flowbite';
 
 function App() {
@@ -47,14 +47,22 @@ function App() {
 
     return () => {
         themeToggleBtn.removeEventListener('click', handleClick);
-    };
-}, []);
+    };}, []);
+
+    {/** Switching between pages **/}
+    const [pageNumber, setPageNumber] = useState(0);
+    useEffect(() => {
+        console.log("Page number changed:", pageNumber);
+      }, [pageNumber]);
   return (
-    <div>
-        <NavbarBite />
+    <div className="dark:bg-primarydark bg-primary text-textlight dark:text-textdark transition-colors 1000 ease-in-out">
+        <Navbar pageNumber={pageNumber} setPageNumber={setPageNumber} />
         <div className="flex flex-row">
-            <SidebarBite />
-            <HeroBite />
+            <Sidebar />
+            {pageNumber === 0 ? <Hero /> : null}
+            {pageNumber === 1 ? <ProPortfolio /> : null}
+            {pageNumber === 2 ? <PersPortfolio /> : null}
+            {pageNumber === 3 ? <Contact /> : null}
         </div>
     </div>
   );
