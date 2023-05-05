@@ -5,7 +5,7 @@ function Contact() {
     return (
         <div className={`${styles.mainSection}`}>
             <div>
-                Whats up
+                Contact section
             </div>
         </div>
     );

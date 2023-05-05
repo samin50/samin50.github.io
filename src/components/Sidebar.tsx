@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from "../style";
+import styles, { summaryNoArrow } from "../style";
 
 function Sidebar() {
     const [isSidebarVisible, setIsSidebarVisible] = useState(false);
@@ -14,7 +14,7 @@ function Sidebar() {
                 {/* Image border container */}
                 <div className="p-4">
                     {/* Profile pic */}
-                    <img src="./src/assets/comingsoon.jpg" alt="Picture of me!" className="dark:border-secondarydark border-secondary border-[3px]"/>
+                    <img src="src/assets/comingsoon.jpg" alt="Picture of me!" className="dark:border-secondarydark border-secondary border-[3px]"/>
                     <div className={styles.sidebarTitles}>Details</div>
                     <div className={styles.sidebarTitles}>Education</div>
                     <div className={styles.sidebarTitles}>Interests</div>

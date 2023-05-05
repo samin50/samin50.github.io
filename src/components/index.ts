@@ -5,6 +5,7 @@ import Hero from "./Hero";
 import ProPortfolio from "./ProPortfolio";
 import PersPortfolio from "./PersPortfolio";
 import Contact from "./Contact";
+import { Collapsible } from "./Collapsible";
 
 export {
   Navbar,
@@ -13,4 +14,5 @@ export {
   ProPortfolio,
   PersPortfolio,
   Contact,
+  Collapsible,
 };
