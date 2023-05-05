@@ -1,7 +1,7 @@
 import { CSSProperties } from "react";
 
 const styles = {
-  navbarTitleActive : "border-none focus:outline-none bg-transparent block py-2 pl-3 pr-4 text-textlight rounded md:text-secondary md:p-0 dark:text-tertiarydark hover:text-tertiary dark:hover:text-secondarydark hover:text-tertiary transition duration-300 ease-in-out",
+  navbarTitleActive : "border-none focus:outline-none bg-transparent block py-2 pl-3 pr-4 rounded md:p-0 dark:text-secondarydark text-secondary",
   navbarTitleInactive : "border-none focus:outline-none bg-transparent block py-2 pl-3 pr-4 text-textlight md:p-0 dark:text-textdark dark:hover:text-tertiarydark hover:text-tertiary transition duration-300 ease-in-out",
   navbarDropdownMenu: " border-none focus:outline-none flex items-center justify-between w-full block px-4 py-2 text-textlight dark:text-textdark hover:bg-secondary dark:hover:bg-secondarydark bg-primary rounded-md dark:bg-primarydark dark:hover:text-textdark hover:bg-tertiary hover:text-primary",
   sidebarTitles: "pt-3 font-semibold text-xl",

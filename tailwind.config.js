@@ -17,10 +17,10 @@ module.exports = {
         tertiarydark: colors.rose[400],
         textdark: 'rgba(255, 255, 255, 0.7)',
         // Light mode theme
-        primary: colors.stone[200],
-        secondary: colors.rose[300],
-        tertiary: colors.rose[700],
-        textlight: 'rgba(0, 0, 0, 0.9)',
+        primary: colors.stone[100],
+        secondary: colors.rose[400],
+        tertiary: colors.rose[600],
+        textlight: 'rgba(0, 0, 0, 0.7)',
       },
       fontFamily: {
         poppins: ["sans-serif"],
