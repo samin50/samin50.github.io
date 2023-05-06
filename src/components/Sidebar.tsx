@@ -26,9 +26,9 @@ function Sidebar() {
                 </div>
             </div>
             {/* Sidebar button */}
-            <div className='md:hidden fixed h-full flex items-end pb-20 pl-3'>
+            <div className='md:hidden fixed h-full flex items-end pb-20 pl-3 z-10'>
                 <div className='w-1/2'>
-                    <button className="dark:border-secondarydark border-secondary border-[3px] opacity-20 hover:opacity-100 transition-opacity 500 p-0 rounded-full focus:outline-none bg-transparent" onClick={handleSidebarClick}>
+                    <button className="focus:outline-none dark:border-secondarydark border-secondary hover:border-secondary dark:hover:border-secondarydark border-[3px] opacity-20 hover:opacity-100 transition-opacity 500 p-0 rounded-full bg-transparent" onClick={handleSidebarClick}>
                         <svg className="w-20 h-auto stroke-secondary dark:stroke-secondarydark fill-none" xmlns="http://www.w3.org/2000/svg" viewBox="-2.4 -2.4 28.8 28.8"><g stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M21.97 15V9c0-5-2-7-7-7h-6c-5 0-7 2-7 7v6c0 5 2 7 7 7h6c5 0 7-2 7-7ZM7.97 2v20"/><path d="M14.97 9.44 12.41 12l2.56 2.56"/></g></svg>
                     </button>
                 </div>

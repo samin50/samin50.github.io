@@ -10,7 +10,7 @@ const styles = {
   heroTitles : "text-xl md:text-3xl font-semibold pt-5 bg-transparent",
   heroContent : "md:text-lg font-md bg-transparent",
   contactHeadings : "font-semibold pt-5 pl-1",
-  formEntries: "mt-2 shadow-sm text-sm rounded-lg border-secondary dark:border-secondarydark bg-primary dark:bg-primarydark brightness-90 dark:placeholder-textdark placeholder-opacity-70 placeholder-textlight border-2 ring-none w-full p-2.5",
+  formEntries: "mt-2 focus:ring-0 shadow-sm text-sm rounded-lg border-secondary dark:border-secondarydark bg-primary dark:bg-primarydark brightness-90 dark:placeholder-textdark placeholder-opacity-70 placeholder-textlight border-2 ring-none w-full p-2.5",
 };
 
 // Add this to your styles.tsx file
