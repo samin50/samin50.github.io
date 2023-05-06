@@ -24,7 +24,7 @@ function Navbar({pageNumber, setPageNumber }: NavbarProps) {
   };
 
   return (
-    <div className="dark:bg-primarydark bg-primary border-secondary dark:border-secondarydark border-b-[3px] sticky top-0 flex flex-col md:flex-row md:items-center transition-colors 1000 ease-in-out">
+    <div className="dark:bg-primarydark bg-primary border-secondary dark:border-secondarydark border-b-[3px] sticky top-0 flex flex-col md:flex-row md:items-center transition-colors 1000 ease-in-out w-screen min-h-[50%]">
       <div className="w-screen flex flex-wrap items-center justify-between mx-auto p-3 md:p-4">
         {/* Top left information */}
         <div className="flex items-center">

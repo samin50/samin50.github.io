@@ -55,9 +55,9 @@ function App() {
         console.log("Page number changed:", pageNumber);
       }, [pageNumber]);
   return (
-    <div className="dark:bg-primarydark bg-primary text-textlight dark:text-textdark transition-colors 1000 ease-in-out">
+    <div className="dark:bg-primarydark bg-primary text-textlight dark:text-textdark transition-colors 1000 ease-in-out h-full">
         <Navbar pageNumber={pageNumber} setPageNumber={setPageNumber} />
-        <div className="flex flex-row">
+        <div className="flex">
             <Sidebar />
             {pageNumber === 0 ? <Hero /> : null}
             {pageNumber === 1 ? <ProPortfolio /> : null}
