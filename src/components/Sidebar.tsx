@@ -10,19 +10,21 @@ function Sidebar() {
 
     return (
         <>
-            <div className={`${isSidebarVisible ? '' : 'hidden'} md:block md:w-1/4 border-secondary dark:border-secondarydark border-r-[3px]`}>
-                {/* Image border container */}
-                <div className="flex flex-row md:flex-col">
-                    {/* Profile pic */}
-                    <div className='p-3 w-1/2 md:w-full'>
-                        <img src="assets/NAImage.jpg" alt="Picture of me!" className=" dark:border-secondarydark border-secondary border-[3px]"/>
+            <div className={`${isSidebarVisible ? '' : 'hidden'} md:block md:w-1/2 min-h-max bg-opacity-50 bg-black fixed md:static w-screen h-full md:min-w-min`}>
+                <div className="md:block md:shadow-none h-full md:w-full w-3/4 shadow-lg border-secondary dark:border-secondarydark border-r-[3px] fixed md:static bg-primary dark:bg-primarydark">
+                    {/* Image border container */}
+                    <div className="flex flex-row md:flex-col">
+                        {/* Profile pic */}
+                        <div className='p-3 w-1/2 md:w-full'>
+                            <img src="assets/NAImage.jpg" alt="Picture of me!" className=" dark:border-secondarydark border-secondary border-[3px]"/>
+                        </div>
+                        <div className='flex-row'>
+                            <div className={styles.sidebarTitles}>Details</div>
+                            <div className={styles.sidebarTitles}>Education</div>
+                            <div className={styles.sidebarTitles}>Interests</div>
+                            <div className={styles.sidebarTitles}>Contact</div>
+                        </div>        
                     </div>
-                    <div className='flex-row'>
-                        <div className={styles.sidebarTitles}>Details</div>
-                        <div className={styles.sidebarTitles}>Education</div>
-                        <div className={styles.sidebarTitles}>Interests</div>
-                        <div className={styles.sidebarTitles}>Contact</div>
-                    </div>        
                 </div>
             </div>
             {/* Sidebar button */}

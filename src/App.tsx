@@ -52,7 +52,6 @@ function App() {
     {/** Switching between pages **/}
     const [pageNumber, setPageNumber] = useState(0);
     useEffect(() => {
-        console.log("Page number changed:", pageNumber);
       }, [pageNumber]);
   return (
     <div className="dark:bg-primarydark bg-primary text-textlight dark:text-textdark transition-colors 1000 ease-in-out h-full">
