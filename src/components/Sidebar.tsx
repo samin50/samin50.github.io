@@ -10,8 +10,8 @@ function Sidebar() {
 
     return (
         <>
-            <div className={`${isSidebarVisible ? '' : 'hidden'} md:block md:w-1/2 min-h-max bg-opacity-50 bg-black fixed md:static w-screen h-full md:min-w-min`}>
-                <div className="md:block md:shadow-none h-full md:w-full w-3/4 shadow-lg border-secondary dark:border-secondarydark border-r-[3px] fixed md:static bg-primary dark:bg-primarydark">
+            <div className={`${isSidebarVisible ? '' : 'hidden'} md:block md:w-1/2 min-h-max bg-opacity-50 bg-black fixed md:static w-screen h-full md:min-w-min z-10`}>
+                <div className="md:block md:shadow-none h-full md:w-full w-3/4 shadow-lg border-secondary dark:border-secondarydark border-r-[3px] fixed md:static bg-primary dark:bg-primarydark transition-colors 1000 ease-in-out">
                     {/* Image border container */}
                     <div className="flex flex-row md:flex-col">
                         {/* Profile pic */}
