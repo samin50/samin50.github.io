@@ -17,6 +17,7 @@ function Contact() {
         <h2 className="mb-1 text-3xl tracking-tight font-extrabold">Contact Me</h2>
         <p>Want to reach out? Send me a message!</p>
         <form onSubmit={handleSubmit} className="space-y-6 pt-3 order-last" data-netlify="true">
+            <input type="hidden" name="form-name" value="contactForm"/>
             <div>
             <label htmlFor="email" className={styles.contactHeadings}>Your Email</label>
             <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className={styles.formEntries} placeholder="name@email.com" required />
