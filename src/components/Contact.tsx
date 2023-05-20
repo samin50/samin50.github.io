@@ -8,13 +8,13 @@ function Contact() {
     const [message, setMessage] = useState("");
 
   return (
-    <div className="py-4 px-4 text-textlight dark:text-textdark w-full z-0">
+    <div className="py-4 px-4 text-textlight dark:text-textdark w-full h-screen z-0">
         <h2 className="mb-1 text-3xl tracking-tight font-extrabold">Contact Me</h2>
         <p>Want to reach out? Send me a message!</p>
         <form className="space-y-6 pt-3 order-last" action="https://formspree.io/f/mnqywyok" method="POST">
             <div>
                 <label htmlFor="email" className={styles.contactHeadings}>Your Email</label>
-                <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} className={styles.formEntries} placeholder="name@email.com" required />
+                <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} className={styles.formEntries} placeholder="YourName@email.com" required />
             </div>
             <div>
                 <label htmlFor="subject" className={styles.contactHeadings}>Subject</label>
