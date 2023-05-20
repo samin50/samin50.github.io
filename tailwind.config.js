@@ -18,9 +18,9 @@ module.exports = {
         textdark: 'rgba(255, 255, 255, 0.7)',
         // Light mode theme
         primary: colors.stone[100],
-        secondary: colors.rose[400],
-        tertiary: colors.rose[600],
-        textlight: 'rgba(0, 0, 0, 0.7)',
+        secondary: colors.rose[500],
+        tertiary: colors.rose[300],
+        textlight: 'rgba(0, 0, 0, 0.8)',
       },
       fontFamily: {
         poppins: ["sans-serif"],

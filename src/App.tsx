@@ -54,7 +54,7 @@ function App() {
     useEffect(() => {
       }, [pageNumber]);
   return (
-    <div className="dark:bg-primarydark bg-primary text-textlight dark:text-textdark transition-colors 1000 ease-in-out h-full">
+    <div className="dark:bg-primarydark bg-primary text-textlight dark:text-textdark transition-colors 1000 ease-in-out">
         <Navbar pageNumber={pageNumber} setPageNumber={setPageNumber} />
         <div className="flex">
             <Sidebar />

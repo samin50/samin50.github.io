@@ -8,7 +8,7 @@ function Contact() {
     const [message, setMessage] = useState("");
 
   return (
-    <div className="py-4 px-4 text-textlight dark:text-textdark w-full z-7">
+    <div className="py-4 px-4 text-textlight dark:text-textdark w-full z-0">
         <h2 className="mb-1 text-3xl tracking-tight font-extrabold">Contact Me</h2>
         <p>Want to reach out? Send me a message!</p>
         <form className="space-y-6 pt-3 order-last" action="https://formspree.io/f/mnqywyok" method="POST">
