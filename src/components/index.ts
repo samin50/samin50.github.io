@@ -5,8 +5,8 @@ import Hero from "./Hero";
 import ProPortfolio from "./ProPortfolio";
 import PersPortfolio from "./PersPortfolio";
 import Contact from "./Contact";
-import { Collapsible } from "./Collapsible";
-import { ProjectDesc } from "./ProjectDesc";
+import { Collapsible } from "./Reusables/Collapsible";
+import { ProjectDesc } from "./Reusables/ProjectDesc";
 
 export {
   Navbar,

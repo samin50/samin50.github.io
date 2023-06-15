@@ -56,7 +56,7 @@ function App() {
   return (
     <div className="dark:bg-primarydark bg-primary text-textlight dark:text-textdark transition-colors 1000 ease-in-out">
         <Navbar pageNumber={pageNumber} setPageNumber={setPageNumber} />
-        <div className="flex">
+        <div className="flex h-full">
             <Sidebar />
             {pageNumber === 0 ? <Hero /> : null}
             {pageNumber === 1 ? <ProPortfolio /> : null}

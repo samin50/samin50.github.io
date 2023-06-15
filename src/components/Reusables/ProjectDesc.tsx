@@ -1,6 +1,6 @@
 import React from 'react';
 import { CSSProperties } from 'react';
-import styles from '../style';
+import styles from '../../style';
 
 export interface ProjectProps {
   title: string;
@@ -24,6 +24,7 @@ export const ProjectDesc: React.FC<ProjectProps> = ({ title, content, badges }) 
                         {title}
                     </div>
                     <div>
+                      {/* Dynamically create badges */}
                     {
                         badges.map((badge, index) => (
                         <span className={styles.badge}>{badge}</span>

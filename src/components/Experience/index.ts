@@ -4,7 +4,9 @@ import Imperial from "./Professional/Imperial";
 import Amadeus from "./Professional/Amadeus";
 // Personal
 import Piano from "./Personal/Piano";
-import Projects from "./Personal/Projects";
+import DIYProjects from "./Personal/DIYProjects";
+import ProgProjects from "./Personal/ProgProjects";
+import Printing from "./Personal/Printing";
 
 export {
     //Professional
@@ -13,5 +15,7 @@ export {
     Amadeus,
     //Personal
     Piano,
-    Projects
+    DIYProjects,
+    ProgProjects,
+    Printing
 };

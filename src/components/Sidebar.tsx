@@ -10,8 +10,8 @@ function Sidebar() {
 
     return (
         <>
-            <div className={`${isSidebarVisible ? '' : 'hidden'} md:block fixed w-screen md:w-2/5 md:static min-h-min z-10`}>
-                <div className='bg-black bg-opacity-50 w-screen h-full md:w-full'>
+            <div className={`${isSidebarVisible ? '' : 'hidden'} md:block md:w-2/5 fixed md:static min-h-min z-10 w-screen h-screen`}>
+                <div className='bg-black bg-opacity-30 h-full md:w-full'>
                     <div className="md:block md:shadow-none md:w-full h-full w-3/4 shadow-lg border-secondary dark:border-secondarydark border-r-[3px] fixed md:static bg-primary dark:bg-primarydark transition-colors 1000 ease-in-out">
                         {/* Image border container */}
                         <div className="flex flex-row md:flex-col">

@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../../../style";
 import { Collapsible } from '../../Reusables/Collapsible';
 
-function Piano() {
+function DIYProjects() {
     return (
        <div>
         Content
@@ -11,4 +11,4 @@ function Piano() {
 }
 
 
-export default Piano;
+export default DIYProjects;

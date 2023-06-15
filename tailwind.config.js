@@ -26,6 +26,11 @@ module.exports = {
         poppins: ["sans-serif"],
       },
     },
+    variants: {
+      extend: {
+        outline: ['focus'],
+      },
+    },
     screens: {
       xs: "480px",
       ss: "620px",
@@ -37,5 +42,6 @@ module.exports = {
   },
   plugins: [
     require('flowbite/plugin')
-  ]
+  ],
+  important: false,
 };

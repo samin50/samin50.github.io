@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "../../../style";
-import { Collapsible } from '../../Collapsible';
+import { Collapsible } from '../../Reusables/Collapsible';
 
-function Projects() {
+function Printing() {
     return (
        <div>
         Content
@@ -11,4 +11,4 @@ function Projects() {
 }
 
 
-export default Projects;
+export default Printing;
