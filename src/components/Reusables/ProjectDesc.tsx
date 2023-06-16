@@ -23,7 +23,7 @@ export const ProjectDesc: React.FC<ProjectProps> = ({ title, content, badges }) 
                         <svg className="h-5 pt-1 mr-2 dark:fill-textdark fill-textlight rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path d="M256 120.77 306.43 64 768 512 306.43 960 256 903.23 659.07 512z"/></svg>
                         {title}
                     </div>
-                    <div>
+                    <div className="flex flex-wrap">
                       {/* Dynamically create badges */}
                     {
                         badges.map((badge, index) => (

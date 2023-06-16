@@ -1,6 +1,7 @@
 import { Navbar, Sidebar, Hero, ProPortfolio, PersPortfolio, Contact } from "./components";
 import React, { useEffect, useState } from 'react';
 import 'flowbite';
+import Footer from "./components/Footer";
 
 function App() {
   {/** Dark mode toggle **/} 
@@ -54,15 +55,16 @@ function App() {
     useEffect(() => {
       }, [pageNumber]);
   return (
-    <div className="dark:bg-primarydark bg-primary text-textlight dark:text-textdark transition-colors 1000 ease-in-out">
+    <div className="dark:bg-primarydark bg-primary text-textlight dark:text-textdark transition-colors 1000 ease-in-out h-full">
         <Navbar pageNumber={pageNumber} setPageNumber={setPageNumber} />
-        <div className="flex h-full">
-            <Sidebar />
+        <div className="flex border-b-2 border-secondary dark:border-secondarydark h-full">
+            <Sidebar pageNumber={pageNumber} setPageNumber={setPageNumber} />
             {pageNumber === 0 ? <Hero /> : null}
             {pageNumber === 1 ? <ProPortfolio /> : null}
             {pageNumber === 2 ? <PersPortfolio /> : null}
             {pageNumber === 3 ? <Contact /> : null}
         </div>
+        <Footer />
     </div>
   );
 }
