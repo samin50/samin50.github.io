@@ -9,13 +9,13 @@ function Imperial() {
        <div>
             {/* Embedded Systems */}
             <ProjectDesc title="Embedded Systems" content = {
-                <div className="flex md:flex-col">
-                    <CarouselCustom imgList={ ["NAImage.jpg"] }
-                    />
-                    <div>
-                        Hi
+                <>
+                    <div className="h-72">
+                        <CarouselCustom imgList={ ["NAImage.jpg"] }/>
                     </div>
-                </div>
+                    <div>
+                    </div>
+                </>
             } badges = { ["3D Printing", "CAD", "C++", "STM32", "Concurrent Programming"]
             } />
             {/* Machine Learning */}

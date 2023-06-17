@@ -9,7 +9,7 @@ export interface CarouselProps {
 
 export const CarouselCustom: React.FC<CarouselProps> = ({ imgList }) => {
   return (
-    <div className="mr-3 md:h-96 md:w-full w-72 h-80 border-2 rounded-lg border-secondary dark:border-secondarydark">
+    <div className="mr-3 h-full w-full border-2 rounded-lg border-secondary dark:border-secondarydark">
       <Carousel className='p-3'>
         {/* Create image slides */}
           {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from "../style";
+import Footer from './Footer';
 
 interface SidebarProps {
     pageNumber: number;
@@ -24,9 +25,9 @@ function Sidebar({pageNumber, setPageNumber }: SidebarProps) {
 
     return (
         <>
-            <div className={`${isSidebarVisible ? '' : 'hidden'} md:block md:w-2/5 fixed md:static z-10 w-screen min-h-full`}>
-                <div className='bg-black bg-opacity-30 h-full min-h-screen'>
-                    <div className="md:block md:shadow-none md:w-full h-full w-3/4 shadow-lg border-secondary dark:border-secondarydark border-r-[3px] fixed md:static bg-primary dark:bg-primarydark transition-colors 1000 ease-in-out">
+            <div className={`${isSidebarVisible ? '' : 'hidden'} md:block md:w-2/5 fixed md:static z-10 w-screen min-h-full overflow-auto`}>
+                <div className='bg-black bg-opacity-30 w-full h-full'>
+                    <div className="w-3/4 h-full overflow-auto md:shadow-none md:w-full shadow-lg border-secondary dark:border-secondarydark border-r-[3px] absolute md:static bg-primary dark:bg-primarydark transition-colors 1000 ease-in-out">
                         <div className="w-full flex flex-row md:flex-col">
                             {/* Profile pic */}
                             <div className='p-3 w-2/5 md:w-full float-left'>
@@ -49,7 +50,7 @@ function Sidebar({pageNumber, setPageNumber }: SidebarProps) {
                                 </div>
                             </div>
                         </div>
-                        <div className='pl-2'>
+                        <div className='pl-2 md:pl-0'>
                             <div className={`${styles.sidebarTitles}`}>Skills</div>
                                 <div className='md:m-3 mr-0 mt-1 ml-1 flex flex-wrap'>
                                     <span className={`${styles.badge}`}>3D Printing</span>
@@ -64,7 +65,7 @@ function Sidebar({pageNumber, setPageNumber }: SidebarProps) {
                                     <span className={`${styles.badge}`}>OpenGL</span>
                                 </div>
                             <div className={styles.sidebarTitles}>Contact</div>
-                            <div className='flex flex-wrap m-1 md:mx-5 gap-3 pb-3 ml-2'>
+                            <div className='flex flex-wrap m-1 md:mx-5 gap-3 pb-3 ml-2 mb-28'>
                                 {/* <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --> */}
                                 {/* <!-- Behance --> */}
                                 {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988h-6.466v-14.967h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3h-3.272v3zm3.391 3h-3.391v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"/></svg> */}
@@ -135,7 +136,7 @@ function Sidebar({pageNumber, setPageNumber }: SidebarProps) {
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg>
                                 </a>
                             </div>
-                        </div>        
+                        </div>  
                     </div>
                 </div>
             </div>

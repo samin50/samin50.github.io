@@ -15,7 +15,7 @@ module.exports = {
         primarydark: colors.stone[800],
         secondarydark: colors.rose[700],
         tertiarydark: colors.rose[400],
-        textdark: 'rgba(255, 255, 255, 0.7)',
+        textdark: 'rgba(255, 255, 255, 0.85)',
         // Light mode theme
         primary: colors.stone[100],
         secondary: colors.rose[500],
