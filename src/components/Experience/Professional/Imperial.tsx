@@ -65,8 +65,9 @@ function Imperial() {
                         During my time at Imperial College, I undertook several projects in the field of Machine Learning, including a project on Computer Vision and Neural Networks.
                         We were tasked with implementing a Neural Network from scratch in Python using PyTorch, and trained it on the California Housing Dataset to predict the price of a house based on its location and other features.
                         We also implemented a decision tree algorithm with pruning capabilities on a dataset containing information about the strength of WiFi signals from different rooms in a building.
-                        THe objective of the algorithm was to predict the room that the user was in based on the strength of the WiFi signals.
-                        
+                        THe objective of the algorithm was to predict the room that the user was in based on the strength of the WiFi signals. Finally, we modified a ViT model to determine whether a user
+                        had Parkinsons given an image of a spiral that they drew.
+
                     </div>
                 </>
             } badges = {
@@ -74,37 +75,94 @@ function Imperial() {
             } />
             {/* Digital Systems */}
             <ProjectDesc title="Digital Systems" content = {
-                <div></div>
+                <div>
+                    <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+                    <div className="prose">
+                        <h2>Description</h2>
+                        As part as of a team of two, we used Verilog to optimise performance for a specific function using Intel's IP cores and Quartus Prime.
+                    </div>
+                </div>
             } badges = {
                 ["FPGA", "Verilog", "Quartus", "C", "NIOS II"]
             } />
             {/* Computer Graphics */}
             <ProjectDesc title="Computer Graphics" content = {
-                <div></div>
+                <div>
+                    <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+                    <div className="prose">
+                        <h2>Description</h2>
+                        In this project, I learnt about rasterisation and raytracing, and implemented both in C++ using OpenGL.
+                        I implemented the phong shading model, and made use of a normal map with a texture to create a teapot with a brick-liek surface.
+                        I also implemented a raytracer that could render spheres and planes, and later enhanced it to support soft shadoows and added a starry sky to the background.
+                    </div>
+                </div>
             } badges = {
                 ["OpenGL", "C++", "Raytracing", "Shaders"]
             } />
-            {/* Wall-EE */}
-            <ProjectDesc title="Wall-EE" content = {
-                <div></div>
-            } badges = {
-                ["Computer Vision", "FPGA", "Verilog", "Quartus", "C", "NIOS II"]
-            } />
             {/* C Compiler */}
             <ProjectDesc title="C Compiler" content = {
-                <div></div>
+                <div>
+                    <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+                    <div className="prose">
+                        <h2>Description</h2>
+                        In this project, I implemented a C compiler in C++ using Flex and Bison. The compiler supported a subset of C, including functions, structs, arrays, pointers, and basic arithmetic.
+                        The compiler compiled C code into MIPS assembly, which could then be run on a MIPS simulator.
+                    </div>
+                </div>
             } badges = {
                 ["C++", "Compiler Design", "Flex", "Bison"]
             } /> 
             {/* Skribblios */}
-            <ProjectDesc title="Skribblios" content = {
-                <div></div>
+            <ProjectDesc title="SkribblNIOS" content = {
+                <div>
+                    <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+                    <div className="prose">
+                        <h2>Description</h2>
+                        In this project, I took charge of a team of six and were given the broad task of integrating an FPGA running a NIOS II processor 
+                        with some sort of Internet-connected app. I came up with the idea of creating a Skribbl.io clone, where the user would draw 
+                        by tilting the FPGA (making use of the accelerometers) and the app would display the drawing in real time. Naturally, the app would
+                        would support multiplayer functionality, fulfilling the requirements.
+                        <h2>My Role</h2>
+                        I was responsible for the entire FPGA side of the project, including the NIOS II processor, filtering the accelerometers,
+                        providing an interface for the app to communicate with the FPGA, as well as all the button and switch inputs and LED outputs.
+                        I assigned myself this as I was more familiar with the FPGA from previous coursework.
+                        <h2>Technical Details</h2>
+                        The FPGA was programmed in Verilog, and the NIOS II processor was programmed in C.
+                        To filter the accelerometers, I used a low-pass filter to remove the noise, and I then translated the tilt of the FPGA into a
+                        a pair of (X, Y) coordinates using trigonometry.
+                    </div>
+                </div>
             } badges = {
                 ["FPGA", "C", "Quartus"]
             } />
+            {/* Wall-EE */}
+            <ProjectDesc title="Wall-EE" content = {
+                <div>
+                    <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+                    <div className="prose">
+                        <h2>Description</h2>
+                        In this project, I worked in a team of six to create a rover that could identify different coloured balls and autonomously avoid them.
+                        This was done using a camera connected to an FPGA, which communicated with the main Arduino board via UART.
+                        <h2>My Role</h2>
+                        As I had previous experience with the FPGA, I again assigned myself responsible for the entire FPGA side of the project, 
+                        divising a Computer Vision algorithm written in Verilog to identify the balls.
+                    </div>
+                </div>
+            } badges = {
+                ["Computer Vision", "FPGA", "Verilog", "Quartus", "C", "NIOS II"]
+            } />
             {/* MIPS CPU */}
             <ProjectDesc title="Dual Core MIPS CPU" content = {
-                <div></div>
+                <div>
+                    <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+                    <div className="prose">
+                        <h2>Description</h2>
+                        In this project, I worked in a team of three to create a dual-core MIPS CPU in a schematic-based design software with floating point arithmetic support
+                        and UART port.
+                        <h2>My Role</h2>
+                        I was responsible for upgrading the base single-core CPU to a dual-core CPU, coming up with my own design and then writing a Fibonacci program in MIPS assembly to test the performance increase.
+                    </div>
+                </div>
             } badges = {
                 ["Boolean Algebra & Optimisation", "Computer Architecture", "CPU Design"]
             } />

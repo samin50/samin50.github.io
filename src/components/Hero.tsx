@@ -12,16 +12,9 @@ function Hero() {
                 On this website you will see some of the projects I have worked on <strong>(this page itself being one of those projects!)</strong>, as well as some of my interests and hobbies.
                 I started my Engineering/Computer Science journey when I was <strong>10, learning Java</strong> in order to develop add-ons for the now popular game, Minecraft.
                 Ever since, I have been on the persuit of constant learning and self-improvement, which is reflected in my projects and many hobbies.
-            </div>
-            {/* <div className="w-full h-20 my-5 flex justify-center"> */}
-                {/* <img className="h-full rounded-md border-secondary dark:border-secondarydark border-[3px]" src="assets/NAImage.jpg"/> */}
-                {/* <CarouselCustom imgList={["NAImage.jpg"]}/> */}
-            {/* </div> */}
-            
+            </div>            
             <div className="flex justify-center w-full">
-                <div className="w-3/4 h-72 m-3 mb-0">
-                    <CarouselCustom imgList={["NAImage.jpg"]}/>
-                </div>
+                <CarouselCustom className="w-3/4 h-72 m-3 mb-0" imgList={["NAImage.jpg"]}/>
             </div>
             <div className={styles.heroContent}>
                 My current setup is a <strong>Legion 7 5950HX with a 3080</strong>, which I use for both work, gaming and AI work; the RTX 3080 with 16GB VRAM has proven very useful for this.
@@ -31,7 +24,7 @@ function Hero() {
             </div>
             <div className={styles.heroTitles}>Some Easy to Digest Statistics...</div>
             <div className="mt-2 text-lg underline cursor-pointer">Github Contributions</div>
-            <div className="m-3 ml-0 brightness-120 flex justify-center ">
+            <div className="m-3 ml-0 p-3 rounded-lg flex justify-center brightness-[1.0] dark:brightness-[0.8] bg-black bg-opacity-10">
                 <GitHubCalendar username="samin50" />
             </div>
             <div className={styles.heroContent}> Unfortunately at work I have been using BitBucket instead of Github so the activity graph looks quite sparse :)</div>

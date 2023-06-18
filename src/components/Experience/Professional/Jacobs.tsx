@@ -1,12 +1,22 @@
 import React from "react";
 import styles from "../../../style";
-import { Collapsible } from '../../Reusables/Collapsible';
+import CarouselCustom from "../../Reusables/CarouselCustom";
+import { ProjectDesc } from "../../Reusables/ProjectDesc";
 
 function Jacobs() {
     return (
-       <div>
-        Content
-       </div>
+       <>
+        <ProjectDesc title="Project 1" content={
+            <>
+            <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+            </>
+        } badges={ ["Hi"]}/>
+        <ProjectDesc title="Project 2" content={
+            <>
+            <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+            </>
+        } badges={ ["Hi"]}/>
+        </>
     );
 }
 
