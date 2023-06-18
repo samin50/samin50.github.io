@@ -8,9 +8,9 @@ function Contact() {
     const [message, setMessage] = useState("");
 
   return (
-    <div className="py-4 px-4 text-textlight dark:text-textdark w-full h-screen z-0">
-        <h2 className="mb-1 text-3xl tracking-tight font-extrabold">Contact Me</h2>
-        <p>Want to reach out? Send me a message!</p>
+    <div className="py-4 px-4 text-textlight dark:text-textdark w-full h-screen z-0 text-xl md:text-base">
+        <div className="mb-1 text-3xl tracking-tight font-bold">Contact Me</div>
+        Want to reach out? Send me a message!
         <form className="space-y-6 pt-3 order-last" action="https://formspree.io/f/mnqywyok" method="POST">
             <div>
                 <label htmlFor="email" className={styles.contactHeadings}>Your Email</label>
@@ -24,7 +24,7 @@ function Contact() {
                 <label htmlFor="message" className={styles.contactHeadings}>Your Message</label>
                 <textarea name="message" rows={6} value={message} onChange={(e) => setMessage(e.target.value)} className={styles.formEntries} placeholder="Some details :)" required/>
             </div>
-            <button type="submit" className="text-sm font-medium text-center rounded-lg bg-secondary dark:bg-secondarydark hover:bg-primary-800 text-textdark">Send Message</button>
+            <button type="submit" className="font-medium text-center rounded-lg bg-secondary dark:bg-secondarydark hover:bg-primary-800 text-textdark">Send Message</button>
         </form>
     </div>
     );

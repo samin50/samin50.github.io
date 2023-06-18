@@ -29,7 +29,7 @@ function Hero() {
             </div>
             <div className={styles.heroContent}> Unfortunately at work I have been using BitBucket instead of Github so the activity graph looks quite sparse :)</div>
             <div className="my-2 text-xl md:text-lg underline cursor-pointer">Leetcode Stats</div>
-            <div className="flex justify-center">
+            <div className="flex justify-center p-3 w-full brightness-[1.0] dark:brightness-[0.8] bg-black bg-opacity-10">
                 <img className="h-100" src="https://leetcard.jacoblin.cool/samin50?ext=activity" alt="Leetcode Stats" />
             </div>
         </div>

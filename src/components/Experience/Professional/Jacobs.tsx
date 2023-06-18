@@ -7,20 +7,20 @@ function Jacobs() {
     return (
        <>
        <div className="py-3">
-            In the summer of 2019, at 17, I worked with Jacobs for a month as a Software Engineering intern.
+            In summer 2019 at 17, I worked with Jacobs for a month as a Software Engineering intern.
             This was my first experience working in a professional environment and I learnt a lot about the industry.
             
         </div>
-        <ProjectDesc title="Project 1" content={
+        <ProjectDesc title="Webscraping Tool" content={
             <>
             <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
             </>
-        } badges={ ["Hi"]}/>
-        <ProjectDesc title="Project 2" content={
+        } badges={ ["Webscraping", "Python", "UI"]}/>
+        <ProjectDesc title="Twitter Sentiment Analysis" content={
             <>
             <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
             </>
-        } badges={ ["Hi"]}/>
+        } badges={ ["Twitter API", "PowerBI", "NLP", "Big Data"]}/>
         </>
     );
 }
