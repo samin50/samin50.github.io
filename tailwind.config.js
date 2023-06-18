@@ -37,6 +37,13 @@ module.exports = {
           },
         },
       },
+      sm: {
+        css: {
+          h2: {
+            fontSize: theme("fontSize.2xl"),
+          },
+        },
+      },
     }),
     variants: {
       extend: {
