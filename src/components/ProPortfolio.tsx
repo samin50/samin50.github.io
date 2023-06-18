@@ -7,7 +7,9 @@ function ProPortfolio() {
     return (
         <div className={`${styles.mainSection}`}>
             <div className={`${styles.heroTitles}`}>Welcome To My Professional Portfolio!</div>
-            <div className={`${styles.heroContent}`}>Content...</div>
+            <div className={`${styles.heroContent}`}>
+                On this page I will showcase some of my formal work and experience.
+            </div>
             <Collapsible title="Experience: Amadeus" content={
                 <Amadeus />
             } />

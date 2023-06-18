@@ -26,6 +26,18 @@ module.exports = {
         poppins: ["sans-serif"],
       },
     },
+    typography: (theme) => ({
+      DEFAULT: {
+        css: {
+          h2: {
+            fontSize: theme("fontSize.xl"),
+            paddingBottom: theme('spacing.0'),
+            paddingTop: theme('spacing.3'),
+            fontWeight: theme('fontWeight.bold'),
+          },
+        },
+      },
+    }),
     variants: {
       extend: {
         outline: ['focus'],
@@ -41,7 +53,8 @@ module.exports = {
     },
   },
   plugins: [
-    require('flowbite/plugin')
+    require('flowbite/plugin'),
+    require('@tailwindcss/typography'),
   ],
   important: false,
 };

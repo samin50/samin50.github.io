@@ -27,13 +27,13 @@ function Navbar({pageNumber, setPageNumber }: NavbarProps) {
     <div className="dark:bg-primarydark bg-primary border-secondary dark:border-secondarydark border-b-[3px] sticky top-0 flex flex-col md:flex-row md:items-center transition-colors ease-in-out w-screen z-20">
       {/* Top left information */}
       <div className="w-screen flex flex-wrap items-center justify-between mx-auto p-3 md:p-4">
-        <div className="flex items-center">
-            <svg fill="none" stroke="currentColor" className="w-10 md:w-12 h-auto mr-3 stroke-secondary dark:stroke-secondarydark" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <div className="flex md:items-center items-stretch">
+            <svg fill="none" stroke="currentColor" className="w-14 md:w-12 h-auto mr-3 stroke-secondary dark:stroke-secondarydark" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"></path>
             </svg>
             <div className="flex flex-col">
-              <div className="font-bold text-lg/4 md:text-xl/4 py-0">Shaheen Amin</div>
-              <div className="text-sm/4 md:text-base py-0">Engineer, Programmer and DIY Enthusiast</div>
+              <div className="font-bold text-2xl/4 md:text-xl/4 py-2 md:py-0">Shaheen Amin</div>
+              <div className="text-lg/4 md:text-base py-0">Engineer, Programmer and DIY Enthusiast</div>
             </div>
         </div>
         {/* Dark Mode button */}

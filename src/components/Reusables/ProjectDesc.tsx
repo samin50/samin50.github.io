@@ -16,7 +16,7 @@ const summaryNoArrow: CSSProperties = {
 export const ProjectDesc: React.FC<ProjectProps> = ({ title, content, badges }) => {
   return (
     <div className='bg-primary dark:bg-primarydark'>
-        <details className="p-4 mb-5 w-full z-10 bg-black dark:bg-opacity-[0.22] bg-opacity-[0.09]">
+        <details className="p-4 mb-5 w-full z-10 bg-black dark:bg-opacity-[0.22] bg-opacity-[0.03]">
             <summary style={summaryNoArrow} className="flex-col items-end justify-center font-semibold  border-secondary dark:border-secondarydark border-b-2 hover:cursor-pointer hover:border-tertiary dark:hover:border-tertiarydark transition-colors duration-250">
                 <div className='flex justify-between border-secondary dark:border-secondarydark border-b-[1px] pb-2'>
                     <div className='flex items-center'>
@@ -32,7 +32,7 @@ export const ProjectDesc: React.FC<ProjectProps> = ({ title, content, badges }) 
                     </div>
                 </div>
             </summary>
-            <div className="p-3">
+            <div className="p-3 dark:backdrop-brightness-[1.6] backdrop-brightness-[1.0]">
                 {content}
             </div>
         </details>

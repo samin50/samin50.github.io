@@ -7,7 +7,9 @@ function PersPortfolio() {
     return (
         <div className={`${styles.mainSection}`}>
             <div className={`${styles.heroTitles}`}>Welcome To My Personal Portfolio!</div>
-            <div className={`${styles.heroContent}`}>Content...</div>
+            <div className={`${styles.heroContent}`}>
+                On this page I will showcase the projects I do in my spare time, as well as some of my hobbies and interests.
+            </div>
             <Collapsible title="DIY Projects" content={
                 <DIYProjects />
             } />
