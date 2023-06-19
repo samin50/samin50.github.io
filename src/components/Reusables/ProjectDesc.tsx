@@ -26,7 +26,7 @@ export const ProjectDesc: React.FC<ProjectProps> = ({ title, content, badges }) 
                       {/* Dynamically create badges */}
                     {
                         badges.map((badge, index) => (
-                        <span className={styles.badge}>{badge}</span>
+                        <span key={index} className={styles.badge}>{badge}</span>
                     ))}
                     </div>
                 </div>
