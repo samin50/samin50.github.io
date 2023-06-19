@@ -25,7 +25,7 @@ function Sidebar({pageNumber, setPageNumber }: SidebarProps) {
 
     return (
         <>
-            <div className={`${isSidebarVisible ? '' : 'hidden'} md:block md:w-2/5 fixed md:static z-10 w-screen min-h-full overflow-auto`}>
+            <div className={`${isSidebarVisible ? '' : 'hidden'} md:block md:w-2/5 fixed md:static z-20 w-screen min-h-full overflow-auto`}>
                 <div className=' bg-black bg-opacity-30 w-screen h-screen fixed md:hidden block'> </div>
                 <div className="w-3/4 h-full overflow-auto md:shadow-none md:w-full shadow-lg border-secondary dark:border-secondarydark border-r-[3px] absolute md:static bg-primary dark:bg-primarydark transition-colors 1000 ease-in-out">
                     <div className="w-full flex flex-row md:flex-col">

@@ -13,8 +13,10 @@ function Hero() {
                 I started my Engineering/Computer Science journey when I was <strong>10, learning Java</strong> in order to develop add-ons for the now popular game, Minecraft.
                 Ever since, I have been on the persuit of constant learning and self-improvement, which is reflected in my projects and many hobbies.
             </div>            
-            <div className="py-3">
-                <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+            <div className="flex justify-center">
+                <div className="py-3 w-1/2">
+                    <CarouselCustom className={styles.carouselStyle} slide={true} imgList={["Desk.jpg", "Printer.jpg"]}/>
+                </div>
             </div>
             <div className={styles.heroContent}>
                 My current setup is a <strong>Legion 7 5950HX with a 3080</strong>, which I use for both work, gaming and AI work; the RTX 3080 with 16GB VRAM has proven very useful for this.
