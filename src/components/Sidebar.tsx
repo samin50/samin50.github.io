@@ -31,7 +31,7 @@ function Sidebar({pageNumber, setPageNumber }: SidebarProps) {
                     <div className="w-full flex flex-row md:flex-col">
                         {/* Profile pic */}
                         <div className='p-3 pb-0 w-2/5 md:w-full float-left'>
-                            <img src="NAImage.jpg" alt="Picture of me!" className=" dark:border-secondarydark border-secondary border-[3px] w-full"/>
+                            <img src="Me1.jpg" alt="Picture of me!" className=" dark:border-secondarydark border-secondary border-[3px] w-full"/>
                         </div>
                         <div>
                             <div className={styles.sidebarTitles}>Education</div>
