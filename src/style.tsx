@@ -12,7 +12,7 @@ const styles = {
   contactHeadings : "font-semibold pt-5 pl-1 md:text-base text-xl",
   formEntries: "mt-2 focus:ring-0 shadow-sm text-lg md:text-sm rounded-lg border-secondary dark:border-secondarydark bg-primary dark:bg-primarydark brightness-90 dark:placeholder-textdark placeholder-opacity-70 placeholder-textlight border-2 ring-none w-full p-2.5",
   badge: "py-1 px-3 m-1 rounded-full text-lg md:text-xs font-medium hover:border-cyan-400 border-cyan-500 dark:hover:border-cyan-300 dark:border-cyan-600 border-[2px] text-textlight dark:text-textdark",
-  carouselStyle : "h-72",
+  carouselStyle : "h-96",
   iconStyles : "h-8 w-8 md:h-5 md:w-5",
 };
 

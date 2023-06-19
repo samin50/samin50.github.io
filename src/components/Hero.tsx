@@ -15,7 +15,7 @@ function Hero() {
             </div>            
             <div className="flex justify-center">
                 <div className="py-3 w-1/2">
-                    <CarouselCustom className={styles.carouselStyle} slide={true} imgList={["Desk.jpg", "Printer.jpg"]}/>
+                    <CarouselCustom className="h-96" slide={true} imgList={["Desk.jpg", "Printer.jpg"]}/>
                 </div>
             </div>
             <div className={styles.heroContent}>

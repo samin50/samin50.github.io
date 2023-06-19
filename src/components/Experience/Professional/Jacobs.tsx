@@ -13,12 +13,15 @@ function Jacobs() {
         </div>
         <ProjectDesc title="Webscraping Tool" content={
             <>
-            <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+            <CarouselCustom slide={true} className={styles.carouselStyle} imgList={["Professional/Jacobs/image021.png", "Professional/Jacobs/image024.png"]}/>
+            {/* <div className="py-3 prose">
+                I was tasked with creating a tool that would allow the user to scrape data from a website and export it to a CSV file.
+            </div> */}
             </>
         } badges={ ["Webscraping", "Python", "UI"]}/>
         <ProjectDesc title="Twitter Sentiment Analysis" content={
             <>
-            <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+            <CarouselCustom slide={true} className={styles.carouselStyle} imgList={["Professional/Jacobs/image032.jpg", "Professional/Jacobs/image033.jpg"]}/>
             </>
         } badges={ ["Twitter API", "PowerBI", "NLP", "Big Data"]}/>
         </>

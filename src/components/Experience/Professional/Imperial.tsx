@@ -12,7 +12,7 @@ function Imperial() {
                 <>
                     <ProjectDesc title="Automated Pet Feeder" content = {
                         <>
-                        <CarouselCustom className={styles.carouselStyle} imgList={ ["NAImage.jpg"] }/>
+                        <CarouselCustom slide={true} className={styles.carouselStyle} imgList={ ["Imperial/Embedded/PetFeeder/image002.jpg", "Imperial/Embedded/PetFeeder/FeederVid.mp4", "Imperial/Embedded/PetFeeder/image003.jpg", "Imperial/Embedded/PetFeeder/image004.jpg", "Imperial/Embedded/PetFeeder/image005.jpg", "Imperial/Embedded/PetFeeder/image006.jpg", "Imperial/Embedded/PetFeeder/image007.jpg", "Imperial/Embedded/PetFeeder/image008.jpg", "Imperial/Embedded/PetFeeder/image009.jpg", "Imperial/Embedded/PetFeeder/image010.jpg"] }/>
                         <div className="prose">
                             <h2>Description</h2>
                             In this project, I designed and built an automated pet feeder using a 3D printer and CAD software (SketchUp, I later use FreeCAD for hobby projects). 
@@ -59,7 +59,7 @@ function Imperial() {
             {/* Machine Learning */}
             <ProjectDesc title="Machine Learning" content = {
                 <>
-                    <CarouselCustom className={styles.carouselStyle} imgList={ ["NAImage.jpg"] }/>
+                    <CarouselCustom slide={true} className={styles.carouselStyle} imgList={ ["Imperial/ML/ML (2).jpg", "Imperial/ML/ML (3).jpg", "Imperial/ML/ML (1).jpg", "Imperial/ML/spiral.png", "Imperial/ML/spiral2.png"] }/>
                     <div className="prose">
                         <h2>Description</h2>
                         During my time at Imperial College, I undertook several projects in the field of Machine Learning, including a project on Computer Vision and Neural Networks.
@@ -76,7 +76,7 @@ function Imperial() {
             {/* Digital Systems */}
             <ProjectDesc title="Digital Systems" content = {
                 <div>
-                    <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+                    <CarouselCustom slide={true} className={styles.carouselStyle} imgList={["Imperial/DSD/image020.png", "Imperial/DSD/image022.png", "Imperial/DSD/image015.png", "Imperial/DSD/image001.jpg", "Imperial/DSD/image002.jpg"]}/>
                     <div className="prose">
                         <h2>Description</h2>
                         As part as of a team of two, we used Verilog to optimise performance for a specific function using Intel's IP cores and Quartus Prime.
@@ -88,7 +88,7 @@ function Imperial() {
             {/* Computer Graphics */}
             <ProjectDesc title="Computer Graphics" content = {
                 <div>
-                    <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+                    <CarouselCustom slide={true} className={styles.carouselStyle} imgList={["Imperial/Graphics/Raytracing.jpg", "Imperial/Graphics/7.jpg", "Imperial/Graphics/17.jpg", "Imperial/Graphics/11.png", "Imperial/Graphics/15.png"]}/>
                     <div className="prose">
                         <h2>Description</h2>
                         In this project, I learnt about rasterisation and raytracing, and implemented both in C++ using OpenGL.
@@ -102,7 +102,7 @@ function Imperial() {
             {/* C Compiler */}
             <ProjectDesc title="C Compiler" content = {
                 <div>
-                    <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+                    <CarouselCustom slide={true} className={styles.carouselStyle} imgList={["Imperial/Compiler/compiler (1).jpg", "Imperial/Compiler/compiler (2).jpg"]}/>
                     <div className="prose">
                         <h2>Description</h2>
                         In this project, I implemented a C compiler in C++ using Flex and Bison. The compiler supported a subset of C, including functions, structs, arrays, pointers, and basic arithmetic.
@@ -115,7 +115,7 @@ function Imperial() {
             {/* Skribblios */}
             <ProjectDesc title="SkribblNIOS" content = {
                 <div>
-                    <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+                    <CarouselCustom className={styles.carouselStyle} imgList={["Imperial/SkribblNIOS/Video.mp4"]}/>
                     <div className="prose">
                         <h2>Description</h2>
                         In this project, I took charge of a team of six and were given the broad task of integrating an FPGA running a NIOS II processor 
@@ -138,7 +138,7 @@ function Imperial() {
             {/* Wall-EE */}
             <ProjectDesc title="Wall-EE" content = {
                 <div>
-                    <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+                    <CarouselCustom className={styles.carouselStyle} imgList={["Imperial/WallEE/image018.jpg"]}/>
                     <div className="prose">
                         <h2>Description</h2>
                         In this project, I worked in a team of six to create a rover that could identify different coloured balls and autonomously avoid them.
@@ -154,7 +154,7 @@ function Imperial() {
             {/* MIPS CPU */}
             <ProjectDesc title="Dual Core MIPS CPU" content = {
                 <div>
-                    <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
+                    <CarouselCustom slide={true} className={styles.carouselStyle} imgList={["Imperial/DualCore/image002.gif", "Imperial/DualCore/image.jpg", "Imperial/DualCore/image003.jpg", "Imperial/DualCore/image004.gif", "Imperial/DualCore/image013.gif", "Imperial/DualCore/image028.gif", "Imperial/DualCore/image029.gif"]}/>
                     <div className="prose">
                         <h2>Description</h2>
                         In this project, I worked in a team of three to create a dual-core MIPS CPU in a schematic-based design software with floating point arithmetic support
