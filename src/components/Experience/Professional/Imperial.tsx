@@ -12,7 +12,7 @@ function Imperial() {
                 <>
                     <ProjectDesc title="Automated Pet Feeder" content = {
                         <>
-                        <CarouselCustom className={styles.carouselStyle} imgList={ ["NAImage.jpg", "https://www.youtube.com/embed/tgbNymZ7vqY?autoplay=1&mute=1", "sampleVideo.mp4"] }/>
+                        <CarouselCustom className={styles.carouselStyle} imgList={ ["NAImage.jpg"] }/>
                         <div className="prose">
                             <h2>Description</h2>
                             In this project, I designed and built an automated pet feeder using a 3D printer and CAD software (SketchUp, I later use FreeCAD for hobby projects). 
@@ -36,7 +36,7 @@ function Imperial() {
                     } badges = { ["3D Printing", "CAD", "Raspberry Pi", "Python", "Concurrent Programming"] } />
                     <ProjectDesc title="Synthesiser" content = {
                         <>
-                        <CarouselCustom className={styles.carouselStyle} imgList={ ["NAImage.jpg", "https://www.youtube.com/embed/tgbNymZ7vqY?autoplay=1&mute=1", "sampleVideo.mp4"] }/>
+                        <CarouselCustom className={styles.carouselStyle} imgList={ ["Imperial/Embedded/Synth/Demo.mp4", "NAImage.jpg"] }/>
                         <div className="prose">
                             <h2>Description</h2>
                             In this project, I programmed an STM32 microcontroller to synthesise music in PlatformIO written in C++.
@@ -59,7 +59,7 @@ function Imperial() {
             {/* Machine Learning */}
             <ProjectDesc title="Machine Learning" content = {
                 <>
-                    <CarouselCustom className={styles.carouselStyle} imgList={ ["NAImage.jpg", "https://www.youtube.com/embed/tgbNymZ7vqY?autoplay=1&mute=1", "sampleVideo.mp4"] }/>
+                    <CarouselCustom className={styles.carouselStyle} imgList={ ["NAImage.jpg"] }/>
                     <div className="prose">
                         <h2>Description</h2>
                         During my time at Imperial College, I undertook several projects in the field of Machine Learning, including a project on Computer Vision and Neural Networks.

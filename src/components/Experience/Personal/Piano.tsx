@@ -14,6 +14,9 @@ function Piano() {
         </div>
         <ProjectDesc title="Attack on Titan OSTs" content={
             <>
+            Over the last couple of years I have become a large fan of the Attack on Titan series written by Hajime Isayama, and 
+            coincidentally I have only really picked up piano in the last couple of years, so I naturally gravitated towards learning
+            some of the OSTs from the series. I have recorded a few of them, and I hope you enjoy them!
             </>
         } badges = {
             []

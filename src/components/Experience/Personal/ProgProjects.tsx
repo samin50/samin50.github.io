@@ -9,6 +9,12 @@ function ProgProjects() {
        <div className="pb-3">
             I have always been interested in programming, and I have been teaching myself since I was around 10. I have worked on many projects, some of which I will showcase here.
        </div>
+       <ProjectDesc title="Portfolio Website" content={
+            <>
+            </>
+        } badges = {
+            ["UI", "HTML", "CSS", "TailwindCSS", "React"]
+        }/>
         <ProjectDesc title="Logic Gate Simulator and Simplifier" content={
             <>
             </>

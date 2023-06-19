@@ -13,8 +13,8 @@ function Hero() {
                 I started my Engineering/Computer Science journey when I was <strong>10, learning Java</strong> in order to develop add-ons for the now popular game, Minecraft.
                 Ever since, I have been on the persuit of constant learning and self-improvement, which is reflected in my projects and many hobbies.
             </div>            
-            <div className="flex justify-center w-full">
-                <CarouselCustom className="w-3/4 h-72 m-3 mb-0" imgList={["NAImage.jpg"]}/>
+            <div className="py-3">
+                <CarouselCustom className={styles.carouselStyle} imgList={["NAImage.jpg"]}/>
             </div>
             <div className={styles.heroContent}>
                 My current setup is a <strong>Legion 7 5950HX with a 3080</strong>, which I use for both work, gaming and AI work; the RTX 3080 with 16GB VRAM has proven very useful for this.
@@ -29,7 +29,7 @@ function Hero() {
             </div>
             <div className={styles.heroContent}> Unfortunately at work I have been using BitBucket instead of Github so the activity graph looks quite sparse :)</div>
             <div className="my-2 text-xl md:text-lg underline cursor-pointer">Leetcode Stats</div>
-            <div className="flex justify-center p-3 w-full brightness-[1.0] dark:brightness-[0.8] bg-black bg-opacity-10">
+            <div className="flex rounded-lg justify-center p-3 w-full brightness-[1.0] dark:brightness-[0.8] bg-black bg-opacity-10">
                 <img className="h-100" src="https://leetcard.jacoblin.cool/samin50?ext=activity" alt="Leetcode Stats" />
             </div>
         </div>

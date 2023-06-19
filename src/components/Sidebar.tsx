@@ -31,7 +31,7 @@ function Sidebar({pageNumber, setPageNumber }: SidebarProps) {
                     <div className="w-full flex flex-row md:flex-col">
                         {/* Profile pic */}
                         <div className='p-3 pb-0 w-2/5 md:w-full float-left'>
-                            <img src="assets/NAImage.jpg" alt="Picture of me!" className=" dark:border-secondarydark border-secondary border-[3px] w-full"/>
+                            <img src="NAImage.jpg" alt="Picture of me!" className=" dark:border-secondarydark border-secondary border-[3px] w-full"/>
                         </div>
                         <div>
                             <div className={styles.sidebarTitles}>Education</div>
@@ -142,7 +142,7 @@ function Sidebar({pageNumber, setPageNumber }: SidebarProps) {
             {/* Sidebar button */}
             <div className='block md:hidden fixed bottom-2 right-2 z-30'>
                 <button className="z-10 focus:outline-none dark:border-secondarydark border-secondary hover:border-secondary dark:hover:border-secondarydark border-[3px] opacity-50 hover:opacity-100 transition-opacity 500 p-0 rounded-full bg-transparent" onClick={handleSidebarClick}>
-                    <svg className="w-[210px] stroke-secondary dark:stroke-secondarydark fill-none" xmlns="http://www.w3.org/2000/svg" viewBox="-2.4 -2.4 28.8 28.8"><g stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M21.97 15V9c0-5-2-7-7-7h-6c-5 0-7 2-7 7v6c0 5 2 7 7 7h6c5 0 7-2 7-7ZM7.97 2v20"/><path d="M14.97 9.44 12.41 12l2.56 2.56"/></g></svg>
+                    <svg className="w-[210px] stroke-secondary dark:stroke-secondarydark fill-none" xmlns="http://www.w3.org/2000/svg" viewBox="-2.4 -2.4 28.8 28.8"><g strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"><path d="M21.97 15V9c0-5-2-7-7-7h-6c-5 0-7 2-7 7v6c0 5 2 7 7 7h6c5 0 7-2 7-7ZM7.97 2v20"/><path d="M14.97 9.44 12.41 12l2.56 2.56"/></g></svg>
                 </button>
             </div>
         </>
