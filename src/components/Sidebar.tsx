@@ -64,6 +64,12 @@ function Sidebar({pageNumber, setPageNumber }: SidebarProps) {
                                 <span className={`${styles.badge}`}>Project Leadership</span>
                                 <span className={`${styles.badge}`}>OpenGL</span>
                             </div>
+                        <div className={styles.sidebarTitles}>CV/Resume</div>
+                        <a href="Shaheen Amin CV.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-current">
+                            <button className="w-3/4 bg-secondary dark:bg-secondarydark mx-auto flex justify-center mt-3 pt-2 rounded-lg border-none focus:outline-none hover:bg-tertiary dark:hover:bg-tertiarydark transition-colors duration-300">
+                                Download CV
+                            </button>
+                        </a>
                         <div className={styles.sidebarTitles}>Contact</div>
                         <div className='flex flex-wrap m-1 md:mx-5 gap-3 pb-3 ml-2 mb-28'>
                             {/* <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --> */}
