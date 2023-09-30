@@ -18,6 +18,13 @@ function Piano() {
             coincidentally I have only really picked up piano in the last couple of years, so I naturally gravitated towards learning
             some of the OSTs from the series. I have recorded a few of them, and I hope you enjoy them!
             <div className="py-3 prose">
+                <ProjectDesc title="0sk" content={
+                        <div className="h-72">
+                            <video className="mx-auto h-full max-w-full" controls>
+                                <source src="Personal/Piano/0sk.mp4"></source>
+                            </video>
+                        </div>
+                    } badges= {[]}/>
                 <ProjectDesc title="Call of Silence" content={
                     <div className="h-72">
                         <video className="mx-auto h-full max-w-full" controls>
