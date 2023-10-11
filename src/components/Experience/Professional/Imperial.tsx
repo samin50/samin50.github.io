@@ -15,7 +15,7 @@ function Imperial() {
                         <CarouselCustom slide={true} className={styles.carouselStyle} imgList={ ["Imperial/Embedded/PetFeeder/image002.jpg", "Imperial/Embedded/PetFeeder/FeederVid.mp4", "Imperial/Embedded/PetFeeder/image003.jpg", "Imperial/Embedded/PetFeeder/image004.jpg", "Imperial/Embedded/PetFeeder/image005.jpg", "Imperial/Embedded/PetFeeder/image006.jpg", "Imperial/Embedded/PetFeeder/image007.jpg", "Imperial/Embedded/PetFeeder/image008.jpg", "Imperial/Embedded/PetFeeder/image009.jpg", "Imperial/Embedded/PetFeeder/image010.jpg"] }/>
                         <div className="prose">
                             <h2>Description</h2>
-                            In this project, I designed and built an automated pet feeder using a 3D printer and CAD software (SketchUp, I later use FreeCAD for hobby projects). 
+                            In this project, I designed and built an automated pet feeder using a 3D printer and CAD software (SketchUp, I later use FreeCAD and Blender for hobby projects). 
                             The feeder is controlled by a web app, which allows the user to schedule feeding times and portion sizes.
                             The project was built using a Raspberry Pi, a stepper motor, a load cell, and a 3D printer. 
                             The backend for the web app was written with FasdtAPI in Python and the Frontend was written with VueJS.
@@ -36,7 +36,7 @@ function Imperial() {
                     } badges = { ["3D Printing", "CAD", "Raspberry Pi", "Python", "Concurrent Programming"] } />
                     <ProjectDesc title="Synthesiser" content = {
                         <>
-                        <CarouselCustom className={styles.carouselStyle} imgList={ ["Imperial/Embedded/Synth/Demo.mp4", "NAImage.jpg"] }/>
+                        <CarouselCustom className={styles.carouselStyle} imgList={ ["Imperial/Embedded/Synth/Demo.mp4"] }/>
                         <div className="prose">
                             <h2>Description</h2>
                             In this project, I programmed an STM32 microcontroller to synthesise music in PlatformIO written in C++.
@@ -62,12 +62,10 @@ function Imperial() {
                     <CarouselCustom slide={true} className={styles.carouselStyle} imgList={ ["Imperial/ML/ML (2).jpg", "Imperial/ML/ML (3).jpg", "Imperial/ML/ML (1).jpg", "Imperial/ML/spiral.png", "Imperial/ML/spiral2.png"] }/>
                     <div className="prose">
                         <h2>Description</h2>
-                        During my time at Imperial College, I undertook several projects in the field of Machine Learning, including a project on Computer Vision and Neural Networks.
-                        We were tasked with implementing a Neural Network from scratch in Python using PyTorch, and trained it on the California Housing Dataset to predict the price of a house based on its location and other features.
+                        In this project, we implemented a Neural Network from scratch in Python using PyTorch, and trained it on the California Housing Dataset to predict the price of a house based on its location and other features.
                         We also implemented a decision tree algorithm with pruning capabilities on a dataset containing information about the strength of WiFi signals from different rooms in a building.
-                        THe objective of the algorithm was to predict the room that the user was in based on the strength of the WiFi signals. Finally, we modified a ViT model to determine whether a user
+                        The objective of the algorithm was to predict the room that the user was in based on the strength of the WiFi signals. Finally, we modified a ViT model to determine whether a user
                         had Parkinsons given an image of a spiral that they drew.
-
                     </div>
                 </>
             } badges = {
@@ -145,20 +143,21 @@ function Imperial() {
                         This was done using a camera connected to an FPGA, which communicated with the main Arduino board via UART.
                         <h2>My Role</h2>
                         As I had previous experience with the FPGA, I again assigned myself responsible for the entire FPGA side of the project, 
-                        divising a Computer Vision algorithm written in Verilog to identify the balls.
+                        divising a Computer Vision algorithm written in Verilog to identify the balls. This novel algorithm had the ability to perform noise rejection,
+                        and could identify the balls even when other objects in the scene were of similar colour.
                     </div>
                 </div>
             } badges = {
                 ["Computer Vision", "FPGA", "Verilog", "Quartus", "C", "NIOS II"]
             } />
             {/* MIPS CPU */}
-            <ProjectDesc title="Dual Core MIPS CPU" content = {
+            <ProjectDesc title="Dual-Core MIPS CPU" content = {
                 <div>
                     <CarouselCustom slide={true} className={styles.carouselStyle} imgList={["Imperial/DualCore/image002.gif", "Imperial/DualCore/image.jpg", "Imperial/DualCore/image003.jpg", "Imperial/DualCore/image004.gif", "Imperial/DualCore/image013.gif", "Imperial/DualCore/image028.gif", "Imperial/DualCore/image029.gif"]}/>
                     <div className="prose">
                         <h2>Description</h2>
                         In this project, I worked in a team of three to create a dual-core MIPS CPU in a schematic-based design software with floating point arithmetic support
-                        and UART port.
+                        and a UART port.
                         <h2>My Role</h2>
                         I was responsible for upgrading the base single-core CPU to a dual-core CPU, coming up with my own design and then writing a Fibonacci program in MIPS assembly to test the performance increase.
                     </div>
