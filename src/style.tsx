@@ -14,6 +14,7 @@ const styles = {
   badge: "py-1 px-3 m-1 rounded-full text-lg md:text-xs font-medium hover:border-cyan-400 border-cyan-500 dark:hover:border-cyan-300 dark:border-cyan-600 border-[2px] text-textlight dark:text-textdark",
   carouselStyle : "h-96",
   iconStyles : "h-8 w-8 md:h-5 md:w-5",
+  hyperlink: "text-blue-400",
 };
 
 // Add this to your styles.tsx file

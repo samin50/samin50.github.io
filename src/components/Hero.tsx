@@ -29,11 +29,14 @@ function Hero() {
             <div className="m-3 ml-0 p-3 rounded-lg flex justify-center brightness-[1.0] dark:brightness-[0.8] bg-black bg-opacity-10">
                 <GitHubCalendar username="samin50" />
             </div>
-            <div className={styles.heroContent}> Unfortunately at work I have been using BitBucket instead of Github so the activity graph looks quite sparse :)</div>
-            <div className="my-2 text-xl md:text-lg underline cursor-pointer">Leetcode Stats</div>
+            <div className={styles.heroContent}>
+                Unfortunately during my placement this year I have been using BitBucket instead of Github so the activity graph looks quite sparse :)
+                A lot of these commits are of me making small changes to my website, or working on my personal projects.
+                </div>
+            {/* <div className="my-2 text-xl md:text-lg underline cursor-pointer">Leetcode Stats</div>
             <div className="flex rounded-lg justify-center p-3 w-full brightness-[1.0] dark:brightness-[0.8] bg-black bg-opacity-10">
                 <img className="h-100" src="https://leetcard.jacoblin.cool/samin50?ext=activity" alt="Leetcode Stats" />
-            </div>
+            </div> */}
         </div>
     );
 }

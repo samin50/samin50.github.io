@@ -13,7 +13,7 @@ function DIYProjects() {
             <>
             For my Casio CDP-S350, I wanted to add some reactive LEDs that would trigger on note presses as seen through some YouTube videos (though those are typically done in post).
             To accomplish this, I used a Raspberry Pi Zero and a wired MIDI connection to my piano. I attached a strip of WS2812B LEDs along the notes of the piano, and used
-            <a className="text-blue-400" href="https://github.com/onlaj/Piano-LED-Visualizer"> this</a> program to control the LEDs. I added to this by forking the code and adding
+            <a className={styles.hyperlink} href="https://github.com/onlaj/Piano-LED-Visualizer"> this</a> program to control the LEDs. I added to this by forking the code and adding
             a few features, such as simultaneous wireless MIDI output to my laptop to enable another visualiser to be used, as can be seen in my piano videos.
             </>
         } badges={
@@ -23,7 +23,7 @@ function DIYProjects() {
             <>
             In the same vein as the above project, I wanted to add reactive LEDs to my monitor that would dynamically change colour based on the colours on the screen.
             I used a Raspberry Pi Zero and a HDMI capture device to capture the screen, and attached strips of WS2812B LEDs to the back of my monitor. I used
-            the open source program <a className="text-blue-400" href="https://github.com/hyperion-project/HyperBian">Hyperion</a> to control the LEDs.
+            the open source program <a className={styles.hyperlink} href="https://github.com/hyperion-project/HyperBian">Hyperion</a> to control the LEDs.
             </>
         } badges={
             ["Raspberry Pi", "Linux", "Soldering", "Python"]

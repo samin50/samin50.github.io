@@ -31,7 +31,7 @@ export const ProjectDesc: React.FC<ProjectProps> = ({ title, content, badges }) 
                     </div>
                 </div>
             </summary>
-            <div className="p-3 dark:backdrop-brightness-[1.6] backdrop-brightness-[1.0]">
+            <div className="p-3 dark:backdrop-brightness-[1.6] backdrop-brightness-[1.0] prose">
                 {content}
             </div>
         </details>

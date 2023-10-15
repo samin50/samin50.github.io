@@ -15,18 +15,22 @@ function Printing() {
         </div>
         <ProjectDesc title="Printer Upgrades" content={
             <>
+            I have upgraded my printer with a few things, namely a repurposed "Android TV Box" running Linux and Klipper, a BLTOUCH, a metal hotend,
+            dual-gear extruder, and various other 3D printed parts.
             </>
         } badges = {
             []
         }/>
         <ProjectDesc title="Functional Prints" content={
             <>
+            I primarily use my printer for functional prints, such as for my personal projects, or for my desk setup. I will showcase some of them here.
             </>
         } badges = {
             []
         }/>
          <ProjectDesc title="Decorative Prints" content={
             <>
+            I have also printed some decorative prints, usually for other people. I will showcase some of them here.
             </>
         } badges = {
             []
