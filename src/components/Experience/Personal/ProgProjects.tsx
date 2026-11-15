@@ -12,7 +12,7 @@ function ProgProjects() {
        <ProjectDesc title="Portfolio Website and CV" content={
             <>
             This website is a project in and of itself! I have been working on it on and off since my 3rd Year at University, and I have been using it as a way to learn React,  TailwindCSS and HTML.
-            My <a className={styles.hyperlink} href="https://github.com/samin50/CV">CV</a> is also written HTMl and TailwindCSS, and is hosted on Github Pages.
+            My <a className={styles.hyperlink} href="https://github.com/%GITNAME%50/CV">CV</a> is also written HTMl and TailwindCSS, and is hosted on Github Pages.
             </>
         } badges = {
             ["UI", "HTML", "CSS", "TailwindCSS", "React"]

@@ -6,7 +6,7 @@ import { CarouselCustom } from "./Reusables/CarouselCustom";
 function Hero() {
     return (
         <div className={`${styles.mainSection}`}>
-            <div className={`${styles.heroTitles}`}>Hi! I'm Shaheen!</div>
+            <div className={`${styles.heroTitles}`}>Hi! I'm %NAME%!</div>
             <div className={styles.heroContent}>
                 Thank you for visiting my website! I am currently a 4th Year Electronics and Information Engineering student at Imperial College London. <br />
                 On this website you will see some of the projects I have worked on (this page itself being one of those projects!), as well as some of my interests and hobbies.
@@ -27,7 +27,7 @@ function Hero() {
             <div className={styles.heroTitles}>Some Easy to Digest Statistics...</div>
             <div className="mt-2 text-xl md:text-lg underline cursor-pointer">Github Contributions</div>
             <div className="m-3 ml-0 p-3 rounded-lg flex justify-center brightness-[1.0] dark:brightness-[0.8] bg-black bg-opacity-10">
-                <GitHubCalendar username="samin50" />
+                <GitHubCalendar username="%GITNAME%50" />
             </div>
             <div className={styles.heroContent}>
                 Unfortunately during my placement this year I have been using BitBucket instead of Github so the activity graph looks quite sparse :)
@@ -35,7 +35,7 @@ function Hero() {
                 </div>
             {/* <div className="my-2 text-xl md:text-lg underline cursor-pointer">Leetcode Stats</div>
             <div className="flex rounded-lg justify-center p-3 w-full brightness-[1.0] dark:brightness-[0.8] bg-black bg-opacity-10">
-                <img className="h-100" src="https://leetcard.jacoblin.cool/samin50?ext=activity" alt="Leetcode Stats" />
+                <img className="h-100" src="https://leetcard.jacoblin.cool/%GITNAME%50?ext=activity" alt="Leetcode Stats" />
             </div> */}
         </div>
     );
