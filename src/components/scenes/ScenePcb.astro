@@ -1,0 +1,172 @@
+---
+/**
+ * Showcase scene: a keyboard PCB. A staggered grid of switch footprints, row
+ * traces on the front layer and column traces on the back. When playing, the
+ * columns light one after another (a matrix scan), signals run along three
+ * rows and a few keys flash. Purely decorative; colours come from the
+ * project's hue (see the `.hue` rule and the PCB block in direction-c.css).
+ *
+ * Drawn once at build time in a 1200 x 800 box that is scaled to cover the
+ * stage, so there is no script and no canvas. The board is one static SVG; the
+ * lit parts are a second SVG on top, so animating them does not repaint the board.
+ */
+const W = 1200;
+const H = 800;
+const COLS = 9;
+const ROWS = 5;
+const stagger = [34, 14, 0, 12, 30, 30, 12, 0, 14];
+
+const cx = (c: number) => 88 + c * 128;
+const cy = (r: number, c: number) => 96 + r * 152 + (stagger[c] ?? 0);
+
+const switches = Array.from({ length: ROWS * COLS }, (_, i) => {
+  const r = Math.floor(i / COLS);
+  const c = i % COLS;
+  return { r, c, x: cx(c), y: cy(r, c) };
+});
+
+/** Back layer: one straight trace per column through each switch's first pad, ending in a via. */
+const columns = Array.from({ length: COLS }, (_, c) => {
+  const x = cx(c) - 21;
+  return { x, y1: cy(0, c) - 14, y2: cy(ROWS - 1, c) + 84 };
+});
+
+/** Front layer: one trace per row, jogging at 45 degrees to follow the column stagger. */
+const rows = Array.from({ length: ROWS }, (_, r) => {
+  let d = `M${cx(0) - 60} ${cy(r, 0) + 52}`;
+  for (let c = 0; c < COLS; c++) {
+    const y = cy(r, c) + 52;
+    const next = c + 1 < COLS ? cy(r, c + 1) + 52 : y;
+    const mid = cx(c) + 64;
+    const half = Math.abs(next - y) / 2;
+    d += ` H${mid - half} L${mid + half} ${next}`;
+  }
+  return `${d} H${W - 20}`;
+});
+
+const mcu = { x: 664, y: 522 };
+const litColumns = new Set([2, 6]);
+const signalRows = [0, 2, 4];
+const pressed = [3, 13, 20, 24, 33, 41];
+---
+
+<svg
+  class="pcb"
+  viewBox={`0 0 ${W} ${H}`}
+  preserveAspectRatio="xMidYMid slice"
+  width="100%"
+  height="100%"
+  focusable="false"
+>
+  <defs>
+    <g id="pcb-sw">
+      <rect class="pcb-silk" x="-38" y="-38" width="76" height="76" rx="7"></rect>
+      <path class="pcb-front" d="M14 -28H36L48 -16V40L36 52"></path>
+      <circle class="pcb-hole" r="11"></circle>
+      <circle class="pcb-hole" cx="-29" r="4.5"></circle>
+      <circle class="pcb-hole" cx="29" r="4.5"></circle>
+      <circle class="pcb-pad" cx="-21" cy="-14" r="7.5"></circle>
+      <circle class="pcb-hole" cx="-21" cy="-14" r="3"></circle>
+      <circle class="pcb-pad" cx="14" cy="-28" r="7.5"></circle>
+      <circle class="pcb-hole" cx="14" cy="-28" r="3"></circle>
+      <rect class="pcb-pad" x="-15" y="47" width="8" height="10" rx="1"></rect>
+      <rect class="pcb-pad" x="8" y="47" width="8" height="10" rx="1"></rect>
+    </g>
+  </defs>
+
+  <!-- Back layer: columns -->
+  <g class="pcb-back">
+    {columns.map(({ x, y1, y2 }) => (
+      <path d={`M${x} ${y1}V${y2}`} />
+    ))}
+  </g>
+
+  <!-- Front layer: rows -->
+  <g class="pcb-front">
+    {rows.map((d) => (
+      <path d={d} />
+    ))}
+    <path d={`M${mcu.x - 20} ${mcu.y - 8}H${mcu.x - 44}L${mcu.x - 58} ${mcu.y - 22}`}></path>
+    <path d={`M${mcu.x + 20} ${mcu.y + 8}H${mcu.x + 44}L${mcu.x + 58} ${mcu.y + 22}`}></path>
+    <path d={`M${mcu.x - 8} ${mcu.y - 20}V${mcu.y - 40}`}></path>
+  </g>
+
+  <!-- Vias at the end of each column -->
+  {columns.map(({ x, y2 }) => (
+    <>
+      <circle class="pcb-pad" cx={x} cy={y2} r="6" />
+      <circle class="pcb-hole" cx={x} cy={y2} r="2.5" />
+    </>
+  ))}
+
+  {switches.map(({ x, y }) => (
+    <use href="#pcb-sw" x={x} y={y} />
+  ))}
+
+  <!-- Microcontroller and USB connector -->
+  <g transform={`translate(${mcu.x} ${mcu.y})`}>
+    {[-12.5, -7.5, -2.5, 2.5, 7.5, 12.5].map((p) => (
+      <>
+        <rect class="pcb-pad" x={p - 1.5} y="-25" width="3" height="7" />
+        <rect class="pcb-pad" x={p - 1.5} y="18" width="3" height="7" />
+        <rect class="pcb-pad" x="-25" y={p - 1.5} width="7" height="3" />
+        <rect class="pcb-pad" x="18" y={p - 1.5} width="7" height="3" />
+      </>
+    ))}
+    <rect class="pcb-chip" x="-18" y="-18" width="36" height="36" rx="2"></rect>
+    <circle class="pcb-silk-dot" cx="-11" cy="-11" r="2"></circle>
+  </g>
+  <g transform={`translate(${mcu.x} 0)`}>
+    <rect class="pcb-silk" x="-26" y="-6" width="52" height="44" rx="5"></rect>
+    {[-15, -9, -3, 3, 9, 15].map((p) => (
+      <rect class="pcb-pad" x={p - 2} y="40" width="4" height="10" />
+    ))}
+  </g>
+</svg>
+
+<!--
+  Everything that animates is in this second drawing, laid exactly over the
+  first. It is its own compositor layer, so a frame of animation repaints
+  these few strokes and not the whole board.
+-->
+<svg
+  class="pcb pcb-live"
+  viewBox={`0 0 ${W} ${H}`}
+  preserveAspectRatio="xMidYMid slice"
+  width="100%"
+  height="100%"
+  focusable="false"
+>
+  {pressed.map((index, i) => {
+    const sw = switches[index];
+    return (
+      sw && (
+        <rect
+          class:list={['pcb-press', { 'is-lit': i === 1 }]}
+          style={`--i:${i}`}
+          x={sw.x - 38}
+          y={sw.y - 38}
+          width="76"
+          height="76"
+          rx="7"
+        />
+      )
+    );
+  })}
+
+  <g class="pcb-scan">
+    {columns.map(({ x, y1, y2 }, c) => (
+      <path
+        class:list={[{ 'is-lit': litColumns.has(c) }]}
+        style={`--i:${c}`}
+        d={`M${x} ${y1}V${y2}`}
+      />
+    ))}
+  </g>
+
+  <g class="pcb-signal">
+    {signalRows.map((r, i) => (
+      <path style={`--i:${i}`} pathLength="100" d={rows[r]} />
+    ))}
+  </g>
+</svg>

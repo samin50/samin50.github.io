@@ -1,0 +1,52 @@
+---
+/**
+ * Inline SVG icons, no dependency. Stroke icons are drawn on a 24px grid in
+ * the style of Lucide (ISC licence); the two brand marks are from Simple Icons
+ * (CC0). Icons are decorative by default: pair them with visible text, or pass
+ * `label` to give a standalone icon an accessible name.
+ */
+import { fillIcons, strokeIcons, type IconName } from '../lib/icons';
+
+interface Props {
+  name: IconName;
+  size?: number;
+  label?: string;
+  class?: string;
+}
+
+const { name, size = 18, label, class: className } = Astro.props;
+const a11y = label
+  ? ({ role: 'img', 'aria-label': label } as const)
+  : ({ 'aria-hidden': 'true' } as const);
+const isFill = (n: IconName): n is keyof typeof fillIcons => n in fillIcons;
+---
+
+{isFill(name) ? (
+  <svg
+    class:list={['icon', className]}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    {...a11y}
+  >
+    <path d={fillIcons[name]} />
+  </svg>
+) : (
+  <svg
+    class:list={['icon', className]}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    {...a11y}
+  >
+    {strokeIcons[name].map((d) => (
+      <path d={d} />
+    ))}
+  </svg>
+)}

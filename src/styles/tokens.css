@@ -1,0 +1,289 @@
+/*
+ * Design tokens.
+ *
+ * Two visual directions are selected with `data-direction` on <html>, and each
+ * has a dark and a light theme selected with `data-theme`. Components only ever
+ * read these custom properties, so the same markup renders in either direction.
+ *
+ * Contrast ratios for every text/background pairing are documented in
+ * docs/style-guide.md. If you change a colour here, re-check them.
+ */
+
+/* ---------- Shared scales (both directions) ---------- */
+:root {
+  --container: 72rem;
+  --gutter: 1.25rem;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-slow: 600ms;
+
+  /* Fallback stacks */
+  --stack-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --stack-serif: Georgia, 'Times New Roman', serif;
+  --stack-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
+}
+
+@media (min-width: 40rem) {
+  :root {
+    --gutter: 2rem;
+  }
+}
+
+/* =====================================================================
+   Direction A — "Stone & Rose"
+   Warm neutrals, one rose accent, serif display type, soft shapes.
+   ===================================================================== */
+[data-direction='a'] {
+  --ff-display: 'Fraunces Variable', var(--stack-serif);
+  --ff-body: 'Inter Variable', var(--stack-sans);
+  --ff-mono: var(--stack-mono);
+  --ff-label: var(--ff-body);
+
+  --display-weight: 540;
+  --display-tracking: -0.022em;
+  --heading-weight: 560;
+  --heading-tracking: -0.015em;
+
+  --label-size: 0.8125rem;
+  --label-weight: 500;
+  --label-tracking: 0.01em;
+  --label-transform: none;
+
+  --r-card: 1rem;
+  --r-media: 0.75rem;
+  --r-control: 999px;
+  --r-chip: 999px;
+
+  --card-pad: 0.75rem;
+}
+
+[data-direction='a'][data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #1c1917;
+  --surface: #262220;
+  --surface-2: #322d2a;
+  --border: #3d3734;
+  --border-strong: #7a726c;
+  --text: #f5f5f4;
+  --text-muted: #b8b0aa;
+  --accent: #fb7185;
+  --accent-hover: #fda4af;
+  --accent-fg: #1c1917;
+  --accent-text: #fb7185;
+  --sh-card: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 1px 2px rgb(0 0 0 / 0.3);
+  --sh-card-hover: 0 1px 0 rgb(255 255 255 / 0.06) inset, 0 18px 40px -18px rgb(0 0 0 / 0.7);
+}
+
+[data-direction='a'][data-theme='light'] {
+  color-scheme: light;
+  --bg: #faf8f6;
+  --surface: #ffffff;
+  --surface-2: #f1edea;
+  --border: #e5e0dc;
+  --border-strong: #8f8780;
+  --text: #1c1917;
+  --text-muted: #5c5651;
+  --accent: #be123c;
+  --accent-hover: #9f1239;
+  --accent-fg: #ffffff;
+  --accent-text: #be123c;
+  --sh-card: 0 1px 2px rgb(28 25 23 / 0.06), 0 1px 1px rgb(28 25 23 / 0.04);
+  --sh-card-hover: 0 20px 40px -20px rgb(28 25 23 / 0.25), 0 2px 4px rgb(28 25 23 / 0.06);
+}
+
+/* =====================================================================
+   Direction B — "Ink & Copper"
+   Blue-black ink and warm paper, one copper accent (the colour of a bare
+   trace), a single type family with a mono for labels, hairlines and
+   square corners, like a well-set datasheet.
+   ===================================================================== */
+[data-direction='b'] {
+  --ff-display: 'IBM Plex Sans Variable', var(--stack-sans);
+  --ff-body: 'IBM Plex Sans Variable', var(--stack-sans);
+  --ff-mono: 'IBM Plex Mono', var(--stack-mono);
+  --ff-label: var(--ff-mono);
+
+  --display-weight: 600;
+  --display-tracking: -0.03em;
+  --heading-weight: 600;
+  --heading-tracking: -0.02em;
+
+  --label-size: 0.75rem;
+  --label-weight: 500;
+  --label-tracking: 0.08em;
+  --label-transform: uppercase;
+
+  --r-card: 2px;
+  --r-media: 0;
+  --r-control: 2px;
+  --r-chip: 2px;
+
+  --card-pad: 0;
+}
+
+[data-direction='b'][data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0f1419;
+  --surface: #161d24;
+  --surface-2: #1d2630;
+  --border: #2a3642;
+  --border-strong: #5b6e80;
+  --text: #e7edf2;
+  --text-muted: #9fb0bf;
+  --accent: #e39a62;
+  --accent-hover: #efb284;
+  --accent-fg: #17110b;
+  --accent-text: #e9a877;
+  --sh-card: none;
+  --sh-card-hover: none;
+}
+
+[data-direction='b'][data-theme='light'] {
+  color-scheme: light;
+  --bg: #f5f3ee;
+  --surface: #fcfbf8;
+  --surface-2: #e9e6de;
+  --border: #d9d5ca;
+  --border-strong: #85806f;
+  --text: #141b22;
+  --text-muted: #4a5764;
+  --accent: #9c4a14;
+  --accent-hover: #7f3b0e;
+  --accent-fg: #ffffff;
+  --accent-text: #9c4a14;
+  --sh-card: none;
+  --sh-card-hover: none;
+}
+
+/* =====================================================================
+   Direction C — "Colour as material"
+   Colour fills backgrounds, sections and surfaces instead of sitting in a
+   small accent. A warm plum-and-rose base, plus one hue per project that
+   tints that project's scene, placeholder and controls.
+
+   Colours are written in OKLCH so that one hue number (`--h`, 0–360) can
+   produce a whole matched set: see the `.hue` rule in direction-c.css.
+   ===================================================================== */
+[data-direction='c'] {
+  /* Fonts: change these two lines to swap the typefaces. */
+  --ff-display: 'Bricolage Grotesque Variable', var(--stack-sans);
+  --ff-body: 'Figtree Variable', var(--stack-sans);
+  --ff-mono: var(--stack-mono);
+  --ff-label: var(--ff-body);
+
+  --display-weight: 750;
+  --display-tracking: -0.035em;
+  --heading-weight: 700;
+  --heading-tracking: -0.025em;
+
+  --label-size: 0.875rem;
+  --label-weight: 600;
+  --label-tracking: 0;
+  --label-transform: none;
+
+  --r-card: 1.5rem;
+  --r-media: 1.125rem;
+  --r-control: 999px;
+  --r-chip: 999px;
+
+  --card-pad: 0.75rem;
+
+  /* Site hues (OKLCH hue angles). */
+  --h-main: 12; /* rose */
+  --h-sun: 70; /* amber */
+  --h-plum: 345;
+}
+
+[data-direction='c'][data-theme='dark'] {
+  color-scheme: dark;
+  --chrome: #240d1b; /* --bg as hex, for <meta name="theme-color"> */
+  --bg: oklch(0.2 0.045 345);
+  --surface: oklch(0.255 0.055 345);
+  --surface-2: oklch(0.31 0.065 345);
+  --border: oklch(0.38 0.065 345);
+  --border-strong: oklch(0.62 0.07 345);
+  --text: oklch(0.965 0.018 70);
+  --text-muted: oklch(0.84 0.035 20);
+  --accent: oklch(0.74 0.17 12);
+  --accent-hover: oklch(0.81 0.13 12);
+  --accent-fg: oklch(0.19 0.05 345);
+  --accent-text: oklch(0.82 0.12 15);
+  --sun: oklch(0.85 0.15 80);
+  --sh-card: none;
+  --sh-card-hover: none;
+
+  /* Recipe for hue-driven colours: lightness and chroma per role. */
+  --field-l: 0.3;
+  --field-c: 0.1;
+  --field2-l: 0.22;
+  --field2-c: 0.085;
+  --line-l: 0.39;
+  --line-c: 0.12;
+  --ink-l: 0.87;
+  --ink-c: 0.11;
+  --solid-l: 0.79;
+  --solid-c: 0.14;
+  --solid-fg: oklch(0.19 0.05 345);
+  --panel-l: 0.19;
+  --panel-c: 0.05;
+  --panel-a: 0.86;
+  --hot-l: 0.9;
+  --hot-c: 0.14;
+
+  /* Section fields */
+  --intro-a: oklch(0.47 0.19 8);
+  --intro-b: oklch(0.36 0.15 335);
+  --intro-c: oklch(0.52 0.15 45);
+  --band: oklch(0.25 0.06 25);
+  --block: oklch(0.7 0.18 14);
+  --block-fg: oklch(0.19 0.05 345);
+  --footer-bg: oklch(0.16 0.04 345);
+}
+
+[data-direction='c'][data-theme='light'] {
+  color-scheme: light;
+  --chrome: #fff0e2; /* --bg as hex, for <meta name="theme-color"> */
+  --bg: oklch(0.967 0.028 60);
+  --surface: oklch(0.992 0.012 70);
+  --surface-2: oklch(0.925 0.05 45);
+  --border: oklch(0.86 0.055 40);
+  --border-strong: oklch(0.58 0.09 25);
+  --text: oklch(0.25 0.06 345);
+  --text-muted: oklch(0.41 0.06 345);
+  --accent: oklch(0.56 0.21 14);
+  --accent-hover: oklch(0.49 0.2 14);
+  --accent-fg: oklch(0.99 0.01 70);
+  --accent-text: oklch(0.5 0.2 14);
+  --sun: oklch(0.86 0.15 85);
+  --sh-card: none;
+  --sh-card-hover: none;
+
+  --field-l: 0.87;
+  --field-c: 0.1;
+  --field2-l: 0.92;
+  --field2-c: 0.085;
+  --line-l: 0.79;
+  --line-c: 0.13;
+  --ink-l: 0.4;
+  --ink-c: 0.15;
+  --solid-l: 0.5;
+  --solid-c: 0.17;
+  --solid-fg: oklch(0.99 0.01 70);
+  --panel-l: 0.98;
+  --panel-c: 0.018;
+  --panel-a: 0.88;
+  --hot-l: 0.58;
+  --hot-c: 0.21;
+
+  --intro-a: oklch(0.83 0.12 12);
+  --intro-b: oklch(0.89 0.09 340);
+  --intro-c: oklch(0.9 0.12 80);
+  --band: oklch(0.93 0.07 85);
+  --block: oklch(0.56 0.21 14);
+  --block-fg: oklch(0.99 0.01 70);
+  --footer-bg: oklch(0.25 0.06 345);
+}

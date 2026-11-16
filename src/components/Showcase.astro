@@ -1,0 +1,141 @@
+---
+/**
+ * Home page project showcase: one project at a time, with a switcher, in front
+ * of a decorative scene that changes with the project.
+ *
+ * Without JavaScript this is a plain list: every project is shown one under
+ * the other, the switcher links jump to them, and the first project's scene
+ * sits behind as a still image. src/scripts/showcase.ts turns it into tabs.
+ *
+ * The scene stage is `position: fixed` and the section clips it, so the scene
+ * stays put behind the page and the next section slides over it.
+ */
+import { formatDates, getShowcaseProjects } from '../lib/projects';
+import { projectUrl, tagUrl, url } from '../lib/paths';
+import { TAG_LABELS } from '../lib/tags';
+import Icon from './Icon.astro';
+import MediaSlot from './MediaSlot.astro';
+import SceneGeneric from './scenes/SceneGeneric.astro';
+import ScenePcb from './scenes/ScenePcb.astro';
+import SceneSignal from './scenes/SceneSignal.astro';
+
+const projects = await getShowcaseProjects();
+---
+
+<section class="showcase" data-showcase aria-labelledby="showcase-heading">
+  <!-- Marks the section as script-enhanced before it is painted, so the list
+       never flashes at full height first. -->
+  <script is:inline>
+    document.currentScript.parentElement.setAttribute('data-enhanced', '');
+  </script>
+
+  <div class="scene-stage" aria-hidden="true">
+    {projects.map(({ id, data }, index) => (
+      <div
+        class:list={['scene hue', { 'is-active': index === 0 }]}
+        data-scene={id}
+        style={`--h:${data.hue}`}
+      >
+        {data.scene === 'pcb' ? (
+          <ScenePcb />
+        ) : data.scene === 'signal' ? (
+          <SceneSignal />
+        ) : (
+          <SceneGeneric />
+        )}
+      </div>
+    ))}
+  </div>
+
+  <div class="container-page">
+    <div class="section-head">
+      <h2 class="heading" id="showcase-heading">
+        Projects
+      </h2>
+      <div class="flex items-center gap-4">
+        <a class="arrow-link" href={url('projects/')}>
+          All projects
+          <Icon name="arrow-right" size={16} />
+        </a>
+        <button
+          type="button"
+          class="icon-button scene-toggle"
+          data-scene-toggle
+          aria-label="Pause background animation"
+          hidden
+        >
+          <Icon name="pause" class="scene-icon-pause" />
+          <Icon name="play" class="scene-icon-play" />
+        </button>
+      </div>
+    </div>
+
+    <div class="showcase-layout">
+      <ul class="showcase-tabs" data-showcase-tabs>
+        {projects.map(({ id, data }, index) => (
+          <li>
+            <a
+              class:list={['showcase-tab hue', { 'is-active': index === 0 }]}
+              id={`tab-${id}`}
+              href={`#${id}`}
+              data-showcase-tab
+              style={`--h:${data.hue}`}
+            >
+              <span class="tab-icon">
+                <Icon name={data.icon} size={16} />
+              </span>
+              <span class="tab-label">{data.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <div class="showcase-panels">
+        {projects.map(({ id, data }, index) => (
+          <article
+            class:list={['showcase-panel hue', { 'is-active': index === 0 }]}
+            id={id}
+            data-showcase-panel
+            style={`--h:${data.hue}`}
+          >
+            <div class="panel-head">
+              <p class="label">
+                {[data.context, formatDates(data.dates, data.status)].filter(Boolean).join(' · ')}
+              </p>
+              <h3 class="panel-title">{data.title}</h3>
+            </div>
+            <MediaSlot
+              class="panel-media"
+              media={data.cover}
+              name={data.title}
+              icon={data.icon}
+              hue={data.hue}
+              eager={index === 0}
+            />
+            <div class="panel-body">
+              <p>{data.summary}</p>
+              <ul class="flex flex-wrap gap-1.5">
+                {data.tags.map((tag) => (
+                  <li>
+                    <a class="chip" href={tagUrl(tag)}>
+                      {TAG_LABELS[tag]}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <a class="btn btn-hue" href={projectUrl(id)}>
+                View project
+                <span class="sr-only">: {data.title}</span>
+                <Icon name="arrow-right" size={16} class="icon-nudge-x" />
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../scripts/showcase';
+</script>

@@ -1,0 +1,41 @@
+---
+import { site } from '../config/site';
+import { url } from '../lib/paths';
+import ThemeToggle from './ThemeToggle.astro';
+
+const nav = [
+  { label: 'Projects', href: url('projects/') },
+  { label: 'About', href: url('about/') },
+  { label: 'Contact', href: url('contact/') },
+];
+
+const here = Astro.url.pathname;
+const isCurrent = (href: string) => here === href || here.startsWith(href);
+---
+
+<header class="site-header" data-header>
+  <div class="container-page flex flex-wrap items-center gap-x-6 py-3">
+    <a href={url()} class="site-name mr-auto min-w-0 truncate" aria-label={`${site.name}, home`}>
+      {site.name}
+    </a>
+
+    <!-- On narrow screens the nav drops to its own row under the name. -->
+    <nav aria-label="Main" class="order-last w-full sm:order-none sm:w-auto">
+      <ul class="flex gap-6">
+        {nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="nav-link"
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <ThemeToggle />
+  </div>
+</header>

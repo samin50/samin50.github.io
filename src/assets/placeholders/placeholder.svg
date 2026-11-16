@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" fill="none" role="img" aria-label="Placeholder image">
+  <!--
+    Shared placeholder for every missing photo. It is deliberately almost
+    transparent: a faint hatch and corner marks only. The colour, the project
+    name and the icon come from the panel it sits in (PlaceholderPanel.astro),
+    so each placeholder shows in its project's colour.
+  -->
+  <defs>
+    <pattern id="hatch" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M0 0v28" stroke="#fff" stroke-opacity=".1" stroke-width="10"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#hatch)"/>
+  <g stroke="#fff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round">
+    <path d="M48 128V48h80M1472 48h80v80M1552 872v80h-80M128 952H48v-80"/>
+  </g>
+</svg>

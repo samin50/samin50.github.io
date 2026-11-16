@@ -1,0 +1,25 @@
+---
+import { site, linkAttrs } from '../config/site';
+import Icon from './Icon.astro';
+
+const year = new Date().getFullYear();
+const social = site.contact.filter((link) => link.icon !== 'mail');
+---
+
+<footer class="site-footer border-t border-line">
+  <div class="container-page flex flex-col gap-4 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+    <!-- Wording as on the old site (legacy/src/components/Footer.tsx:8). -->
+    <p>
+      Copyright © {year} - {site.name}
+    </p>
+    <ul class="flex gap-2">
+      {social.map((link) => (
+        <li>
+          <a class="icon-button" aria-label={link.label} {...linkAttrs(link)}>
+            <Icon name={link.icon} size={16} />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</footer>

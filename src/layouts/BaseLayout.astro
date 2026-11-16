@@ -1,0 +1,127 @@
+---
+import '../styles/global.css';
+import '../styles/direction-c.css';
+import { site, type Direction } from '../config/site';
+import { url } from '../lib/paths';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PreviewBar from '../components/PreviewBar.astro';
+
+import frauncesUrl from '../assets/fonts/fraunces-latin-wght.woff2?url';
+import interUrl from '../assets/fonts/inter-latin-wght.woff2?url';
+import plexSansUrl from '../assets/fonts/ibm-plex-sans-latin-wght.woff2?url';
+import plexMonoUrl from '../assets/fonts/ibm-plex-mono-latin-500.woff2?url';
+import bricolageUrl from '../assets/fonts/bricolage-grotesque-latin-wght.woff2?url';
+import figtreeUrl from '../assets/fonts/figtree-latin-wght.woff2?url';
+
+interface Props {
+  /** Page title without the site name; omit on the home page. */
+  title?: string;
+  description?: string;
+  /** Visual direction; defaults to the one set in the site config. */
+  direction?: Direction;
+  /** Phase 3 only: show the A/B switcher and keep the page out of search indexes. */
+  preview?: boolean;
+  ogType?: 'website' | 'article';
+}
+
+const {
+  title,
+  description = site.description,
+  direction = site.direction,
+  preview = false,
+  ogType = 'website',
+} = Astro.props;
+
+const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = site.ogImage ? new URL(url(site.ogImage), Astro.site) : null;
+
+// Only the fonts the active direction actually uses are preloaded.
+const preloadFonts = {
+  a: [frauncesUrl, interUrl],
+  b: [plexSansUrl, plexMonoUrl],
+  c: [bricolageUrl, figtreeUrl],
+}[direction];
+
+// Initial browser-chrome colour: the dark background of the active direction.
+// (theme.ts keeps it in step when the theme changes.)
+const themeColor = { a: '#1c1917', b: '#0f1419', c: '#240d1b' }[direction];
+---
+
+<!doctype html>
+<html lang="en-GB" data-theme="dark" data-direction={direction}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!--
+      Theme, before first paint. Dark is the default (set on <html> above, so it
+      also applies without JavaScript); a remembered choice overrides it here,
+      before any CSS is applied, so the wrong theme never flashes.
+    -->
+    <script is:inline>
+      (function () {
+        try {
+          const theme = localStorage.getItem('theme');
+          if (theme === 'light' || theme === 'dark') {
+            document.documentElement.dataset.theme = theme;
+          }
+        } catch {
+          /* storage unavailable: keep the default */
+        }
+      })();
+    </script>
+
+    <!-- Without JavaScript the header never learns that the page has scrolled,
+         so it gets its solid background from the start. -->
+    <noscript>
+      <style>
+        .site-header {
+          background: var(--bg) !important;
+        }
+      </style>
+    </noscript>
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {preview && <meta name="robots" content="noindex" />}
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content={themeColor} />
+    <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
+
+    {preloadFonts.map((href) => (
+      <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />
+    ))}
+
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="en_GB" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      Skip to content
+    </a>
+    <div
+      data-scroll-sentinel
+      class="pointer-events-none absolute top-0 h-4 w-px"
+      aria-hidden="true"
+    ></div>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    {preview && <PreviewBar direction={direction} />}
+
+    <script>
+      import '../scripts/reveal';
+    </script>
+  </body>
+</html>

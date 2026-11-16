@@ -24,3 +24,11 @@ dist-ssr
 examples
 # Local Netlify folder
 .netlify
+
+# etc
+docs
+Claude.md
+
+# Astro
+/dist/
+.astro/

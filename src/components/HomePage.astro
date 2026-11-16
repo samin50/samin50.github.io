@@ -1,0 +1,186 @@
+---
+/**
+ * Home page (Direction C): intro, project showcase, what I do, experience,
+ * contact.
+ *
+ * Wording rule (docs/decisions.md P3-8): the owner's text from the old site is
+ * used unchanged wherever it is still accurate. Each piece of text below says
+ * where it came from; anything written new is listed in
+ * docs/review-checklist.md.
+ */
+import { site, linkAttrs } from '../config/site';
+import { experience } from '../data/experience';
+import type { IconName } from '../lib/icons';
+import { url, tagUrl } from '../lib/paths';
+import { TAG_LABELS, type Tag } from '../lib/tags';
+import Icon from './Icon.astro';
+import MediaSlot from './MediaSlot.astro';
+import Showcase from './Showcase.astro';
+
+/** Titles and skill lists follow the CV's Skills section (CV/main.tex:117-126). */
+const disciplines: { title: string; skills: string; tags: Tag[]; hue: number; icon: IconName }[] = [
+  {
+    title: 'Software',
+    skills: 'Python, C++, C, Java, JavaScript, Docker, Git, SQL, Linux, AWS',
+    tags: ['software', 'cloud'],
+    hue: 300,
+    icon: 'code',
+  },
+  {
+    title: 'Electronics and Embedded',
+    skills: 'PCB design (KiCad), C, Zephyr RTOS, Nordic nRF52, ESP32, BLE, MQTT',
+    tags: ['pcb', 'embedded', 'fpga'],
+    hue: 40,
+    icon: 'cpu',
+  },
+  {
+    title: 'Computer Vision and AI',
+    skills: 'PyTorch, OpenCV, ONNX, YOLOv8, object detection, edge deployment',
+    tags: ['computer-vision', 'ai'],
+    hue: 160,
+    icon: 'scan',
+  },
+];
+---
+
+<!-- Intro: name, photo, short personal summary -->
+<section class="intro">
+  <div class="container-page intro-grid">
+    <div>
+      <!-- Old site strapline, unchanged (legacy Navbar.tsx:36). -->
+      <p class="intro-strap" data-enter style="--i:0">
+        {site.strapline}
+      </p>
+      <!-- Old site greeting, unchanged (legacy Hero.tsx:9). -->
+      <h1 class="display mt-4" data-enter style="--i:1">
+        Hi! I'm {site.firstName}!
+      </h1>
+      <!--
+        Old site intro (legacy Hero.tsx:11-14). One clause changed because the
+        owner is no longer a student: "a 4th Year Electronics and Information
+        Engineering student at Imperial College London" became the current job
+        and the degree as the CV gives them. One spelling fixed: "persuit".
+      -->
+      <div class="intro-text" data-enter style="--i:2">
+        <p>
+          Thank you for visiting my website! I am currently a Software Development Engineer at
+          Amadeus, and I studied Electronic and Information Engineering at Imperial College London.
+        </p>
+        <p>
+          On this website you will see some of the projects I have worked on (this page itself being
+          one of those projects!), as well as some of my interests and hobbies. I started my
+          Engineering/Computer Science journey when I was 10, learning Java in order to develop
+          add-ons (known as mods) for the now popular game, Minecraft. Ever since, I have been on
+          the pursuit of constant learning and self-improvement, which is reflected in my projects
+          and many hobbies.
+        </p>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-3" data-enter style="--i:3">
+        <a class="btn btn-ink" href="#showcase-heading">
+          See projects
+          <Icon name="arrow-right" size={16} class="icon-nudge-x" />
+        </a>
+        <a class="btn btn-secondary" {...linkAttrs(site.cv)}>
+          {site.cv.label}
+          <Icon name="download" size={16} class="icon-nudge-y" />
+        </a>
+      </div>
+    </div>
+
+    <div class="intro-photo" data-enter style="--i:4">
+      <MediaSlot
+        class="intro-photo-frame"
+        alt="[[TODO: photo of me — portrait orientation, at least 1200 px tall]]"
+        name="Picture of me!"
+        icon="user"
+        hue={285}
+        eager
+      />
+    </div>
+  </div>
+</section>
+
+<Showcase />
+
+<!-- What I do -->
+<section class="section" aria-labelledby="disciplines-heading">
+  <div class="container-page">
+    <div class="section-head" data-reveal>
+      <h2 class="heading" id="disciplines-heading">
+        What I do
+      </h2>
+    </div>
+
+    <div class="grid gap-5 md:grid-cols-3">
+      {disciplines.map((discipline, index) => (
+        <div class="tile hue" data-reveal style={`--h:${discipline.hue};--i:${index}`}>
+          <span class="tile-icon" aria-hidden="true">
+            <Icon name={discipline.icon} size={22} />
+          </span>
+          <h3 class="subheading mt-5">{discipline.title}</h3>
+          <p class="mt-2">{discipline.skills}</p>
+          <ul class="mt-auto flex flex-wrap gap-1.5 pt-6">
+            {discipline.tags.map((tag) => (
+              <li>
+                <a class="chip" href={tagUrl(tag)}>
+                  {TAG_LABELS[tag]}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Experience -->
+<section class="section band" aria-labelledby="experience-heading">
+  <div class="container-page">
+    <div class="section-head" data-reveal>
+      <h2 class="heading" id="experience-heading">
+        Experience
+      </h2>
+      <a class="arrow-link" href={url('about/')}>
+        Full CV
+        <Icon name="arrow-right" size={16} />
+      </a>
+    </div>
+
+    <ol class="grid gap-4">
+      {experience.map((role, index) => (
+        <li class="role" data-reveal style={`--i:${index}`}>
+          <p class="role-dates">{role.dates}</p>
+          <div>
+            <h3 class="subheading">{role.title}</h3>
+            <p class="role-org">{role.organisation}</p>
+          </div>
+          <p>{role.summary}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="section block" aria-labelledby="contact-heading">
+  <div class="container-page grid gap-8 lg:grid-cols-12 lg:items-center" data-reveal>
+    <div class="lg:col-span-6">
+      <!-- Old site heading and line, unchanged (legacy Contact.tsx:12-13). -->
+      <h2 class="display" id="contact-heading">
+        Contact Me
+      </h2>
+      <p class="block-lead mt-4">Want to reach out? Send me a message!</p>
+    </div>
+    <ul class="flex flex-wrap gap-3 lg:col-span-6 lg:justify-end">
+      {site.contact.map((link) => (
+        <li>
+          <a class="contact-link" {...linkAttrs(link)}>
+            <Icon name={link.icon} size={16} />
+            {link.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

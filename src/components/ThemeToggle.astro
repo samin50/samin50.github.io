@@ -1,0 +1,29 @@
+---
+/**
+ * Theme toggle. Rendered `hidden` and revealed by the script, so people without
+ * JavaScript are not shown a button that does nothing (they get the default
+ * dark theme). The icon shown is the theme you would switch to; which one is
+ * visible is decided in CSS from `data-theme`, so there is no flash.
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={['icon-button', className]}
+  data-theme-toggle
+  aria-label="Switch to light theme"
+  hidden
+>
+  <Icon name="sun" class="theme-icon-sun" />
+  <Icon name="moon" class="theme-icon-moon" />
+</button>
+
+<script>
+  import '../scripts/theme';
+</script>

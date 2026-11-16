@@ -1,0 +1,83 @@
+---
+/**
+ * A 16:10 (or custom ratio) media frame.
+ *
+ * With a real image or video it shows that. While the photo is still missing
+ * (the shared placeholder.svg), it renders a tinted panel in the given hue
+ * with a name and a simple icon, so layouts can be judged with colour in them.
+ * The <img> stays in the markup either way, with its `[[TODO: …]]` alt text.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import placeholder from '../assets/placeholders/placeholder.svg';
+import { url } from '../lib/paths';
+import type { IconName } from '../lib/icons';
+import Icon from './Icon.astro';
+
+type Media =
+  | { type: 'image'; src: ImageMetadata; alt: string; todo?: string | undefined }
+  | { type: 'video'; src: string; alt: string; todo?: string | undefined };
+
+interface Props {
+  /** Omit to render a placeholder; then `alt` is required. */
+  media?: Media | undefined;
+  /** `[[TODO: …]]` alt text for a placeholder with no media entry. */
+  alt?: string;
+  /** Name shown on the placeholder panel. */
+  name: string;
+  icon: IconName;
+  /** OKLCH hue angle for the placeholder panel. */
+  hue: number;
+  sizes?: string;
+  eager?: boolean;
+  class?: string;
+}
+
+const {
+  media,
+  alt = '',
+  name,
+  icon,
+  hue,
+  sizes = '(min-width: 64rem) 26rem, (min-width: 48rem) 50vw, 92vw',
+  eager = false,
+  class: className,
+} = Astro.props;
+
+const loading = eager ? 'eager' : 'lazy';
+const isPlaceholder =
+  media === undefined || (media.type === 'image' && media.src.src === placeholder.src);
+---
+
+{isPlaceholder ? (
+  <div class:list={['media-frame ph hue', className]} style={`--h:${hue}`}>
+    <img
+      src={placeholder.src}
+      width={placeholder.width}
+      height={placeholder.height}
+      alt={media?.alt ?? alt}
+      loading={loading}
+      decoding="async"
+    />
+    <div class="ph-body" aria-hidden="true">
+      <Icon name={icon} size={48} />
+      <span class="ph-name">{name}</span>
+    </div>
+    <span class="placeholder-badge">placeholder</span>
+  </div>
+) : media.type === 'video' ? (
+  <div class:list={['media-frame', className]}>
+    <video src={url(media.src)} controls playsinline preload="none" aria-label={media.alt} />
+    {media.todo && <span class="placeholder-badge">placeholder</span>}
+  </div>
+) : (
+  <div class:list={['media-frame', className]}>
+    <Image
+      src={media.src}
+      alt={media.alt}
+      widths={[480, 800, 1200]}
+      sizes={sizes}
+      loading={loading}
+    />
+  </div>
+)}

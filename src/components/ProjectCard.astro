@@ -1,0 +1,76 @@
+---
+/**
+ * Project card, used on the home page and the projects index.
+ * The title link stretches over the whole card; tag chips sit above it and
+ * link to the filtered index.
+ */
+import { Image } from 'astro:assets';
+import { formatDates, type Project } from '../lib/projects';
+import { projectUrl, tagUrl, url } from '../lib/paths';
+import { TAG_LABELS } from '../lib/tags';
+
+interface Props {
+  project: Project;
+  /** Position in the grid, used for the B-direction index and the reveal stagger. */
+  index: number;
+  /** Load the cover eagerly when the card is above the fold. */
+  eager?: boolean;
+}
+
+const { project, index, eager = false } = Astro.props;
+const { title, summary, tags, cover, context, dates, status } = project.data;
+
+const number = String(index + 1).padStart(2, '0');
+const meta = [context, formatDates(dates, status)].filter(Boolean).join(' · ');
+const loading = eager ? 'eager' : 'lazy';
+const sizes = '(min-width: 64rem) 22rem, (min-width: 40rem) 45vw, 92vw';
+---
+
+<article class="card" data-reveal style={`--i:${index % 3}`}>
+  {cover && (
+    <div class="media-frame">
+      {cover.type === 'video' ? (
+        <video src={url(cover.src)} muted playsinline preload="metadata" aria-label={cover.alt} />
+      ) : cover.src.format === 'svg' ? (
+        <img
+          src={cover.src.src}
+          width={cover.src.width}
+          height={cover.src.height}
+          alt={cover.alt}
+          loading={loading}
+          decoding="async"
+        />
+      ) : (
+        <Image
+          src={cover.src}
+          alt={cover.alt}
+          widths={[480, 800, 1200]}
+          sizes={sizes}
+          loading={loading}
+        />
+      )}
+      {cover.todo && <span class="placeholder-badge">placeholder</span>}
+    </div>
+  )}
+  <div class="card-body">
+    <p class="label">
+      <span class="only-b text-accent-text">{number} /</span>
+      {meta}
+    </p>
+    <h3 class="card-title">
+      <a class="card-link" href={projectUrl(project.id)}>
+        {title}
+      </a>
+    </h3>
+    <p class="text-[0.9375rem] leading-relaxed text-muted">{summary}</p>
+    <ul class="card-chips mt-auto flex flex-wrap gap-1.5 pt-3">
+      {tags.slice(0, 3).map((tag) => (
+        <li>
+          <a class="chip" href={tagUrl(tag)}>
+            {TAG_LABELS[tag]}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</article>
