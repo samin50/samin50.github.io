@@ -9,8 +9,6 @@
  * attribute, so the page still works while the real URL is missing.
  */
 
-export type Direction = 'a' | 'b' | 'c';
-
 export interface SiteLink {
   /** Visible label, e.g. "Email". */
   label: string;
@@ -72,13 +70,6 @@ export const site = {
 
   /** Social preview image (1200×630 PNG/JPG in public/), or null until supplied. */
   ogImage: null as string | null, // [[TODO: 1200x630 social preview image]]
-
-  /**
-   * Visual direction used by the real pages. 'c' (colour as material) is the
-   * current one; 'a' and 'b' are the rejected Phase 3 candidates, kept only for
-   * the /design/a/ and /design/b/ preview routes until C is approved.
-   */
-  direction: 'c' as Direction,
 } as const;
 
 /** Attributes for an anchor whose target may still be a placeholder. */

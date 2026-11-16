@@ -1,16 +1,11 @@
 ---
 import '../styles/global.css';
-import '../styles/direction-c.css';
-import { site, type Direction } from '../config/site';
+import '../styles/home.css';
+import { site } from '../config/site';
 import { url } from '../lib/paths';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import PreviewBar from '../components/PreviewBar.astro';
 
-import frauncesUrl from '../assets/fonts/fraunces-latin-wght.woff2?url';
-import interUrl from '../assets/fonts/inter-latin-wght.woff2?url';
-import plexSansUrl from '../assets/fonts/ibm-plex-sans-latin-wght.woff2?url';
-import plexMonoUrl from '../assets/fonts/ibm-plex-mono-latin-500.woff2?url';
 import bricolageUrl from '../assets/fonts/bricolage-grotesque-latin-wght.woff2?url';
 import figtreeUrl from '../assets/fonts/figtree-latin-wght.woff2?url';
 
@@ -18,39 +13,24 @@ interface Props {
   /** Page title without the site name; omit on the home page. */
   title?: string;
   description?: string;
-  /** Visual direction; defaults to the one set in the site config. */
-  direction?: Direction;
-  /** Phase 3 only: show the A/B switcher and keep the page out of search indexes. */
-  preview?: boolean;
   ogType?: 'website' | 'article';
 }
 
-const {
-  title,
-  description = site.description,
-  direction = site.direction,
-  preview = false,
-  ogType = 'website',
-} = Astro.props;
+const { title, description = site.description, ogType = 'website' } = Astro.props;
 
 const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.tagline}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = site.ogImage ? new URL(url(site.ogImage), Astro.site) : null;
 
-// Only the fonts the active direction actually uses are preloaded.
-const preloadFonts = {
-  a: [frauncesUrl, interUrl],
-  b: [plexSansUrl, plexMonoUrl],
-  c: [bricolageUrl, figtreeUrl],
-}[direction];
+const preloadFonts = [bricolageUrl, figtreeUrl];
 
-// Initial browser-chrome colour: the dark background of the active direction.
-// (theme.ts keeps it in step when the theme changes.)
-const themeColor = { a: '#1c1917', b: '#0f1419', c: '#240d1b' }[direction];
+// Initial browser-chrome colour: the dark theme's background (`--chrome` in
+// tokens.css). theme.ts keeps it in step when the theme changes.
+const themeColor = '#310b23';
 ---
 
 <!doctype html>
-<html lang="en-GB" data-theme="dark" data-direction={direction}>
+<html lang="en-GB" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -86,7 +66,6 @@ const themeColor = { a: '#1c1917', b: '#0f1419', c: '#240d1b' }[direction];
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {preview && <meta name="robots" content="noindex" />}
     <meta name="color-scheme" content="dark light" />
     <meta name="theme-color" content={themeColor} />
     <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
@@ -118,10 +97,10 @@ const themeColor = { a: '#1c1917', b: '#0f1419', c: '#240d1b' }[direction];
       <slot />
     </main>
     <Footer />
-    {preview && <PreviewBar direction={direction} />}
 
     <script>
       import '../scripts/reveal';
+      import '../scripts/proximity';
     </script>
   </body>
 </html>

@@ -2,7 +2,7 @@
 title: Local AI Inference
 summary: Self-hosted open-weight LLMs and image and video generation on local hardware, with Ollama and Open WebUI in Docker and ComfyUI pipelines.
 tier: featured
-order: 6
+order: 7
 hue: 195
 icon: sparkles
 tags: [ai, software]

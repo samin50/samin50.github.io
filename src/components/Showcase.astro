@@ -10,7 +10,7 @@
  * The scene stage is `position: fixed` and the section clips it, so the scene
  * stays put behind the page and the next section slides over it.
  */
-import { formatDates, getShowcaseProjects } from '../lib/projects';
+import { formatDates, getProjects } from '../lib/projects';
 import { projectUrl, tagUrl, url } from '../lib/paths';
 import { TAG_LABELS } from '../lib/tags';
 import Icon from './Icon.astro';
@@ -19,7 +19,7 @@ import SceneGeneric from './scenes/SceneGeneric.astro';
 import ScenePcb from './scenes/ScenePcb.astro';
 import SceneSignal from './scenes/SceneSignal.astro';
 
-const projects = await getShowcaseProjects();
+const projects = await getProjects('featured');
 ---
 
 <section class="showcase" data-showcase aria-labelledby="showcase-heading">
@@ -52,10 +52,10 @@ const projects = await getShowcaseProjects();
       <h2 class="heading" id="showcase-heading">
         Projects
       </h2>
-      <div class="flex items-center gap-4">
-        <a class="arrow-link" href={url('projects/')}>
+      <div class="flex items-center gap-2">
+        <a class="btn btn-secondary btn-sm" href={url('projects/')}>
           All projects
-          <Icon name="arrow-right" size={16} />
+          <Icon name="arrow-right" size={16} class="icon-nudge-x" />
         </a>
         <button
           type="button"
@@ -71,7 +71,7 @@ const projects = await getShowcaseProjects();
     </div>
 
     <div class="showcase-layout">
-      <ul class="showcase-tabs" data-showcase-tabs>
+      <ul class="showcase-tabs" data-showcase-tabs data-prox-group>
         {projects.map(({ id, data }, index) => (
           <li>
             <a

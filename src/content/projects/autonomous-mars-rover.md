@@ -3,7 +3,7 @@ title: Autonomous Mars Rover
 # Old site wording, unchanged (legacy Imperial.tsx:142).
 summary: In this project, I worked in a team of six to create a rover that could identify different coloured balls and autonomously avoid them.
 tier: featured
-order: 3
+order: 4
 hue: 50
 icon: cpu
 tags: [fpga, computer-vision, embedded]

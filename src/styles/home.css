@@ -1,180 +1,15 @@
 /*
- * Direction C: components.
- *
- * Tokens are in tokens.css (the `[data-direction='c']` blocks). Shared
- * components (buttons, chips, header, section heading, media frame) are in
- * global.css and are adjusted here where C differs; everything else in this
- * file is new for C: the hue system, the intro, the project showcase and its
- * scenes, and the coloured sections.
+ * Home page sections: the intro, the project showcase and its scenes, and the
+ * coloured sections below them. Tokens are in tokens.css; shared components
+ * (buttons, chips, header, the hue system, placeholder panels) are in
+ * global.css.
  */
 @layer components {
-  /* ------------------------------------------------------------------
-     Hue system. Put class="hue" and style="--h: <0-360>" on an element
-     and it gets a matched set of colours in that hue, for both themes.
-     The lightness and chroma of each role are set per theme in tokens.css.
-     ------------------------------------------------------------------ */
-  .hue {
-    /* Large coloured surface, and the second stop of its gradient */
-    --c-field: oklch(var(--field-l) var(--field-c) var(--h));
-    --c-field-2: oklch(var(--field2-l) var(--field2-c) calc(var(--h) - 26));
-    /* Pattern and line work drawn on a field */
-    --c-line: oklch(var(--line-l) var(--line-c) var(--h));
-    --c-hole: oklch(calc(var(--field-l) - 0.09) var(--field-c) var(--h));
-    /* Strong version of the hue for marks on a field */
-    --c-ink: oklch(var(--ink-l) var(--ink-c) var(--h));
-    /* Solid fill for buttons, icon chips and placeholder panels; text on it is --solid-fg */
-    --c-solid: oklch(var(--solid-l) var(--solid-c) var(--h));
-    --c-solid-2: oklch(var(--solid-l) var(--solid-c) calc(var(--h) - 30));
-    /* Translucent card that carries text over a scene */
-    --c-panel: oklch(var(--panel-l) var(--panel-c) var(--h) / var(--panel-a));
-    /* Lit parts of a scene */
-    --c-hot: oklch(var(--hot-l) var(--hot-c) var(--h));
-  }
-
-  /* ---------- Shared components, as C wears them ---------- */
-  [data-direction='c'] .display {
-    font-size: clamp(2.75rem, 1.5rem + 5.6vw, 5.5rem);
-    line-height: 0.98;
-  }
-  [data-direction='c'] .heading {
-    font-size: clamp(2rem, 1.55rem + 2vw, 3rem);
-    line-height: 1.05;
-  }
-  [data-direction='c'] .subheading {
-    font-size: 1.375rem;
-    line-height: 1.2;
-  }
-  [data-direction='c'] .label {
-    color: var(--text);
-    opacity: 0.85;
-  }
-
-  /* Clear over the intro's colour field; tinted once the page has scrolled. */
-  [data-direction='c'] .site-header {
-    background: transparent;
-    backdrop-filter: none;
-  }
-  @media (max-width: 39.99rem) {
-    /* Keeps the header above the intro's colour field, which extends up behind it. */
-    [data-direction='c'] .site-header {
-      position: relative;
-    }
-  }
-  [data-direction='c'] .site-header[data-scrolled] {
-    background: color-mix(in oklab, var(--bg) 86%, transparent);
-    backdrop-filter: blur(12px);
-  }
-  [data-direction='c'] .site-name {
-    font-size: 1.25rem;
-    font-weight: 750;
-  }
-  [data-direction='c'] .nav-link {
-    font-size: 1rem;
-    color: var(--text);
-  }
-  [data-direction='c'] .nav-link::after {
-    height: 3px;
-    border-radius: 3px;
-    background: var(--text);
-  }
-  [data-direction='c'] .icon-button {
-    border-width: 2px;
-    border-color: color-mix(in oklab, var(--text) 35%, transparent);
-    color: var(--text);
-  }
-  [data-direction='c'] .icon-button:hover {
-    border-color: var(--text);
-    background: color-mix(in oklab, var(--text) 12%, transparent);
-  }
-
-  [data-direction='c'] .btn {
-    min-height: 3rem;
-    padding-inline: 1.5rem;
-    border-width: 2px;
-    font-size: 1rem;
-    font-weight: 700;
-  }
-  [data-direction='c'] .btn-secondary {
-    border-color: var(--text);
-  }
-  [data-direction='c'] .btn-secondary:hover {
-    background: color-mix(in oklab, var(--text) 12%, transparent);
-  }
-  /* Solid button in the text colour: the main action on a coloured field. */
-  .btn-ink {
-    background: var(--text);
-    color: var(--bg);
-  }
-  .btn-ink:hover {
-    background: color-mix(in oklab, var(--text) 86%, var(--accent));
-  }
-  /* Solid button in the surrounding hue. */
-  .btn-hue {
-    background: var(--c-solid);
-    color: var(--solid-fg);
-  }
-  .btn-hue:hover {
-    background: var(--c-solid-2);
-  }
-
-  [data-direction='c'] .arrow-link {
-    color: var(--text);
-    font-size: 1rem;
-    font-weight: 700;
-    text-decoration-thickness: 2px;
-  }
-
-  [data-direction='c'] .chip {
-    min-height: 1.875rem;
-    padding-inline: 0.75rem;
-    background: color-mix(in oklab, var(--text) 11%, transparent);
-    color: var(--text);
-    font-size: 0.8125rem;
-    font-weight: 600;
-  }
-  [data-direction='c'] a.chip:hover {
-    background: var(--text);
-    border-color: transparent;
-    color: var(--bg);
-  }
-
-  [data-direction='c'] .section-head {
-    align-items: center;
-  }
-
-  /* ---------- Placeholder panel (MediaSlot.astro) ---------- */
-  .ph {
-    background: linear-gradient(140deg, var(--c-solid), var(--c-solid-2));
-    color: var(--solid-fg);
-  }
-  .ph-body {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-content: center;
-    justify-items: center;
-    gap: 0.625rem;
-    padding: 1.5rem;
-    text-align: center;
-    font-family: var(--ff-display);
-    font-weight: var(--heading-weight);
-    font-size: clamp(1.125rem, 0.9rem + 1vw, 1.5rem);
-    letter-spacing: var(--heading-tracking);
-    line-height: 1.1;
-  }
-  .ph .placeholder-badge {
-    background: var(--solid-fg);
-    color: var(--c-solid);
-    font-family: var(--ff-label);
-    font-weight: 700;
-    letter-spacing: 0;
-  }
-
   /* ---------- Intro ---------- */
   .intro {
     position: relative;
     isolation: isolate;
-    padding-block: clamp(1.5rem, 0.5rem + 4vw, 4rem) clamp(3.5rem, 2rem + 6vw, 6.5rem);
+    padding-block: clamp(0.25rem, 0.1rem + 0.5vw, 0.5rem) clamp(1.5rem, 1.25rem + 0.8vw, 2rem);
   }
   /* The colour field. It runs up behind the header so the page opens in colour. */
   .intro::before {
@@ -183,65 +18,148 @@
     inset: -8rem 0 0;
     z-index: -1;
     background:
-      radial-gradient(55% 75% at 92% 30%, var(--intro-c), transparent 72%),
+      radial-gradient(var(--intro-spot) at 92% 30%, var(--intro-c), transparent 72%),
       radial-gradient(60% 70% at 0% 100%, var(--intro-b), transparent 70%),
       linear-gradient(165deg, var(--intro-a), var(--intro-b));
   }
+  /* Small screens: strapline and greeting first, with the photo beside them
+     at a small size; then the text and the buttons. */
   .intro-grid {
     display: grid;
-    gap: 2rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'strap strap'
+      'title photo'
+      'main main';
+    gap: 1rem;
     align-items: center;
   }
+  /* The strapline and greeting are laid out by the grid directly. */
+  .intro-top {
+    display: contents;
+  }
+  .intro-main {
+    grid-area: main;
+  }
   .intro-strap {
+    grid-area: strap;
+    justify-self: start;
     display: inline-flex;
     padding: 0.375rem 0.875rem;
-    border-radius: 999px;
-    background: var(--text);
-    color: var(--bg);
+    border-radius: var(--r-full);
     font-size: 0.875rem;
     font-weight: 700;
     line-height: 1.3;
+
+    /* A translucent label: no solid fill and no outline, so it cannot be
+       taken for a button or a tag. */
+    background: color-mix(in oklab, var(--text) 16%, transparent);
+    color: var(--text);
+  }
+  .intro-title {
+    grid-area: title;
+    font-weight: var(--display-weight);
+    font-size: clamp(2.125rem, 1.55rem + 2.4vw, 3.5rem);
+    letter-spacing: var(--display-tracking);
+    line-height: 1;
   }
   .intro-text {
     display: grid;
-    gap: 1rem;
-    max-width: 41rem;
-    margin-top: 1.5rem;
-    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+    gap: 0.75rem;
+    max-width: 44rem;
+    font-size: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
     line-height: 1.6;
   }
+  .intro-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+  @media (max-width: 39.99rem) {
+    .intro-actions .btn {
+      padding-inline: 1.25rem;
+    }
+  }
   .intro-photo {
-    order: -1;
-    width: 9.5rem;
+    grid-area: photo;
+    width: 5.75rem;
+    margin-right: 0.375rem;
   }
   .intro-photo-frame {
     aspect-ratio: 4 / 5;
-    border-radius: 1.25rem;
-    rotate: -3deg;
-    box-shadow: 0.5rem 0.5rem 0 var(--text);
+    rotate: 3deg;
+    box-shadow: 0.375rem 0.375rem 0 var(--text);
+  }
+  /* At this size the frame only has room for the icon. */
+  .intro-photo-frame .ph-name,
+  .intro-photo-frame .placeholder-badge {
+    display: none;
   }
   .intro-photo-frame .ph-body {
-    font-size: 1rem;
-    padding: 0.75rem;
+    padding: 0.5rem;
   }
-  @media (min-width: 64rem) {
+  @media (min-width: 40rem) {
+    /* Room for the strapline beside the photo too. */
     .intro-grid {
-      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
-      gap: 4rem;
+      grid-template-areas:
+        'strap photo'
+        'title photo'
+        'main main';
+      column-gap: 2rem;
+    }
+    .intro-strap {
+      align-self: end;
+    }
+    .intro-title {
+      align-self: start;
     }
     .intro-photo {
-      order: 0;
-      width: 100%;
-      max-width: 23rem;
-      justify-self: center;
+      width: 7.5rem;
+      margin-right: 0.75rem;
     }
     .intro-photo-frame {
-      border-radius: 2rem;
-      rotate: 3deg;
-      box-shadow: 1rem 1rem 0 var(--text);
+      box-shadow: 0.5rem 0.5rem 0 var(--text);
+    }
+    .intro-photo-frame .ph-name,
+    .intro-photo-frame .placeholder-badge {
+      display: revert-layer;
     }
     .intro-photo-frame .ph-body {
-      font-size: 1.5rem;
+      font-size: 0.9375rem;
+    }
+  }
+  /* Wide screens: the photo stands beside the whole intro. */
+  @media (min-width: 64rem) {
+    .intro-grid {
+      grid-template-columns: minmax(0, 1fr) 17rem;
+      grid-template-areas:
+        'top photo'
+        'main photo';
+      gap: 1.25rem 4rem;
+    }
+    .intro-top {
+      display: block;
+      grid-area: top;
+      align-self: end;
+    }
+    .intro-title {
+      margin-top: 0.75rem;
+    }
+    .intro-main {
+      align-self: start;
+    }
+    .intro-photo {
+      width: 100%;
+      margin-right: 0;
+      padding-right: 1rem;
+    }
+    .intro-photo-frame {
+      box-shadow: 0.875rem 0.875rem 0 var(--text);
+    }
+    .intro-photo-frame .ph-body {
+      padding: 1.5rem;
+      font-size: 1.25rem;
     }
   }
 
@@ -251,8 +169,21 @@
     isolation: isolate;
     /* Clips the fixed scene stage to this section. */
     clip-path: inset(0);
-    padding-block: clamp(3.5rem, 2.5rem + 5vw, 6.5rem);
+    padding-block: clamp(2.5rem, 2rem + 2.2vw, 4rem) clamp(3.5rem, 2.5rem + 5vw, 6.5rem);
     background: var(--surface);
+  }
+  /* Pushes the scene back: a light overall dim, plus a veil that is strongest
+     behind the project list and panel and clears towards the edges, so the
+     scene stays vivid around the content and quiet behind it. */
+  .showcase::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 68% 60% at 50% 54%, var(--scene-veil) 30%, transparent 100%),
+      linear-gradient(var(--scene-dim), var(--scene-dim));
   }
   .scene-stage {
     position: fixed;
@@ -279,9 +210,6 @@
     transition: opacity 700ms ease;
   }
 
-  .scene-toggle {
-    background: var(--bg);
-  }
   .scene-toggle[aria-pressed='true'] .scene-icon-pause,
   .scene-toggle:not([aria-pressed='true']) .scene-icon-play {
     display: none;
@@ -291,48 +219,60 @@
     display: grid;
     gap: 1.25rem;
   }
+  /* The project list is one solid surface that sits above the scene. On
+     phones it is a row of icons that always fits the width. */
   .showcase-tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.375rem;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+    padding: 0.375rem;
+    border: 1px solid var(--raised-border);
+    border-radius: var(--r-lg);
+    background: var(--lift-bg);
+    box-shadow: var(--sh-raised);
   }
-  /* The heading and link sit straight on the scene, so they get a solid ground. */
-  .showcase .section-head .heading,
-  .showcase .section-head .arrow-link {
-    padding: 0.375rem 1rem;
-    border-radius: 999px;
-    background: var(--bg);
+  /* The heading row is a bar in the same surface as the list and the panel,
+     so the heading has room and the three read as one set above the scene. */
+  .showcase .section-head {
+    min-height: 4rem;
+    margin-bottom: 1.25rem;
+    padding: 0.625rem 0.75rem 0.625rem 1.25rem;
+    border: 1px solid var(--raised-border);
+    border-radius: var(--r-lg);
+    background: var(--lift-bg);
+    box-shadow: var(--sh-raised);
   }
+  /* Smaller than a normal section heading, so it sits in the bar with room. */
   .showcase .section-head .heading {
-    margin-left: -1rem;
-    padding: 0.25rem 1.25rem 0.5rem;
+    font-size: clamp(1.375rem, 1.2rem + 0.7vw, 1.75rem);
+    line-height: 1.1;
   }
   .showcase-tab {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.625rem;
     min-height: 2.75rem;
-    padding: 0.375rem;
-    border-radius: 999px;
-    background: var(--c-panel);
+    padding: 0.375rem 0;
+    border-radius: var(--r-full);
     color: var(--text);
     font-size: 0.9375rem;
     font-weight: 600;
     line-height: 1.2;
     transition:
       background-color var(--dur-fast) ease,
-      color var(--dur-fast) ease,
-      transform var(--dur-fast) ease;
+      color var(--dur-fast) ease;
   }
   .showcase-tab:hover {
-    transform: translateY(-1px);
+    background: color-mix(in oklab, var(--text) 16%, transparent);
   }
   .tab-icon {
     display: grid;
     place-items: center;
     flex: none;
-    width: 2rem;
-    height: 2rem;
+    width: min(2rem, 100%);
+    aspect-ratio: 1;
     border-radius: 50%;
     background: var(--c-solid);
     color: var(--solid-fg);
@@ -347,9 +287,24 @@
     clip-path: inset(50%);
     white-space: nowrap;
   }
+  /* Selected project. Dark theme: a solid cream pill. Light theme: the
+     project's own pale tint with an outline in the project's colour, so the
+     list has no dark fill. */
   [data-enhanced] .showcase-tab.is-active {
     background: var(--text);
     color: var(--bg);
+  }
+  /* Light theme rows carry a 2px border (visible only when selected); the
+     padding is reduced by its width so rows are the same size in both themes. */
+  [data-theme='light'] .showcase-tab {
+    padding: calc(0.375rem - 2px) 0;
+    border: 2px solid transparent;
+  }
+  [data-theme='light'] [data-enhanced] .showcase-tab.is-active {
+    border-color: var(--c-solid);
+    background: var(--c-field);
+    color: var(--text);
+    font-weight: 700;
   }
 
   .showcase-panels {
@@ -362,9 +317,10 @@
     align-content: start;
     gap: 1rem 1.75rem;
     padding: 1rem;
-    border: 1px solid color-mix(in oklab, var(--c-ink) 28%, transparent);
-    border-radius: var(--r-card);
+    border: 1px solid var(--raised-border);
+    border-radius: var(--r-lg);
     background: var(--c-panel);
+    box-shadow: var(--sh-raised);
     scroll-margin-top: 6rem;
   }
   /* With the script, all panels share one grid cell and only one is shown, so
@@ -400,10 +356,19 @@
 
   @media (min-width: 40rem) {
     .showcase-tabs {
-      gap: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
     }
+    /* With its name showing, each project is a faintly filled pill, so the
+       unselected ones still read as buttons. */
     .showcase-tab {
-      padding-right: 1rem;
+      justify-content: flex-start;
+      padding: 0.375rem 1rem 0.375rem 0.375rem;
+      background: color-mix(in oklab, var(--text) 7%, transparent);
+    }
+    [data-theme='light'] .showcase-tab {
+      padding: calc(0.375rem - 2px) calc(1rem - 2px) calc(0.375rem - 2px) calc(0.375rem - 2px);
     }
     .tab-label {
       position: static;
@@ -411,7 +376,6 @@
       height: auto;
       overflow: visible;
       clip-path: none;
-      white-space: normal;
     }
     .showcase-panel {
       padding: 1.25rem;
@@ -435,8 +399,9 @@
     .showcase-tabs {
       flex-direction: column;
       flex-wrap: nowrap;
+      padding: 0.5rem;
     }
-    .showcase-tab {
+    .tab-label {
       white-space: normal;
     }
   }
@@ -524,10 +489,10 @@
     container-type: size;
     /* Lamp positions, in percent of the stage. Keep in step with the two
        <line> elements in SceneSignal.astro. */
-    --ax: 15;
-    --ay: 72;
-    --bx: 87;
-    --by: 24;
+    --ax: 7;
+    --ay: 78;
+    --bx: 93;
+    --by: 20;
   }
   .sig-links {
     position: absolute;
@@ -658,15 +623,26 @@
     flex-direction: column;
     min-height: 17rem;
     padding: 1.5rem;
-    border-radius: var(--r-card);
+    border: 1px solid var(--raised-border);
+    border-radius: var(--r-md);
     background: linear-gradient(155deg, var(--c-field), var(--c-field-2));
+    box-shadow: var(--sh-raised);
+  }
+  /* Dark theme: a tile can name a different background hue (--hd), because a
+     dark orange or amber reads as brown. The icon keeps the tile's own hue. */
+  [data-theme='dark'] .tile {
+    background: linear-gradient(
+      155deg,
+      oklch(var(--field-l) var(--field-c) var(--hd)),
+      oklch(var(--field2-l) var(--field2-c) calc(var(--hd) - 26))
+    );
   }
   .tile-icon {
     display: grid;
     place-items: center;
     width: 3rem;
     height: 3rem;
-    border-radius: 1rem;
+    border-radius: var(--r-full);
     background: var(--c-solid);
     color: var(--solid-fg);
   }
@@ -679,13 +655,15 @@
     display: grid;
     gap: 0.625rem 2rem;
     padding: 1.25rem 1.5rem;
-    border-radius: var(--r-card);
+    border: 1px solid var(--raised-border);
+    border-radius: var(--r-md);
     background: var(--surface);
+    box-shadow: var(--sh-raised);
   }
   .role-dates {
     justify-self: start;
     padding: 0.25rem 0.75rem;
-    border-radius: 999px;
+    border-radius: var(--r-full);
     background: var(--sun);
     color: oklch(0.25 0.06 60);
     font-size: 0.8125rem;
@@ -713,8 +691,14 @@
     background: var(--block-fg);
     color: var(--block);
   }
-  .block :focus-visible {
-    outline-color: var(--block-fg);
+  /* On the rose block the focus outline uses the block's own text colour.
+     The proximity glow is rose everywhere else and would vanish here, so this
+     section has its own (--block-prox): the site's cream in the dark theme,
+     a deep rose in the light theme, where the buttons themselves are cream. */
+  .block {
+    --focus-ring: var(--block-fg);
+    --prox-ring: color-mix(in oklab, var(--block-prox) 75%, transparent);
+    --prox-glow: color-mix(in oklab, var(--block-prox) 70%, transparent);
   }
   .block-lead {
     font-size: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
@@ -722,10 +706,11 @@
   }
   .block .contact-link {
     min-height: 3rem;
-    padding-inline: 1.25rem;
-    border: 0;
-    background: var(--block-fg);
-    color: var(--block);
+    /* The border shows in the light theme only; the padding allows for it. */
+    padding-inline: calc(1.25rem - 2px);
+    border: 2px solid var(--block-btn-border);
+    background: var(--block-btn-bg);
+    color: var(--block-btn-fg);
     font-size: 1rem;
     font-weight: 700;
     transition: transform var(--dur-fast) ease;
@@ -734,18 +719,9 @@
     color: inherit;
   }
   .block .contact-link:hover {
-    background: var(--block-fg);
+    border-color: var(--block-btn-border);
+    background: var(--block-btn-bg);
     transform: translateY(-2px);
-  }
-
-  /* ---------- Footer: always dark, in both themes ---------- */
-  [data-direction='c'] .site-footer {
-    --text: oklch(0.965 0.018 70);
-    --text-muted: oklch(0.86 0.03 20);
-    --surface: oklch(0.26 0.055 345);
-    border: 0;
-    background: var(--footer-bg);
-    color: var(--text);
   }
 }
 
@@ -947,6 +923,40 @@
     to {
       translate: 9cqw 7cqh;
       scale: 1.12;
+    }
+  }
+
+  /* Parallax: as the section scrolls past, the scene drifts a little in the
+     same direction, more slowly than the content. It is driven by scroll
+     position on the compositor (no script); browsers without scroll-driven
+     animations keep the scene still. The stage is made taller by the same
+     amount so its edges never show. */
+  @supports (animation-timeline: view()) {
+    .showcase {
+      view-timeline: --showcase block;
+    }
+    .scene-stage {
+      top: -4lvh;
+      height: 108lvh;
+      animation: scene-parallax linear both;
+      will-change: transform;
+    }
+    /* Kept in its own rule: in the same rule as `animation` the build's CSS
+       minifier folds the timeline into the shorthand, which browsers reject. */
+    .showcase > .scene-stage {
+      animation-timeline: --showcase;
+      animation-range: cover;
+    }
+    .showcase[data-paused] .scene-stage {
+      animation: none;
+    }
+    @keyframes scene-parallax {
+      from {
+        translate: 0 4lvh;
+      }
+      to {
+        translate: 0 -4lvh;
+      }
     }
   }
 

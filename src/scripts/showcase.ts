@@ -100,6 +100,8 @@ function initShowcase(root: HTMLElement): void {
     // held where they are. A scene that has never played shows its still.
     if (playing) root.setAttribute('data-live', '');
     root.toggleAttribute('data-playing', playing);
+    // Pausing also stops the scroll parallax (see home.css).
+    root.toggleAttribute('data-paused', paused);
     if (toggle) {
       toggle.hidden = !allowed;
       toggle.setAttribute('aria-pressed', String(paused));

@@ -3,7 +3,7 @@ title: C Compiler
 # Old site wording, unchanged (legacy Imperial.tsx:106).
 summary: In this project, I implemented a C compiler in C++ using Flex and Bison. The compiler supported a subset of C, including functions, structs, arrays, pointers, and basic arithmetic.
 tier: featured
-order: 5
+order: 6
 hue: 300
 icon: code
 tags: [software]

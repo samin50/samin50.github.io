@@ -1,15 +1,20 @@
 /*
  * Design tokens.
  *
- * Two visual directions are selected with `data-direction` on <html>, and each
- * has a dark and a light theme selected with `data-theme`. Components only ever
- * read these custom properties, so the same markup renders in either direction.
+ * Colour is used as a material: it fills backgrounds, sections and surfaces
+ * instead of sitting in a small accent. There is a warm plum-and-rose base,
+ * plus one hue per project that tints that project's scene, placeholder and
+ * controls. Each theme (dark, light) is selected with `data-theme` on <html>;
+ * components only ever read these custom properties.
+ *
+ * Colours are written in OKLCH so that one hue number (`--h`, 0–360) can
+ * produce a whole matched set: see the `.hue` rule in global.css.
  *
  * Contrast ratios for every text/background pairing are documented in
  * docs/style-guide.md. If you change a colour here, re-check them.
  */
 
-/* ---------- Shared scales (both directions) ---------- */
+/* ---------- Scales ---------- */
 :root {
   --container: 72rem;
   --gutter: 1.25rem;
@@ -33,142 +38,8 @@
   }
 }
 
-/* =====================================================================
-   Direction A — "Stone & Rose"
-   Warm neutrals, one rose accent, serif display type, soft shapes.
-   ===================================================================== */
-[data-direction='a'] {
-  --ff-display: 'Fraunces Variable', var(--stack-serif);
-  --ff-body: 'Inter Variable', var(--stack-sans);
-  --ff-mono: var(--stack-mono);
-  --ff-label: var(--ff-body);
-
-  --display-weight: 540;
-  --display-tracking: -0.022em;
-  --heading-weight: 560;
-  --heading-tracking: -0.015em;
-
-  --label-size: 0.8125rem;
-  --label-weight: 500;
-  --label-tracking: 0.01em;
-  --label-transform: none;
-
-  --r-card: 1rem;
-  --r-media: 0.75rem;
-  --r-control: 999px;
-  --r-chip: 999px;
-
-  --card-pad: 0.75rem;
-}
-
-[data-direction='a'][data-theme='dark'] {
-  color-scheme: dark;
-  --bg: #1c1917;
-  --surface: #262220;
-  --surface-2: #322d2a;
-  --border: #3d3734;
-  --border-strong: #7a726c;
-  --text: #f5f5f4;
-  --text-muted: #b8b0aa;
-  --accent: #fb7185;
-  --accent-hover: #fda4af;
-  --accent-fg: #1c1917;
-  --accent-text: #fb7185;
-  --sh-card: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 1px 2px rgb(0 0 0 / 0.3);
-  --sh-card-hover: 0 1px 0 rgb(255 255 255 / 0.06) inset, 0 18px 40px -18px rgb(0 0 0 / 0.7);
-}
-
-[data-direction='a'][data-theme='light'] {
-  color-scheme: light;
-  --bg: #faf8f6;
-  --surface: #ffffff;
-  --surface-2: #f1edea;
-  --border: #e5e0dc;
-  --border-strong: #8f8780;
-  --text: #1c1917;
-  --text-muted: #5c5651;
-  --accent: #be123c;
-  --accent-hover: #9f1239;
-  --accent-fg: #ffffff;
-  --accent-text: #be123c;
-  --sh-card: 0 1px 2px rgb(28 25 23 / 0.06), 0 1px 1px rgb(28 25 23 / 0.04);
-  --sh-card-hover: 0 20px 40px -20px rgb(28 25 23 / 0.25), 0 2px 4px rgb(28 25 23 / 0.06);
-}
-
-/* =====================================================================
-   Direction B — "Ink & Copper"
-   Blue-black ink and warm paper, one copper accent (the colour of a bare
-   trace), a single type family with a mono for labels, hairlines and
-   square corners, like a well-set datasheet.
-   ===================================================================== */
-[data-direction='b'] {
-  --ff-display: 'IBM Plex Sans Variable', var(--stack-sans);
-  --ff-body: 'IBM Plex Sans Variable', var(--stack-sans);
-  --ff-mono: 'IBM Plex Mono', var(--stack-mono);
-  --ff-label: var(--ff-mono);
-
-  --display-weight: 600;
-  --display-tracking: -0.03em;
-  --heading-weight: 600;
-  --heading-tracking: -0.02em;
-
-  --label-size: 0.75rem;
-  --label-weight: 500;
-  --label-tracking: 0.08em;
-  --label-transform: uppercase;
-
-  --r-card: 2px;
-  --r-media: 0;
-  --r-control: 2px;
-  --r-chip: 2px;
-
-  --card-pad: 0;
-}
-
-[data-direction='b'][data-theme='dark'] {
-  color-scheme: dark;
-  --bg: #0f1419;
-  --surface: #161d24;
-  --surface-2: #1d2630;
-  --border: #2a3642;
-  --border-strong: #5b6e80;
-  --text: #e7edf2;
-  --text-muted: #9fb0bf;
-  --accent: #e39a62;
-  --accent-hover: #efb284;
-  --accent-fg: #17110b;
-  --accent-text: #e9a877;
-  --sh-card: none;
-  --sh-card-hover: none;
-}
-
-[data-direction='b'][data-theme='light'] {
-  color-scheme: light;
-  --bg: #f5f3ee;
-  --surface: #fcfbf8;
-  --surface-2: #e9e6de;
-  --border: #d9d5ca;
-  --border-strong: #85806f;
-  --text: #141b22;
-  --text-muted: #4a5764;
-  --accent: #9c4a14;
-  --accent-hover: #7f3b0e;
-  --accent-fg: #ffffff;
-  --accent-text: #9c4a14;
-  --sh-card: none;
-  --sh-card-hover: none;
-}
-
-/* =====================================================================
-   Direction C — "Colour as material"
-   Colour fills backgrounds, sections and surfaces instead of sitting in a
-   small accent. A warm plum-and-rose base, plus one hue per project that
-   tints that project's scene, placeholder and controls.
-
-   Colours are written in OKLCH so that one hue number (`--h`, 0–360) can
-   produce a whole matched set: see the `.hue` rule in direction-c.css.
-   ===================================================================== */
-[data-direction='c'] {
+/* ---------- Type, shape and site hues ---------- */
+:root {
   /* Fonts: change these two lines to swap the typefaces. */
   --ff-display: 'Bricolage Grotesque Variable', var(--stack-sans);
   --ff-body: 'Figtree Variable', var(--stack-sans);
@@ -185,12 +56,15 @@
   --label-tracking: 0;
   --label-transform: none;
 
-  --r-card: 1.5rem;
-  --r-media: 1.125rem;
-  --r-control: 999px;
-  --r-chip: 999px;
+  /* Radius scale. Every rounded corner on the site uses one of these three. */
+  --r-lg: 1.5rem; /* panels and section surfaces: showcase heading bar, list and panel */
+  --r-md: 1rem; /* cards and tiles: What I do tiles, experience cards, media frames */
+  --r-full: 999px; /* buttons, pills, chips, icon buttons */
 
-  --card-pad: 0.75rem;
+  /* Proximity effect (src/scripts/proximity.ts): how far out an interactive
+     element starts to respond to the cursor, and how wide its ring grows. */
+  --prox-ring-w: 2px;
+  --prox-glow-size: 1.125rem;
 
   /* Site hues (OKLCH hue angles). */
   --h-main: 12; /* rose */
@@ -198,13 +72,16 @@
   --h-plum: 345;
 }
 
-[data-direction='c'][data-theme='dark'] {
+/* Dark theme. Surfaces are tinted with the palette (wine, plum, rose) and
+   are never near-black or brown; separation comes from borders, shadows and
+   contrast, not from darkening a surface (decision R-5). */
+[data-theme='dark'] {
   color-scheme: dark;
-  --chrome: #240d1b; /* --bg as hex, for <meta name="theme-color"> */
-  --bg: oklch(0.2 0.045 345);
-  --surface: oklch(0.255 0.055 345);
-  --surface-2: oklch(0.31 0.065 345);
-  --border: oklch(0.38 0.065 345);
+  --chrome: #310b23; /* --bg as hex, for <meta name="theme-color"> */
+  --bg: oklch(0.225 0.07 345);
+  --surface: oklch(0.29 0.085 348);
+  --surface-2: oklch(0.34 0.09 348);
+  --border: oklch(0.42 0.08 345);
   --border-strong: oklch(0.62 0.07 345);
   --text: oklch(0.965 0.018 70);
   --text-muted: oklch(0.84 0.035 20);
@@ -213,38 +90,73 @@
   --accent-fg: oklch(0.19 0.05 345);
   --accent-text: oklch(0.82 0.12 15);
   --sun: oklch(0.85 0.15 80);
-  --sh-card: none;
-  --sh-card-hover: none;
 
   /* Recipe for hue-driven colours: lightness and chroma per role. */
-  --field-l: 0.3;
-  --field-c: 0.1;
-  --field2-l: 0.22;
-  --field2-c: 0.085;
-  --line-l: 0.39;
-  --line-c: 0.12;
+  --field-l: 0.34;
+  --field-c: 0.115;
+  --field2-l: 0.26;
+  --field2-c: 0.095;
+  --line-l: 0.43;
+  --line-c: 0.13;
   --ink-l: 0.87;
   --ink-c: 0.11;
   --solid-l: 0.79;
   --solid-c: 0.14;
   --solid-fg: oklch(0.19 0.05 345);
-  --panel-l: 0.19;
-  --panel-c: 0.05;
-  --panel-a: 0.86;
+  /* The showcase panel is wine in the dark theme whatever the project's hue. */
+  --panel-l: 0.28;
+  --panel-c: 0.09;
+  --panel-h: 350;
+  --panel-a: 0.85;
   --hot-l: 0.9;
   --hot-c: 0.14;
 
   /* Section fields */
-  --intro-a: oklch(0.47 0.19 8);
-  --intro-b: oklch(0.36 0.15 335);
-  --intro-c: oklch(0.52 0.15 45);
-  --band: oklch(0.25 0.06 25);
+  --intro-a: oklch(0.44 0.18 8);
+  --intro-b: oklch(0.335 0.14 335);
+  --intro-c: oklch(0.45 0.12 45); /* the warm spot at the top right, kept subdued */
+  --intro-spot: 46% 62%; /* its size */
+
+  /* Showcase depth: what pushes the scene back and lifts the content off it. */
+  --scene-veil: oklch(0.2 0.06 345 / 0.3);
+  --scene-dim: oklch(0.2 0.06 345 / 0.06);
+  --lift-bg: oklch(0.28 0.09 350 / 0.85);
+
+  /* Elevation: every surface that sits on a background (showcase bar, list and
+     panel, tiles, experience cards) has this hairline border and shadow. The
+     hover variant is for raised surfaces that are themselves links. */
+  --raised-border: oklch(0.965 0.018 70 / 0.16);
+  --sh-raised:
+    0 1px 0 oklch(1 0 0 / 0.07) inset, 0 2px 6px oklch(0 0 0 / 0.28),
+    0 24px 48px -20px oklch(0 0 0 / 0.65);
+  --sh-raised-hover:
+    0 1px 0 oklch(1 0 0 / 0.1) inset, 0 4px 10px oklch(0 0 0 / 0.32),
+    0 34px 64px -22px oklch(0 0 0 / 0.75);
+
+  /* Interaction: focus outline, the resting outline that marks a control as
+     clickable, and the ring and glow of the proximity effect. */
+  --focus-ring: oklch(0.965 0.018 70);
+  --control-border: oklch(0.965 0.018 70 / 0.42);
+  --prox-ring: oklch(0.965 0.018 70 / 0.5);
+  --prox-glow: oklch(0.86 0.11 15 / 0.5);
+  --band: oklch(0.37 0.13 14);
+  /* Contact block: ground, text, and its buttons */
   --block: oklch(0.7 0.18 14);
   --block-fg: oklch(0.19 0.05 345);
-  --footer-bg: oklch(0.16 0.04 345);
+  --block-btn-bg: var(--block-fg);
+  --block-btn-fg: var(--block);
+  --block-btn-border: transparent;
+  --block-prox: oklch(0.965 0.018 70); /* cream: the default rose glow would vanish on rose */
+  --footer-bg: oklch(0.2 0.065 345);
+  --footer-muted: oklch(0.86 0.03 20);
+
+  /* Solid "ink" fill: the main button, and a tag chip on hover */
+  --ink-bg: var(--text);
+  --ink-fg: var(--bg);
+  --ink-hover: color-mix(in oklab, var(--text) 86%, var(--accent));
 }
 
-[data-direction='c'][data-theme='light'] {
+[data-theme='light'] {
   color-scheme: light;
   --chrome: #fff0e2; /* --bg as hex, for <meta name="theme-color"> */
   --bg: oklch(0.967 0.028 60);
@@ -259,8 +171,6 @@
   --accent-fg: oklch(0.99 0.01 70);
   --accent-text: oklch(0.5 0.2 14);
   --sun: oklch(0.86 0.15 85);
-  --sh-card: none;
-  --sh-card-hover: none;
 
   --field-l: 0.87;
   --field-c: 0.1;
@@ -275,15 +185,42 @@
   --solid-fg: oklch(0.99 0.01 70);
   --panel-l: 0.98;
   --panel-c: 0.018;
-  --panel-a: 0.88;
+  --panel-a: 0.95;
   --hot-l: 0.58;
   --hot-c: 0.21;
 
   --intro-a: oklch(0.83 0.12 12);
   --intro-b: oklch(0.89 0.09 340);
   --intro-c: oklch(0.9 0.12 80);
+  --intro-spot: 55% 75%;
+
+  --scene-veil: oklch(0.985 0.012 70 / 0.45);
+  --scene-dim: oklch(0.985 0.012 70 / 0.08);
+  --lift-bg: oklch(0.992 0.012 70 / 0.95);
+
+  --raised-border: oklch(0.25 0.06 345 / 0.14);
+  --sh-raised: 0 1px 3px oklch(0.25 0.06 345 / 0.12), 0 22px 44px -20px oklch(0.25 0.06 345 / 0.38);
+  --sh-raised-hover:
+    0 3px 8px oklch(0.25 0.06 345 / 0.14), 0 32px 60px -22px oklch(0.25 0.06 345 / 0.48);
+
+  --focus-ring: oklch(0.25 0.06 345);
+  --control-border: oklch(0.25 0.06 345 / 0.45);
+  --prox-ring: oklch(0.56 0.21 14 / 0.7);
+  --prox-glow: oklch(0.56 0.21 14 / 0.5);
   --band: oklch(0.93 0.07 85);
-  --block: oklch(0.56 0.21 14);
-  --block-fg: oklch(0.99 0.01 70);
-  --footer-bg: oklch(0.25 0.06 345);
+  /* Light theme: no dark fills. The contact block is a bright rose with dark
+     text and cream buttons; the footer is a soft rose; the solid "ink" fill is
+     rose, not the dark text colour. */
+  --block: oklch(0.78 0.15 12);
+  --block-fg: oklch(0.25 0.06 345);
+  --block-btn-bg: oklch(0.992 0.012 70);
+  --block-btn-fg: oklch(0.42 0.18 14);
+  --block-btn-border: oklch(0.42 0.18 14);
+  --block-prox: oklch(0.42 0.18 14); /* deep rose: cream would not show around cream buttons */
+  --footer-bg: oklch(0.935 0.04 20);
+  --footer-muted: var(--text-muted);
+
+  --ink-bg: var(--accent);
+  --ink-fg: var(--accent-fg);
+  --ink-hover: var(--accent-hover);
 }

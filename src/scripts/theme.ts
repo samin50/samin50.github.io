@@ -24,8 +24,8 @@ function syncControls(): void {
     button.setAttribute('aria-label', `Switch to ${next} theme`);
   }
   // Keep the browser chrome in step with the page background.
-  // (`--chrome` is a plain hex copy of the background for directions whose
-  // `--bg` is written in OKLCH, which not every browser accepts here.)
+  // (`--chrome` is a plain hex copy of `--bg`, which is written in OKLCH; not
+  // every browser accepts that here.)
   const styles = getComputedStyle(root);
   const colour =
     styles.getPropertyValue('--chrome').trim() || styles.getPropertyValue('--bg').trim();

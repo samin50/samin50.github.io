@@ -1,42 +1,13 @@
 @import 'tailwindcss';
 @import './tokens.css';
 
+/*
+ * Base styles and the components every page shares. Home page sections (the
+ * intro, the project showcase and its scenes, and the coloured sections) are
+ * in home.css.
+ */
+
 /* ---------- Fonts (self-hosted, latin subset, SIL OFL 1.1; see src/assets/fonts/README.md) ---------- */
-@font-face {
-  font-family: 'Fraunces Variable';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100 900;
-  src: url('../assets/fonts/fraunces-latin-wght.woff2') format('woff2-variations');
-}
-@font-face {
-  font-family: 'Inter Variable';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100 900;
-  src: url('../assets/fonts/inter-latin-wght.woff2') format('woff2-variations');
-}
-@font-face {
-  font-family: 'IBM Plex Sans Variable';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100 700;
-  src: url('../assets/fonts/ibm-plex-sans-latin-wght.woff2') format('woff2-variations');
-}
-@font-face {
-  font-family: 'IBM Plex Mono';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url('../assets/fonts/ibm-plex-mono-latin-400.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'IBM Plex Mono';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 500;
-  src: url('../assets/fonts/ibm-plex-mono-latin-500.woff2') format('woff2');
-}
 @font-face {
   font-family: 'Bricolage Grotesque Variable';
   font-style: normal;
@@ -69,10 +40,9 @@
   --font-sans: var(--ff-body);
   --font-mono: var(--ff-mono);
 
-  --radius-card: var(--r-card);
-  --radius-media: var(--r-media);
-  --radius-control: var(--r-control);
-  --radius-chip: var(--r-chip);
+  --radius-panel: var(--r-lg);
+  --radius-card: var(--r-md);
+  --radius-pill: var(--r-full);
 }
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
@@ -106,10 +76,11 @@
     color: var(--accent-fg);
   }
 
+  /* One focus style for every interactive element, in the text colour so it
+     shows on any of the coloured grounds. */
   :focus-visible {
-    outline: 2px solid var(--accent-text);
+    outline: 3px solid var(--focus-ring);
     outline-offset: 3px;
-    border-radius: 2px;
   }
 
   h1,
@@ -141,17 +112,43 @@
     padding: 0.5rem 1rem;
     background: var(--accent);
     color: var(--accent-fg);
-    border-radius: var(--r-control);
+    border-radius: var(--r-full);
     font-weight: 600;
   }
   .skip-link:focus {
     top: 0.75rem;
   }
 
-  /* Direction-specific visibility helpers */
-  [data-direction='a'] .only-b,
-  [data-direction='b'] .only-a {
-    display: none;
+  /* ------------------------------------------------------------------
+     Hue system. Put class="hue" and style="--h: <0-360>" on an element
+     and it gets a matched set of colours in that hue, for both themes.
+     The lightness and chroma of each role are set per theme in tokens.css.
+     ------------------------------------------------------------------ */
+  .hue {
+    /* Large coloured surface, and the second stop of its gradient */
+    --c-field: oklch(var(--field-l) var(--field-c) var(--h));
+    --c-field-2: oklch(var(--field2-l) var(--field2-c) calc(var(--h) - 26));
+    /* Pattern and line work drawn on a field */
+    --c-line: oklch(var(--line-l) var(--line-c) var(--h));
+    --c-hole: oklch(calc(var(--field-l) - 0.09) var(--field-c) var(--h));
+    /* Strong version of the hue for marks on a field */
+    --c-ink: oklch(var(--ink-l) var(--ink-c) var(--h));
+    /* Solid fill for buttons, icon chips and placeholder panels; text on it is --solid-fg */
+    --c-solid: oklch(var(--solid-l) var(--solid-c) var(--h));
+    --c-solid-2: oklch(var(--solid-l) var(--solid-c) calc(var(--h) - 30));
+    /* Card that carries text over a scene. A theme can fix its hue with
+       --panel-h; otherwise it takes the project's. */
+    --c-panel: oklch(var(--panel-l) var(--panel-c) var(--panel-h, var(--h)) / var(--panel-a));
+    /* Lit parts of a scene */
+    --c-hot: oklch(var(--hot-l) var(--hot-c) var(--h));
+    /* Inside a coloured element the proximity glow takes that element's hue:
+       the default rose glow does not show on every tile and panel colour. */
+    --prox-glow: oklch(var(--solid-l) var(--solid-c) var(--h) / 0.6);
+  }
+  /* Light theme: the ring is the element's colour too, so the effect is that
+     colour only (the dark theme keeps its cream ring). */
+  [data-theme='light'] .hue {
+    --prox-ring: oklch(var(--solid-l) var(--solid-c) var(--h) / 0.85);
   }
 
   /* --- Type --- */
@@ -159,33 +156,24 @@
     font-family: var(--ff-display);
     font-weight: var(--display-weight);
     letter-spacing: var(--display-tracking);
-    line-height: 1.04;
-    font-size: clamp(2.25rem, 1.15rem + 4.6vw, 4.5rem);
-  }
-  [data-direction='a'] .display {
-    font-variation-settings: 'opsz' 144;
+    line-height: 0.98;
+    font-size: clamp(2.75rem, 1.5rem + 5.6vw, 5.5rem);
   }
 
   .heading {
     font-family: var(--ff-display);
     font-weight: var(--heading-weight);
     letter-spacing: var(--heading-tracking);
-    line-height: 1.15;
-    font-size: clamp(1.625rem, 1.3rem + 1.4vw, 2.25rem);
+    line-height: 1.05;
+    font-size: clamp(2rem, 1.55rem + 2vw, 3rem);
   }
 
   .subheading {
     font-family: var(--ff-display);
     font-weight: var(--heading-weight);
     letter-spacing: var(--heading-tracking);
-    line-height: 1.25;
-    font-size: 1.25rem;
-  }
-
-  .lead {
-    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
-    line-height: 1.6;
-    color: var(--text-muted);
+    line-height: 1.2;
+    font-size: 1.375rem;
   }
 
   .label {
@@ -194,25 +182,38 @@
     font-weight: var(--label-weight);
     letter-spacing: var(--label-tracking);
     text-transform: var(--label-transform);
-    color: var(--text-muted);
+    color: var(--text);
+    opacity: 0.85;
     line-height: 1.4;
   }
 
-  /* --- Header --- */
+  /* --- Header ---
+     Clear over the coloured field at the top of a page; tinted once the page
+     has scrolled. */
   .site-header {
     z-index: 40;
-    background: color-mix(in oklab, var(--bg) 88%, transparent);
+    background: transparent;
     border-bottom: 1px solid transparent;
     transition:
       border-color var(--dur-base) ease,
       background-color var(--dur-base) ease;
     view-transition-name: site-header;
   }
+  .site-header[data-scrolled] {
+    background: color-mix(in oklab, var(--bg) 86%, transparent);
+    backdrop-filter: blur(12px);
+  }
+  @media (max-width: 39.99rem) {
+    /* Not sticky on phones. `relative` keeps it above the intro's colour
+       field, which extends up behind it. */
+    .site-header {
+      position: relative;
+    }
+  }
   @media (min-width: 40rem) {
     .site-header {
       position: sticky;
       top: 0;
-      backdrop-filter: blur(12px) saturate(1.4);
     }
     .site-header[data-scrolled] {
       border-bottom-color: var(--border);
@@ -221,9 +222,9 @@
 
   .site-name {
     font-family: var(--ff-display);
-    font-weight: var(--heading-weight);
+    font-weight: 750;
     letter-spacing: var(--heading-tracking);
-    font-size: 1.0625rem;
+    font-size: 1.25rem;
   }
 
   .nav-link {
@@ -231,33 +232,28 @@
     display: inline-block;
     padding-block: 0.5rem;
     font-family: var(--ff-label);
-    font-size: var(--label-size);
+    font-size: 1rem;
     font-weight: var(--label-weight);
     letter-spacing: var(--label-tracking);
     text-transform: var(--label-transform);
-    color: var(--text-muted);
+    color: var(--text);
     transition: color var(--dur-fast) ease;
   }
-  [data-direction='a'] .nav-link {
-    font-size: 0.9375rem;
-  }
+  /* The underline is there at rest, faint, so the links read as links on a
+     touch screen too; it goes solid on hover and on the current page. */
   .nav-link::after {
     content: '';
     position: absolute;
     inset: auto 0 0.25rem 0;
-    height: 1.5px;
-    background: var(--accent-text);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform var(--dur-base) var(--ease-out);
-  }
-  .nav-link:hover,
-  .nav-link[aria-current='page'] {
-    color: var(--text);
+    height: 3px;
+    border-radius: var(--r-full);
+    background: var(--text);
+    opacity: calc(0.32 + var(--prox, 0) * 0.4);
+    transition: opacity var(--dur-fast) ease;
   }
   .nav-link:hover::after,
   .nav-link[aria-current='page']::after {
-    transform: scaleX(1);
+    opacity: 1;
   }
 
   .icon-button {
@@ -265,9 +261,9 @@
     place-items: center;
     width: 2.5rem;
     height: 2.5rem;
-    border: 1px solid var(--border);
-    border-radius: var(--r-control);
-    color: var(--text-muted);
+    border: 2px solid var(--control-border);
+    border-radius: var(--r-full);
+    color: var(--text);
     cursor: pointer;
     transition:
       color var(--dur-fast) ease,
@@ -275,9 +271,8 @@
       background-color var(--dur-fast) ease;
   }
   .icon-button:hover {
-    color: var(--text);
-    border-color: var(--border-strong);
-    background: var(--surface);
+    border-color: var(--text);
+    background: color-mix(in oklab, var(--text) 12%, transparent);
   }
   /* Theme toggle shows the icon of the theme you would switch TO */
   [data-theme='dark'] .theme-icon-moon,
@@ -291,13 +286,13 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    min-height: 2.875rem;
-    padding: 0.625rem 1.25rem;
-    border: 1px solid transparent;
-    border-radius: var(--r-control);
+    min-height: 3rem;
+    padding: 0.625rem 1.5rem;
+    border: 2px solid transparent;
+    border-radius: var(--r-full);
     font-family: var(--ff-label);
-    font-size: 0.9375rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 700;
     letter-spacing: var(--label-tracking);
     text-transform: var(--label-transform);
     line-height: 1.2;
@@ -308,12 +303,14 @@
       color var(--dur-fast) ease,
       transform var(--dur-fast) ease;
   }
-  [data-direction='b'] .btn {
-    font-size: 0.8125rem;
-    font-weight: 500;
-  }
   .btn:active {
     transform: translateY(1px);
+  }
+  /* Smaller button for section-level links ("All projects", "Full CV"). */
+  .btn-sm {
+    min-height: 2.5rem;
+    padding: 0.375rem 1.125rem;
+    font-size: 0.9375rem;
   }
   .btn-primary {
     background: var(--accent);
@@ -323,12 +320,27 @@
     background: var(--accent-hover);
   }
   .btn-secondary {
-    border-color: var(--border-strong);
+    border-color: var(--text);
     color: var(--text);
   }
   .btn-secondary:hover {
-    border-color: var(--text);
-    background: var(--surface);
+    background: color-mix(in oklab, var(--text) 12%, transparent);
+  }
+  /* Solid button in the text colour: the main action on a coloured field. */
+  .btn-ink {
+    background: var(--ink-bg);
+    color: var(--ink-fg);
+  }
+  .btn-ink:hover {
+    background: var(--ink-hover);
+  }
+  /* Solid button in the surrounding hue (inside a `.hue` element). */
+  .btn-hue {
+    background: var(--c-solid);
+    color: var(--solid-fg);
+  }
+  .btn-hue:hover {
+    background: var(--c-solid-2);
   }
   .btn .icon {
     transition: transform var(--dur-base) var(--ease-out);
@@ -338,35 +350,6 @@
   }
   .btn:hover .icon-nudge-y {
     transform: translateY(2px);
-  }
-
-  /* --- Text link with arrow --- */
-  .arrow-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    font-family: var(--ff-label);
-    font-size: var(--label-size);
-    font-weight: 600;
-    letter-spacing: var(--label-tracking);
-    text-transform: var(--label-transform);
-    color: var(--accent-text);
-    text-decoration: underline;
-    text-decoration-color: transparent;
-    text-underline-offset: 0.3em;
-    transition: text-decoration-color var(--dur-fast) ease;
-  }
-  [data-direction='a'] .arrow-link {
-    font-size: 0.9375rem;
-  }
-  .arrow-link:hover {
-    text-decoration-color: currentColor;
-  }
-  .arrow-link .icon {
-    transition: transform var(--dur-base) var(--ease-out);
-  }
-  .arrow-link:hover .icon {
-    transform: translateX(3px);
   }
 
   /* Inline prose link */
@@ -386,15 +369,15 @@
   .chip {
     display: inline-flex;
     align-items: center;
-    min-height: 1.75rem;
-    padding: 0.125rem 0.625rem;
+    min-height: 1.875rem;
+    padding: 0.125rem 0.75rem;
     border: 1px solid transparent;
-    border-radius: var(--r-chip);
-    background: var(--surface-2);
-    color: var(--text-muted);
+    border-radius: var(--r-full);
+    background: color-mix(in oklab, var(--text) 11%, transparent);
+    color: var(--text);
     font-family: var(--ff-label);
-    font-size: 0.75rem;
-    font-weight: 500;
+    font-size: 0.8125rem;
+    font-weight: 600;
     letter-spacing: var(--label-tracking);
     text-transform: var(--label-transform);
     line-height: 1.2;
@@ -404,48 +387,36 @@
       border-color var(--dur-fast) ease,
       background-color var(--dur-fast) ease;
   }
-  [data-direction='b'] .chip {
-    background: transparent;
-    border-color: var(--border);
-    font-size: 0.6875rem;
+  /* A chip that is a link (a tag, leading to the filtered projects index) is
+     outlined, so it reads as a tag you can follow and not as a plain label. */
+  a.chip {
+    border-color: var(--control-border);
   }
   a.chip:hover {
-    color: var(--text);
-    border-color: var(--accent-text);
+    border-color: var(--ink-bg);
+    background: var(--ink-bg);
+    color: var(--ink-fg);
   }
 
-  /* --- Section heading row --- */
+  /* --- Section and its heading row --- */
   .section {
     padding-block: clamp(3.5rem, 2.5rem + 5vw, 6.5rem);
   }
   .section-head {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
     gap: 0.5rem 1.5rem;
     margin-bottom: clamp(1.75rem, 1.25rem + 2vw, 3rem);
   }
-  [data-direction='b'] .section-head {
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .section-index {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-family: var(--ff-mono);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    color: var(--accent-text);
-  }
 
-  /* --- Media frame (covers, hero image, gallery items) --- */
+  /* --- Media frame (covers, photos, gallery items) --- */
   .media-frame {
     position: relative;
     overflow: hidden;
     aspect-ratio: 16 / 10;
-    border-radius: var(--r-media);
+    border-radius: var(--r-md);
     background: var(--surface-2);
   }
   .media-frame > img,
@@ -453,34 +424,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform var(--dur-slow) var(--ease-out);
-  }
-  [data-direction='b'] .media-frame {
-    border: 1px solid var(--border);
-  }
-  /* B: registration ticks at the corners of a frame, like crop marks on a drawing */
-  [data-direction='b'] .media-frame::after {
-    --tick: 14px;
-    content: '';
-    position: absolute;
-    inset: 6px;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity var(--dur-base) ease;
-    background:
-      linear-gradient(var(--accent), var(--accent)) top left / var(--tick) 1px no-repeat,
-      linear-gradient(var(--accent), var(--accent)) top left / 1px var(--tick) no-repeat,
-      linear-gradient(var(--accent), var(--accent)) top right / var(--tick) 1px no-repeat,
-      linear-gradient(var(--accent), var(--accent)) top right / 1px var(--tick) no-repeat,
-      linear-gradient(var(--accent), var(--accent)) bottom left / var(--tick) 1px no-repeat,
-      linear-gradient(var(--accent), var(--accent)) bottom left / 1px var(--tick) no-repeat,
-      linear-gradient(var(--accent), var(--accent)) bottom right / var(--tick) 1px no-repeat,
-      linear-gradient(var(--accent), var(--accent)) bottom right / 1px var(--tick) no-repeat;
-  }
-  [data-direction='b'] .media-frame.is-marked::after,
-  [data-direction='b'] .card:hover .media-frame::after,
-  [data-direction='b'] .card:focus-within .media-frame::after {
-    opacity: 1;
   }
 
   .placeholder-badge {
@@ -488,7 +431,7 @@
     left: 0.625rem;
     bottom: 0.625rem;
     padding: 0.125rem 0.5rem;
-    border-radius: var(--r-chip);
+    border-radius: var(--r-full);
     background: color-mix(in oklab, var(--bg) 80%, transparent);
     color: var(--text-muted);
     font-family: var(--ff-mono);
@@ -496,134 +439,43 @@
     letter-spacing: 0.04em;
   }
 
-  /* --- Project card --- */
-  .card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: var(--card-pad);
-    border-radius: var(--r-card);
-    transition:
-      transform var(--dur-base) var(--ease-out),
-      box-shadow var(--dur-base) var(--ease-out),
-      border-color var(--dur-base) ease,
-      background-color var(--dur-base) ease;
+  /* --- Placeholder panel (MediaSlot.astro): a missing photo, in the project's colour --- */
+  .ph {
+    background: linear-gradient(140deg, var(--c-solid), var(--c-solid-2));
+    color: var(--solid-fg);
   }
-  [data-direction='a'] .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    box-shadow: var(--sh-card);
-  }
-  [data-direction='a'] .card:hover,
-  [data-direction='a'] .card:focus-within {
-    transform: translateY(-4px);
-    box-shadow: var(--sh-card-hover);
-    border-color: var(--border-strong);
-  }
-  .card:hover .media-frame > img,
-  .card:focus-within .media-frame > img {
-    transform: scale(1.035);
-  }
-  .card-body {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    gap: 0.5rem;
-    padding: 1rem 0.5rem 0.5rem;
-  }
-  [data-direction='b'] .card-body {
-    padding: 1rem 0 0;
-  }
-  .card-title {
+  .ph-body {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 0.625rem;
+    padding: 1.5rem;
+    text-align: center;
     font-family: var(--ff-display);
     font-weight: var(--heading-weight);
+    font-size: clamp(1.125rem, 0.9rem + 1vw, 1.5rem);
     letter-spacing: var(--heading-tracking);
-    font-size: 1.25rem;
-    line-height: 1.25;
+    line-height: 1.1;
   }
-  /* The title link stretches over the whole card; chips sit above it. */
-  .card-link::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: var(--r-card);
-  }
-  .card-link:focus-visible {
-    outline: none;
-  }
-  .card-link:focus-visible::after {
-    outline: 2px solid var(--accent-text);
-    outline-offset: 3px;
-  }
-  .card-link {
-    background: linear-gradient(var(--accent-text), var(--accent-text)) no-repeat 0 100% / 0 1.5px;
-    transition: background-size var(--dur-base) var(--ease-out);
-  }
-  .card:hover .card-link {
-    background-size: 100% 1.5px;
-  }
-  .card-chips {
-    position: relative;
-    z-index: 1;
+  .ph .placeholder-badge {
+    background: var(--solid-fg);
+    color: var(--c-solid);
+    font-family: var(--ff-label);
+    font-weight: 700;
+    letter-spacing: 0;
   }
 
-  /* --- Hero --- */
-  .hero {
-    position: relative;
-    isolation: isolate;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-  }
-  /* A: a soft warm glow behind the hero */
-  [data-direction='a'] .hero::before {
-    background:
-      radial-gradient(
-        42rem 24rem at 85% 10%,
-        color-mix(in oklab, var(--accent) 16%, transparent),
-        transparent 70%
-      ),
-      radial-gradient(
-        30rem 20rem at 0% 0%,
-        color-mix(in oklab, var(--accent) 6%, transparent),
-        transparent 70%
-      );
-  }
-  /* B: a layout grid that fades out, as on a drawing sheet */
-  [data-direction='b'] .hero::before {
-    background-image: radial-gradient(circle, var(--border-strong) 1px, transparent 1.5px);
-    background-size: 24px 24px;
-    opacity: 0.45;
-    mask-image: linear-gradient(to bottom, #000 0%, transparent 85%);
-  }
-
-  /* --- Rows (experience, contact) --- */
-  .rule-list > * + * {
-    border-top: 1px solid var(--border);
-  }
-  [data-direction='b'] .rule-list {
-    border-bottom: 1px solid var(--border);
-  }
-
-  .panel {
-    border-radius: var(--r-card);
-    background: var(--surface);
-    border: 1px solid var(--border);
-  }
-
+  /* --- Contact links --- */
   .contact-link {
     display: inline-flex;
     align-items: center;
     gap: 0.625rem;
     min-height: 2.75rem;
     padding: 0.5rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: var(--r-control);
+    border: 2px solid var(--control-border);
+    border-radius: var(--r-full);
     color: var(--text);
     font-size: 0.9375rem;
     transition:
@@ -638,34 +490,33 @@
     color: var(--accent-text);
   }
 
-  /* --- Temporary design-preview switcher (removed after Phase 3) --- */
-  .preview-bar {
-    position: fixed;
-    left: 50%;
-    bottom: 1rem;
-    z-index: 60;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.25rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 999px;
-    background: var(--surface);
-    box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.5);
-    font-family: var(--stack-sans);
-    font-size: 0.8125rem;
-    white-space: nowrap;
+  /* --- Footer: the theme's own text and control colours on --footer-bg
+     (deep plum in the dark theme, soft rose in the light theme) --- */
+  .site-footer {
+    --text-muted: var(--footer-muted);
+    border: 0;
+    background: var(--footer-bg);
+    color: var(--text);
   }
-  .preview-bar a {
-    padding: 0.375rem 0.875rem;
-    border-radius: 999px;
-    color: var(--text-muted);
-  }
-  .preview-bar a[aria-current='page'] {
-    background: var(--accent);
-    color: var(--accent-fg);
-    font-weight: 600;
+}
+
+/* ---------- Proximity ----------
+   Interactive elements start to respond as the cursor comes near: a ring and
+   a soft glow that grow with `--prox` (0 far away, 1 when the cursor is on
+   the element). src/scripts/proximity.ts sets `--prox`; without it, or on
+   touch devices, or with reduced motion, the value stays 0 and nothing shows.
+   The colours are tokens (--prox-ring, --prox-glow): a section whose ground
+   would hide the default rose glow sets its own, as the contact block does.
+   The header links brighten their underline instead (see .nav-link). */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .btn,
+  a.chip,
+  .icon-button,
+  .contact-link,
+  .showcase-tab {
+    box-shadow:
+      0 0 0 calc(var(--prox, 0) * var(--prox-ring-w)) var(--prox-ring),
+      0 0 calc(var(--prox, 0) * var(--prox-glow-size)) calc(var(--prox, 0) * 1px) var(--prox-glow);
   }
 }
 
@@ -683,7 +534,7 @@
     navigation: auto;
   }
 
-  /* Hero entrance: staggered rise, CSS only so it runs even if scripts fail */
+  /* Entrance: staggered rise, CSS only so it runs even if scripts fail */
   [data-enter] {
     animation: enter var(--dur-slow) var(--ease-out) both;
     animation-delay: calc(var(--i, 0) * 90ms + 60ms);
@@ -725,11 +576,5 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-  .card:hover,
-  .card:focus-within,
-  .card:hover .media-frame > img,
-  .card:focus-within .media-frame > img {
-    transform: none !important;
   }
 }

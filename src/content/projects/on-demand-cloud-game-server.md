@@ -2,7 +2,7 @@
 title: On-Demand Cloud Game Server
 summary: AWS-hosted game server that starts on demand and shuts itself down when idle, controlled by a Python watchdog in Docker.
 tier: featured
-order: 4
+order: 5
 hue: 255
 icon: cloud
 tags: [cloud, software]

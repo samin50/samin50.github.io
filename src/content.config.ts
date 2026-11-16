@@ -94,8 +94,6 @@ const projects = defineCollection({
         icon: z.enum(PROJECT_ICONS),
         /** Animated showcase background. Omitted = the generic tinted scene. */
         scene: z.enum(['pcb', 'signal']).optional(),
-        /** Put a non-featured project in the home page showcase (featured ones are always in it). */
-        showcase: z.boolean().default(false),
         /** Draft entries are excluded from every listing and get no page. */
         draft: z.boolean().default(false),
       })

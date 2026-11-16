@@ -2,12 +2,11 @@
 title: ESP32 Touch Lamps
 # CV wording (CV/main.tex:173); the old site has no text for this project.
 summary: ESP32 touch lamps that signal each other remotely over MQTT.
-tier: secondary
-order: 13
+tier: featured
+order: 3
 hue: 80
 icon: lamp
 scene: signal
-showcase: true
 tags: [embedded]
 dates:
   start: '[[CHECK: year]]'

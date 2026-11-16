@@ -12,15 +12,6 @@ export async function getProjects(tier?: Tier): Promise<Project[]> {
   return entries.sort((a, b) => a.data.order - b.data.order);
 }
 
-/**
- * Projects in the home page showcase: every featured project, plus any other
- * project marked `showcase: true`, in `order`.
- */
-export async function getShowcaseProjects(): Promise<Project[]> {
-  const all = await getProjects();
-  return all.filter(({ data }) => data.tier === 'featured' || data.showcase);
-}
-
 const PLACEHOLDER = /^\[\[(TODO|CHECK): /;
 
 /**
