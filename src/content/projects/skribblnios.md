@@ -11,7 +11,8 @@ tags: [fpga, embedded, software]
 dates:
   start: '[[CHECK: year]]'
 status: complete
-context: University group project
+context: university
+contextDetail: University group project
 team:
   size: 6
   role: Team lead; entire FPGA and NIOS II side

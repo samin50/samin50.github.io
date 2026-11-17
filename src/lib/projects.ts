@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { CONTEXT_LABELS } from './tags';
 
 export type Project = CollectionEntry<'projects'>;
 export type Tier = Project['data']['tier'];
@@ -37,6 +38,19 @@ export function relatedProjects(project: Project, all: Project[], limit = 3): Pr
     .filter((other) => other.id !== project.id && shared(other) > 0)
     .sort((a, b) => shared(b) - shared(a))
     .slice(0, limit);
+}
+
+/** "University group project" where the entry says more, otherwise "Personal project". */
+export function contextLine(data: Project['data']): string {
+  return data.contextDetail ?? `${CONTEXT_LABELS[data.context]} project`;
+}
+
+export type Role = CollectionEntry<'experience'>;
+
+/** Roles, newest first. */
+export async function getRoles(): Promise<Role[]> {
+  const roles = await getCollection('experience');
+  return roles.sort((a, b) => b.data.start.localeCompare(a.data.start));
 }
 
 const STATUS_LABELS: Record<Project['data']['status'], string> = {

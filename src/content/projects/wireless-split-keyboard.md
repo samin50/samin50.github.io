@@ -11,7 +11,7 @@ tags: [pcb, embedded, fabrication, software]
 dates:
   start: '[[CHECK: year]]'
 status: complete
-context: Personal project
+context: personal
 team:
   size: 1
 tech:

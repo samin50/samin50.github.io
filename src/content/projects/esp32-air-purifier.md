@@ -11,7 +11,7 @@ tags: [embedded]
 dates:
   start: '[[CHECK: year started]]'
 status: in-progress
-context: Personal project
+context: personal
 team:
   size: 1
 tech:

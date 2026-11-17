@@ -11,7 +11,8 @@ tags: [fpga, computer-vision, embedded]
 dates:
   start: '[[CHECK: year]]'
 status: complete
-context: University group project
+context: university
+contextDetail: University group project
 team:
   size: 6
   role: FPGA and vision pipeline
@@ -53,7 +54,7 @@ Detect coloured targets reliably from a moving rover under uneven lighting, esti
 
 ### My part
 
-As I had previous experience with the FPGA, I again assigned myself responsible for the entire FPGA side of the project, devising a Computer Vision algorithm written in Verilog to identify the balls. This novel algorithm had the ability to perform noise rejection, and could identify the balls even when other objects in the scene were of similar colour.
+As I had previous experience with the FPGA, I assigned myself responsible for the entire FPGA side of the project, devising a Computer Vision algorithm written in Verilog to identify the balls. This novel algorithm had the ability to perform noise rejection, and could identify the balls even when other objects in the scene were of similar colour.
 
 I wrote the rover's FPGA vision pipeline in Verilog and C: HSV conversion to find obstacles in uneven lighting, per-target distance estimation, and noise rejection to ignore stray pixel clusters.
 

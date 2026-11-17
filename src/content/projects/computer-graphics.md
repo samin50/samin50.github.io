@@ -3,6 +3,7 @@ title: Rasteriser and Raytracer
 # Old site wording, unchanged (legacy Imperial.tsx:92).
 summary: 'In this project, I learnt about rasterisation and raytracing, and implemented both in C++ using OpenGL.'
 tier: archive
+context: university
 order: 21
 tags: [software]
 dates:

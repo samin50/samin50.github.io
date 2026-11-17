@@ -11,7 +11,8 @@ dates:
   start: '[[CHECK: start date]]'
   end: '2024'
 status: complete
-context: MEng final-year project, awarded a First
+context: university
+contextDetail: MEng final-year project, awarded a First
 team:
   size: 1
 tech:

@@ -1,0 +1,38 @@
+---
+/**
+ * Breadcrumb trail: "Home › Projects › <title>". Every part except the last
+ * is a link; the last is the current page.
+ */
+import { url } from '../lib/paths';
+
+interface Props {
+  /** The pages between Home and this one. */
+  trail?: { label: string; href: string }[];
+  /** This page. */
+  current: string;
+  class?: string;
+}
+
+const { trail = [], current, class: className } = Astro.props;
+const links = [{ label: 'Home', href: url() }, ...trail];
+---
+
+<nav class:list={['breadcrumbs', className]} aria-label="Breadcrumb">
+  <ol>
+    {links.map((link) => (
+      <li>
+        <a class="crumb-link" href={link.href}>
+          {link.label}
+        </a>
+        <span class="crumb-sep" aria-hidden="true">
+          ›
+        </span>
+      </li>
+    ))}
+    <li>
+      <span class="crumb-current" aria-current="page">
+        {current}
+      </span>
+    </li>
+  </ol>
+</nav>

@@ -2,7 +2,7 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { PROJECT_ICONS } from './lib/project-visuals';
-import { TAGS } from './lib/tags';
+import { CONTEXTS, TAGS } from './lib/tags';
 
 /**
  * Projects collection. One Markdown file per project in src/content/projects/;
@@ -65,8 +65,10 @@ const projects = defineCollection({
           end: dateOrPlaceholder.optional(),
         }),
         status: z.enum(['complete', 'in-progress', 'ongoing']).default('complete'),
-        /** e.g. 'MEng final-year project', 'Personal project'. */
-        context: z.string().optional(),
+        /** University or personal work. Shown as a badge, and a filter on the index. */
+        context: z.enum(CONTEXTS),
+        /** More about the context, where there is more to say: 'University group project'. */
+        contextDetail: z.string().optional(),
         team: z
           .object({
             /** 1 = solo. A `[[CHECK: …]]` placeholder while the size of a team is unconfirmed. */
@@ -123,4 +125,23 @@ const projects = defineCollection({
   },
 });
 
-export const collections = { projects };
+/**
+ * Experience: one Markdown file per role in src/content/experience/. The
+ * frontmatter is the role's heading and its summary (shown on the home page);
+ * the body is the detail shown on the Experience page.
+ */
+const experience = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/experience' }),
+  schema: z.object({
+    title: z.string(),
+    organisation: z.string(),
+    /** Display string, as on the CV: 'Sep 2024 – present'. */
+    dates: z.string(),
+    /** 'YYYY-MM'; roles are listed newest first by this. */
+    start: z.string().regex(/^\d{4}-\d{2}$/),
+    /** Shown on the home page and at the top of the role. */
+    summary: z.string(),
+  }),
+});
+
+export const collections = { projects, experience };

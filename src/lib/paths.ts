@@ -14,6 +14,10 @@ export function projectUrl(slug: string): string {
   return url(`projects/${slug}/`);
 }
 
+export function contextUrl(context: string): string {
+  return url(`projects/?context=${encodeURIComponent(context)}`);
+}
+
 export function tagUrl(tag: string): string {
   return url(`projects/?tag=${encodeURIComponent(tag)}`);
 }

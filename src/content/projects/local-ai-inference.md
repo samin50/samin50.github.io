@@ -10,7 +10,7 @@ tags: [ai, software]
 dates:
   start: '[[CHECK: year started]]'
 status: ongoing
-context: Personal project
+context: personal
 team:
   size: 1
 tech:

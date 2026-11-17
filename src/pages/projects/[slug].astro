@@ -8,6 +8,8 @@ import '../../styles/projects.css';
 import { getImage } from 'astro:assets';
 import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ContextBadge from '../../components/ContextBadge.astro';
 import Gallery from '../../components/Gallery.astro';
 import Icon from '../../components/Icon.astro';
 import MediaSlot from '../../components/MediaSlot.astro';
@@ -54,7 +56,6 @@ const { Content } = await render(project);
 const meta = [
   { term: 'Date', value: formatDates(data.dates, data.status) },
   { term: 'Status', value: statusLabel(data.status) },
-  ...(data.context ? [{ term: 'Context', value: data.context }] : []),
   { term: 'Team', value: teamLabel(data.team) },
 ];
 
@@ -92,10 +93,10 @@ const coverMaxWidth =
 
       <div class="container-page hero-inner">
         <div class="hero-top" data-enter>
-          <a class="btn btn-secondary btn-sm" href={url('projects/')}>
-            <Icon name="arrow-left" size={16} class="icon-nudge-back" />
-            All projects
-          </a>
+          <Breadcrumbs
+            trail={[{ label: 'Projects', href: url('projects/') }]}
+            current={data.title}
+          />
           <button
             type="button"
             class="icon-button scene-toggle"
@@ -116,6 +117,13 @@ const coverMaxWidth =
         </p>
 
         <dl class="meta-strip" data-enter style="--i:3">
+          <div class="meta-item">
+            <dt>Context</dt>
+            <dd class="meta-context">
+              <ContextBadge context={data.context} />
+              {data.contextDetail}
+            </dd>
+          </div>
           {meta.map(({ term, value }) => (
             <div class="meta-item">
               <dt>{term}</dt>

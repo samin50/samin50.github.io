@@ -9,7 +9,7 @@
  * docs/review-checklist.md.
  */
 import { site, linkAttrs } from '../config/site';
-import { experience } from '../data/experience';
+import { getRoles } from '../lib/projects';
 import type { IconName } from '../lib/icons';
 import { url, tagUrl } from '../lib/paths';
 import { TAG_LABELS, type Tag } from '../lib/tags';
@@ -22,6 +22,8 @@ import Showcase from './Showcase.astro';
  * `darkHue` replaces the tile's background hue in the dark theme only: a dark
  * orange is brown, and dark surfaces stay within wine, plum and rose.
  */
+const roles = await getRoles();
+
 const disciplines: {
   title: string;
   skills: string;
@@ -155,14 +157,14 @@ const disciplines: {
       <h2 class="heading" id="experience-heading">
         Experience
       </h2>
-      <a class="btn btn-secondary btn-sm" href={url('about/')}>
-        Full CV
+      <a class="btn btn-secondary btn-sm" href={url('experience/')}>
+        All experience
         <Icon name="arrow-right" size={16} class="icon-nudge-x" />
       </a>
     </div>
 
     <ol class="grid gap-4">
-      {experience.map((role, index) => (
+      {roles.map(({ data: role }, index) => (
         <li class="role" data-reveal style={`--i:${index}`}>
           <p class="role-dates">{role.dates}</p>
           <div>

@@ -12,6 +12,16 @@ export const TAGS = [
 
 export type Tag = (typeof TAGS)[number];
 
+/** Where a project comes from. Professional work is on the Experience page, not in projects. */
+export const CONTEXTS = ['university', 'personal'] as const;
+
+export type Context = (typeof CONTEXTS)[number];
+
+export const CONTEXT_LABELS: Record<Context, string> = {
+  university: 'University',
+  personal: 'Personal',
+};
+
 export const TAG_LABELS: Record<Tag, string> = {
   software: 'Software',
   embedded: 'Embedded',

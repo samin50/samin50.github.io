@@ -227,6 +227,23 @@
     font-size: 1.25rem;
   }
 
+  /* Five links: closer together and slightly smaller on phones, so they stay on one row. */
+  .site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.875rem;
+  }
+  @media (max-width: 39.99rem) {
+    .site-nav .nav-link {
+      font-size: 0.9375rem;
+    }
+  }
+  @media (min-width: 40rem) {
+    .site-nav {
+      gap: 0 1.5rem;
+    }
+  }
+
   .nav-link {
     position: relative;
     display: inline-block;

@@ -4,13 +4,16 @@ import { url } from '../lib/paths';
 import ThemeToggle from './ThemeToggle.astro';
 
 const nav = [
+  { label: 'Home', href: url() },
   { label: 'Projects', href: url('projects/') },
+  { label: 'Experience', href: url('experience/') },
   { label: 'About', href: url('about/') },
   { label: 'Contact', href: url('contact/') },
 ];
 
 const here = Astro.url.pathname;
-const isCurrent = (href: string) => here === href || here.startsWith(href);
+// "Home" is current only on the home page itself; the others also on pages beneath them.
+const isCurrent = (href: string) => here === href || (href !== url() && here.startsWith(href));
 ---
 
 <header class="site-header" data-header>
@@ -21,7 +24,7 @@ const isCurrent = (href: string) => here === href || here.startsWith(href);
 
     <!-- On narrow screens the nav drops to its own row under the name. -->
     <nav aria-label="Main" class="order-last w-full sm:order-none sm:w-auto">
-      <ul class="flex gap-6">
+      <ul class="site-nav">
         {nav.map((item) => (
           <li>
             <a

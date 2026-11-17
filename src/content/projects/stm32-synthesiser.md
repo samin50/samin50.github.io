@@ -11,7 +11,7 @@ tags: [embedded]
 dates:
   start: '[[CHECK: year]]'
 status: complete
-context: University project
+context: university
 team:
   size: '[[CHECK: team size]]'
   role: '[[CHECK: your part of the synthesiser]]'

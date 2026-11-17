@@ -1,0 +1,20 @@
+---
+/**
+ * "University" or "Personal": where a project comes from. A link to the
+ * projects index filtered to that context; on the index itself the filter
+ * script handles the click in place.
+ */
+import { contextUrl } from '../lib/paths';
+import { CONTEXT_LABELS, type Context } from '../lib/tags';
+
+interface Props {
+  context: Context;
+}
+
+const { context } = Astro.props;
+---
+
+<a class={`context-badge context-${context}`} href={contextUrl(context)} data-context={context}>
+  {CONTEXT_LABELS[context]}
+  <span class="sr-only"> project</span>
+</a>

@@ -11,7 +11,7 @@ tags: [software]
 dates:
   start: '[[CHECK: year]]'
 status: complete
-context: University project
+context: university
 team:
   size: 1
   note: '[[CHECK: solo or pair?]]'

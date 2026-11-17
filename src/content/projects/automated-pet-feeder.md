@@ -11,7 +11,8 @@ tags: [embedded, fabrication, computer-vision, software]
 dates:
   start: '[[CHECK: year]]'
 status: complete
-context: University group project
+context: university
+contextDetail: University group project
 team:
   size: '[[CHECK: team size]]'
   role: Mechanical design, CAD and 3D printing; project manager
@@ -21,7 +22,7 @@ tech:
   - FastAPI
   - Vue.js
   - MQTT (Mosquitto)
-  - Stepper motor
+  - Servo motor
   - Load cell
   - 3D printing
   - SketchUp
@@ -66,13 +67,13 @@ gallery:
 
 ## Overview
 
-In this project, I designed and built an automated pet feeder using a 3D printer and CAD software (SketchUp, I later use FreeCAD and Blender for hobby projects). The feeder is controlled by a web app, which allows the user to schedule feeding times and portion sizes. The project was built using a Raspberry Pi, a stepper motor, a load cell, and a 3D printer. The backend for the web app was written with FastAPI in Python and the Frontend was written with VueJS. The backend stores data in JSON format and sends it to the MQTT broker (Mosquitto) which is subscribed to by the Raspberry Pi, allowing it to check the feeding schedule.
+In this project, I designed and built an automated pet feeder using a 3D printer and CAD software (SketchUp, I later use FreeCAD and Blender for hobby projects). The feeder is controlled by a web app, which allows the user to schedule feeding times and portion sizes. The project was built using a Raspberry Pi, a servo motor, a load cell, and a 3D printer. The backend for the web app was written with FastAPI in Python and the Frontend was written with VueJS. The backend stores data in JSON format and sends it to the MQTT broker (Mosquitto) which is subscribed to by the Raspberry Pi, allowing it to check the feeding schedule.
 
 ## What I did
 
 ### My part
 
-As I was the only team member with CAD and 3D Printing experience (from my hobbies), I was solely responsible for the aesthetic and mechanical design of the feeder. I also took on the role of project manager, and was responsible for the planning and organisation of the project. The main difficulty I faced was incorporating the load cell into the dispensing mechanism - I had to account for the relatively weak servo motor and had to ensure the accuracy of the load cell as the quantities of food dispensed were only a few grams at most. [[CHECK: stepper or servo? The description above says stepper motor.]]
+As I was the only team member with CAD and 3D Printing experience (from my hobbies), I was solely responsible for the aesthetic and mechanical design of the feeder. I also took on the role of project manager, and was responsible for the planning and organisation of the project. The main difficulty I faced was incorporating the load cell into the dispensing mechanism - I had to account for the relatively weak servo motor and had to ensure the accuracy of the load cell as the quantities of food dispensed were only a few grams at most. [[CHECK: "servo motor" is used throughout; the old text said "stepper motor" once, in the description]]
 
 I came up with a design that securely mounted the load cell to plate beneath the dispensing platform, which rotated with the servo motor to dispense food. The dispensing platform could be decoupled from the servo motor, to ensure that the load cell can obtain an accurate reading. For fun, I also decided to implement a Computer Vision model and integrate it into the front-mounted camera to identify whether the pet to be fed was a dog or cat so the feeder would know if the correct pet had come to feed.
 

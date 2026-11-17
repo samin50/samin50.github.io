@@ -10,7 +10,7 @@
  * The scene stage is `position: fixed` and the section clips it, so the scene
  * stays put behind the page and the next section slides over it.
  */
-import { formatDates, getProjects } from '../lib/projects';
+import { contextLine, formatDates, getProjects } from '../lib/projects';
 import { projectUrl, tagUrl, url } from '../lib/paths';
 import { TAG_LABELS } from '../lib/tags';
 import Icon from './Icon.astro';
@@ -100,7 +100,7 @@ const projects = await getProjects('featured');
           >
             <div class="panel-head">
               <p class="label">
-                {[data.context, formatDates(data.dates, data.status)].filter(Boolean).join(' · ')}
+                {[contextLine(data), formatDates(data.dates, data.status)].join(' · ')}
               </p>
               <h3 class="panel-title">{data.title}</h3>
             </div>

@@ -1,0 +1,60 @@
+---
+/**
+ * Experience: one section per role, newest first, laid out as a timeline.
+ * Each role is a Markdown file in src/content/experience/.
+ */
+import '../styles/projects.css';
+import { render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { getRoles } from '../lib/projects';
+
+const roles = await Promise.all(
+  (await getRoles()).map(async (role) => ({ role, Content: (await render(role)).Content })),
+);
+---
+
+<BaseLayout
+  title="Experience"
+  description="Software Development Engineer at Amadeus IT Group since 2024, with earlier internships at Amadeus and Jacobs: roles, dates and what I worked on."
+>
+  <div class="page-head">
+    <div class="container-page">
+      <Breadcrumbs current="Experience" />
+      <h1 class="display page-title" data-enter>
+        Experience
+      </h1>
+      <!-- Owner's wording from the old site (legacy ProPortfolio.tsx). -->
+      <p class="page-intro" data-enter style="--i:1">
+        On this page I will showcase some of my formal work and experience.
+      </p>
+    </div>
+  </div>
+
+  <div class="section-tight">
+    <div class="container-page">
+      <ol class="timeline">
+        {roles.map(({ role, Content }) => (
+          <li class="timeline-item" id={role.id}>
+            <div class="timeline-rail" aria-hidden="true">
+              <span class="timeline-dot" />
+            </div>
+            <article class="timeline-card" aria-labelledby={`${role.id}-title`} data-reveal>
+              <header class="timeline-head">
+                <p class="role-dates">{role.data.dates}</p>
+                <h2 class="timeline-title" id={`${role.id}-title`}>
+                  {role.data.title}
+                </h2>
+                <p class="role-org">{role.data.organisation}</p>
+                <p class="timeline-summary">{role.data.summary}</p>
+              </header>
+              <div class="prose timeline-body">
+                <Content />
+              </div>
+            </article>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</BaseLayout>
