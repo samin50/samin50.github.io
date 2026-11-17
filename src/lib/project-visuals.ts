@@ -14,6 +14,8 @@ export const PROJECT_ICONS = [
   'music',
   'printer',
   'box',
+  'pencil',
+  'piano',
 ] as const;
 
 export type ProjectIcon = (typeof PROJECT_ICONS)[number];

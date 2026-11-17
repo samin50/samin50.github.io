@@ -1,6 +1,7 @@
 ---
 title: Machine Vision Component Sorter
 summary: Conveyor-based sorter that detects, classifies and bins electronic components with on-device YOLOv8 on a Raspberry Pi 4.
+description: 'MEng final-year project: a conveyor sorter that classifies electronic components on a Raspberry Pi with YOLOv8-OBB at 99.5 % mAP50.'
 tier: featured
 order: 2
 hue: 150
@@ -68,4 +69,24 @@ gallery:
 
 My MEng final-year project (awarded a First): a conveyor-based mechatronic sorter that detects, classifies and bins electronic components (resistors, capacitors, LEDs and more) using on-device computer vision on a Raspberry Pi 4.
 
-<!-- Stub: the full body is in docs/content-plan.md §5.2.2 and is added in Phase 4. -->
+## The problem
+
+Loose electronic components are slow to sort by hand and look alike at a glance. The goal was a machine that could do it unattended on cheap hardware, which meant a vision model accurate enough to trust and fast enough to run on a Pi without a GPU. [[CHECK: matches the project's framing?]]
+
+## What I did
+
+- Designed and built the conveyor, camera mount and binning mechanism. [[CHECK: what actuates the binning: servo flaps, air, pusher?]]
+- Collected and labelled a custom dataset of 1,076 images and fine-tuned a YOLOv8 oriented-bounding-box model in PyTorch with transfer learning, reaching 99.5 % mAP50.
+- Exported the model to ONNX and benchmarked edge runtimes (ONNX Runtime, DeepSparse), cutting inference latency 2.8× from 1.76 s to 0.62 s per frame.
+- Architected modular, multiprocess Python software, unit-tested each subsystem and profiled it with cProfile.
+
+## Technical detail
+
+- Oriented bounding boxes rather than axis-aligned ones, because components arrive at arbitrary angles on the belt. [[CHECK: does orientation feed the binning/pick step?]]
+- Transfer learning from pretrained YOLOv8 weights on the 1,076-image set. [[CHECK: augmentation strategy, train/val split]]
+- The pipeline is split into processes so the belt and actuators are not blocked by inference. [[CHECK: the actual process split]]
+- Benchmarked ONNX Runtime and DeepSparse on the Pi 4 to pick the runtime.
+
+## Results
+
+99.5 % mAP50, inference down from 1.76 s to 0.62 s per frame (2.8×), a working end-to-end sorter, and a First-class grade.

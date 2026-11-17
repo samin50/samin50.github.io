@@ -20,6 +20,9 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'always',
   build: { format: 'directory' },
+  // Code blocks in project pages are plain text styled by the site's own
+  // tokens (src/styles/projects.css), so they follow the light and dark themes.
+  markdown: { syntaxHighlight: false },
   vite: {
     plugins: [tailwindcss()],
   },

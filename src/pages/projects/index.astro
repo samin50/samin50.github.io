@@ -1,0 +1,120 @@
+---
+/**
+ * Projects index: every project, with a tag filter.
+ *
+ * Everything is in the HTML. Without JavaScript the filter chips are links to
+ * `?tag=…` and the page shows all projects; src/scripts/project-filter.ts
+ * filters in place.
+ */
+import '../../styles/projects.css';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import TagList from '../../components/TagList.astro';
+import { getPageProjects, getProjects } from '../../lib/projects';
+import { tagUrl, url } from '../../lib/paths';
+import { TAGS, TAG_LABELS } from '../../lib/tags';
+
+const cards = await getPageProjects();
+const archive = await getProjects('archive');
+const all = [...cards, ...archive];
+
+// Only tags that at least one project carries become chips.
+const filters = TAGS.map((tag) => ({
+  tag,
+  label: TAG_LABELS[tag],
+  count: all.filter(({ data }) => data.tags.includes(tag)).length,
+})).filter(({ count }) => count > 0);
+---
+
+<BaseLayout
+  title="Projects"
+  description="Hardware, firmware, software and AI projects: a wireless split keyboard, a vision-based component sorter, an FPGA rover, a C compiler and more."
+>
+  <div class="page-head">
+    <div class="container-page">
+      <h1 class="display page-title" data-enter>
+        Projects
+      </h1>
+      <!-- Owner's wording from the old site (legacy ProgProjects.tsx). -->
+      <p class="page-intro" data-enter style="--i:1">
+        I have worked on many projects, some of which I will showcase here.
+      </p>
+
+      <nav
+        class="filter-bar"
+        aria-label="Filter projects by tag"
+        data-filter-bar
+        data-enter
+        style="--i:2"
+      >
+        <ul class="filter-list">
+          <li>
+            <a class="chip filter-chip is-active" href={url('projects/')} data-filter="">
+              All
+              <span class="chip-count" aria-hidden="true">
+                {all.length}
+              </span>
+              <span class="sr-only">, {all.length} projects</span>
+            </a>
+          </li>
+          {filters.map(({ tag, label, count }) => (
+            <li>
+              <a class="chip filter-chip" href={tagUrl(tag)} data-filter={tag}>
+                {label}
+                <span class="chip-count" aria-hidden="true">
+                  {count}
+                </span>
+                <span class="sr-only">
+                  , {count} {count === 1 ? 'project' : 'projects'}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <p class="sr-only" role="status" aria-live="polite" data-filter-status></p>
+    </div>
+  </div>
+
+  <div class="section-tight" data-filter-group>
+    <div class="container-page">
+      <div class="card-grid">
+        {cards.map((project, index) => (
+          <ProjectCard project={project} index={index} eager={index < 3} />
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <section class="section-tight" aria-labelledby="archive-heading" data-filter-group>
+    <div class="container-page">
+      <h2 class="heading" id="archive-heading" data-reveal>
+        More projects
+      </h2>
+      <ul class="archive" data-reveal>
+        {archive.map(({ data }) => (
+          <li class="archive-item" data-project data-tags={data.tags.join(' ')}>
+            <div class="archive-text">
+              <h3 class="archive-title">{data.title}</h3>
+              <p>{data.summary}</p>
+            </div>
+            <div class="archive-side">
+              <TagList tags={data.tags} />
+              {data.links.map((link) => (
+                <a class="text-link archive-link" href={link.url} rel="noopener">
+                  {link.label}
+                  <Icon name="arrow-up-right" size={14} />
+                </a>
+              ))}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import '../../scripts/project-filter';
+</script>

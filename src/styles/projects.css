@@ -1,0 +1,660 @@
+/*
+ * Projects index and project pages: the page head and tag filter, the project
+ * card, the archive list, the project header over its scene, the body text,
+ * the gallery and its lightbox, and the previous/next links.
+ *
+ * Everything here is built from the shared system in tokens.css and
+ * global.css: the three radii, the raised border and shadows, the hue system
+ * and the interaction tokens. The scenes themselves are in home.css.
+ */
+
+/* Same layer order as global.css, whichever stylesheet the browser sees first. */
+@layer theme, base, components, utilities;
+
+@layer components {
+  .section-tight {
+    padding-block: clamp(2rem, 1.5rem + 2.2vw, 3.5rem);
+  }
+
+  /* ---------- Page head (projects index) ---------- */
+  .page-head {
+    position: relative;
+    isolation: isolate;
+    padding-block: clamp(1.5rem, 1rem + 2.5vw, 3rem) clamp(1.5rem, 1.25rem + 1.2vw, 2.25rem);
+  }
+  /* The same colour field as the home page intro, running up behind the header. */
+  .page-head::before {
+    content: '';
+    position: absolute;
+    inset: -8rem 0 0;
+    z-index: -1;
+    background:
+      radial-gradient(var(--intro-spot) at 92% 30%, var(--intro-c), transparent 72%),
+      radial-gradient(60% 70% at 0% 100%, var(--intro-b), transparent 70%),
+      linear-gradient(165deg, var(--intro-a), var(--intro-b));
+  }
+  .page-title {
+    font-size: clamp(2.5rem, 1.75rem + 3.6vw, 4.25rem);
+  }
+  .page-intro {
+    max-width: 40rem;
+    margin-top: 0.75rem;
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  }
+
+  /* ---------- Tag filter ---------- */
+  .filter-bar {
+    margin-top: 1.5rem;
+    scroll-margin-top: 5rem;
+  }
+  /* Phones: one row that scrolls sideways. The padding leaves room for the
+     focus outline, which the scroll container would otherwise clip. */
+  .filter-list {
+    display: flex;
+    gap: 0.5rem;
+    margin: -0.5rem calc(-1 * var(--gutter));
+    padding: 0.5rem var(--gutter);
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+  .filter-list li {
+    flex: none;
+  }
+  .filter-chip {
+    /* Keeps the chip's screen-reader text inside the scrolling row. */
+    position: relative;
+    gap: 0.5rem;
+    min-height: 2.5rem;
+    padding: 0.25rem 0.875rem;
+    font-size: 0.875rem;
+  }
+  .chip-count {
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+  /* The filter that is on: the solid "ink" fill, as on a hovered tag. */
+  .filter-chip.is-active {
+    border-color: var(--ink-bg);
+    background: var(--ink-bg);
+    color: var(--ink-fg);
+  }
+  @media (min-width: 40rem) {
+    .filter-list {
+      flex-wrap: wrap;
+      margin: 0;
+      padding: 0;
+      overflow: visible;
+    }
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+
+  /* ---------- Project card ---------- */
+  .card-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  @media (min-width: 40rem) {
+    .card-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 64rem) {
+    .card-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* A raised surface that is a link: it carries the resting shadow, and the
+     stronger one on hover. `--lift-sh` lets the proximity ring and glow be
+     added in front of whichever shadow is current (see the end of this file). */
+  .project-card,
+  .pager-link {
+    --lift-sh: var(--sh-raised);
+    border: 1px solid var(--raised-border);
+    border-radius: var(--r-md);
+    background: var(--surface);
+    box-shadow: var(--lift-sh);
+  }
+  .project-card:hover,
+  .pager-link:hover {
+    --lift-sh: var(--sh-raised-hover);
+  }
+
+  .project-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .card-media {
+    border-radius: 0;
+  }
+  .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.125rem 1.25rem 1.25rem;
+  }
+  .card-title {
+    font-family: var(--ff-display);
+    font-weight: var(--heading-weight);
+    font-size: 1.375rem;
+    letter-spacing: var(--heading-tracking);
+    line-height: 1.15;
+  }
+  /* The title's link covers the whole card. */
+  .card-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .project-card:hover .card-link {
+    text-decoration: underline;
+    text-decoration-color: var(--c-ink);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
+  /* Keyboard focus is drawn around the whole card, not just the title. */
+  @supports selector(:has(a)) {
+    .card-link:focus-visible {
+      outline: none;
+    }
+    .project-card:has(.card-link:focus-visible) {
+      outline: 3px solid var(--focus-ring);
+      outline-offset: 3px;
+    }
+  }
+  .card-summary {
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+  /* Above the stretched link, so each tag can be followed on its own. */
+  .card-tags {
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
+    padding-top: 0.75rem;
+  }
+
+  /* ---------- Archive list ---------- */
+  .archive {
+    margin-top: clamp(1.25rem, 1rem + 1vw, 2rem);
+    padding: 0.25rem 1.25rem;
+    border: 1px solid var(--raised-border);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    box-shadow: var(--sh-raised);
+  }
+  .archive-item {
+    display: grid;
+    gap: 0.75rem 2rem;
+    padding-block: 1.25rem;
+  }
+  /* A rule between rows, counting only the rows the filter has left on show. */
+  .archive-item:not([hidden]) ~ .archive-item:not([hidden]) {
+    border-top: 1px solid var(--border);
+  }
+  .archive-title {
+    font-family: var(--ff-display);
+    font-weight: var(--heading-weight);
+    font-size: 1.125rem;
+    letter-spacing: var(--heading-tracking);
+    line-height: 1.25;
+  }
+  .archive-text p {
+    margin-top: 0.25rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+  .archive-side {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+  }
+  .archive-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+  @media (min-width: 48rem) {
+    .archive {
+      padding-inline: 1.75rem;
+    }
+    .archive-item {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 18rem);
+      align-items: start;
+    }
+    .archive-side {
+      justify-content: flex-end;
+    }
+  }
+
+  /* ---------- Project header, over the project's scene ---------- */
+  .project-hero {
+    position: relative;
+    isolation: isolate;
+    padding-block: clamp(0.75rem, 0.5rem + 1vw, 1.5rem) clamp(2rem, 1.5rem + 2vw, 3.25rem);
+  }
+  /* Holds the scene. It runs up behind the site header, as the intro's colour
+     field does on the home page, and is not fixed: it scrolls with the page. */
+  .hero-stage {
+    position: absolute;
+    inset: -8rem 0 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  /* Dims the scene more than the home page does. The veil is the scene's own
+     background, in the project's colour, so the drawing fades back without the
+     header going black (dark theme) or washing out (light theme). */
+  .hero-stage::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(150deg, var(--c-field), var(--c-field-2));
+    opacity: var(--hero-dim);
+  }
+  .hero-inner {
+    display: grid;
+    gap: 1rem;
+  }
+  .hero-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: clamp(0.5rem, 0.25rem + 1.5vw, 1.75rem);
+  }
+  .project-title {
+    max-width: 20ch;
+    font-size: clamp(2.25rem, 1.5rem + 3.6vw, 4.25rem);
+  }
+  .project-summary {
+    max-width: 44rem;
+    font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
+    line-height: 1.5;
+  }
+  .meta-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 2.5rem;
+    margin-top: 0.5rem;
+    padding-block: 1rem;
+    border-block: 1px solid var(--control-border);
+  }
+  .meta-item {
+    max-width: 100%;
+  }
+  .meta-item dt {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .meta-item dd {
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .hero-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .links-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .btn:hover .icon-nudge-back {
+    transform: translateX(-3px);
+  }
+
+  /* ---------- Project page body ---------- */
+  .project-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(2.25rem, 1.75rem + 2.4vw, 4rem);
+    padding-block: clamp(2rem, 1.5rem + 2.2vw, 3.5rem) clamp(3rem, 2.5rem + 3vw, 5rem);
+  }
+  .project-cover {
+    width: 100%;
+    margin-inline: auto;
+  }
+  .project-cover .media-frame {
+    border: 1px solid var(--raised-border);
+    box-shadow: var(--sh-raised);
+  }
+  .project-cover figcaption,
+  .gallery-item figcaption {
+    margin-top: 0.625rem;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  /* On a video the badge sits at the top, clear of the player's controls. */
+  .media-frame > video ~ .placeholder-badge {
+    top: 0.625rem;
+    bottom: auto;
+  }
+
+  /* At a glance */
+  .glance {
+    display: grid;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    border: 1px solid var(--raised-border);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    box-shadow: var(--sh-raised);
+  }
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11.5rem, 1fr));
+    gap: 1.25rem 2rem;
+  }
+  /* The number is shown above its label; in the markup the label (dt) comes first. */
+  .stat {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 0.25rem;
+  }
+  .stat dd {
+    color: var(--c-ink);
+    font-family: var(--ff-display);
+    font-weight: var(--display-weight);
+    font-size: clamp(2rem, 1.6rem + 1.6vw, 2.75rem);
+    letter-spacing: var(--display-tracking);
+    line-height: 1;
+  }
+  .stat dt {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+  .tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+  @media (min-width: 48rem) {
+    .glance {
+      padding: 1.75rem 2rem;
+    }
+  }
+
+  /* Body text, from the project's Markdown file */
+  .prose {
+    max-width: 46rem;
+  }
+  .prose > * + * {
+    margin-top: 1rem;
+  }
+  .prose h2 {
+    font-weight: var(--heading-weight);
+    font-size: clamp(1.5rem, 1.35rem + 0.7vw, 1.875rem);
+    letter-spacing: var(--heading-tracking);
+    line-height: 1.15;
+  }
+  .prose > * + h2 {
+    margin-top: 2.75rem;
+  }
+  .prose h3 {
+    font-weight: var(--heading-weight);
+    font-size: 1.25rem;
+    letter-spacing: var(--heading-tracking);
+    line-height: 1.2;
+  }
+  .prose > * + h3 {
+    margin-top: 1.75rem;
+  }
+  .prose ul {
+    padding-left: 1.25rem;
+    list-style: disc;
+  }
+  .prose li + li {
+    margin-top: 0.5rem;
+  }
+  .prose li::marker {
+    color: var(--c-ink);
+  }
+  .prose a {
+    text-decoration: underline;
+    text-decoration-color: var(--accent-text);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.25em;
+  }
+  .prose a:hover {
+    color: var(--accent-text);
+  }
+  .prose code {
+    font-family: var(--ff-mono);
+    font-size: 0.875em;
+  }
+  /* Code blocks wrap instead of scrolling sideways. */
+  .prose pre {
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--raised-border);
+    border-radius: var(--r-md);
+    background: var(--surface);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    tab-size: 2;
+  }
+  /* Two code blocks side by side (source and output). */
+  .code-pair {
+    display: grid;
+    gap: 1rem;
+  }
+  .code-pair figure {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+  .code-pair figcaption {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  @media (min-width: 48rem) {
+    .code-pair {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* ---------- Gallery ---------- */
+  .gallery-grid {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: clamp(1.25rem, 1rem + 1vw, 2rem);
+  }
+  @media (min-width: 40rem) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 64rem) {
+    .gallery-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .gallery-link {
+    position: relative;
+    display: block;
+    border-radius: var(--r-md);
+  }
+  /* Marks a picture as one that opens larger. */
+  .gallery-zoom {
+    position: absolute;
+    top: 0.625rem;
+    right: 0.625rem;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--r-full);
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  /* ---------- Lightbox ---------- */
+  .lightbox {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    margin: 0;
+    padding: 0.75rem var(--gutter) 1rem;
+    border: 0;
+    background: var(--bg);
+    color: var(--text);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 0.75rem;
+  }
+  .lightbox[open] {
+    display: grid;
+  }
+  .lightbox::backdrop {
+    background: transparent;
+  }
+  html:has(.lightbox[open]) {
+    overflow: hidden;
+  }
+  .lightbox-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 2.5rem;
+  }
+  .lightbox-caption {
+    flex: 1;
+    text-align: center;
+    font-size: 0.9375rem;
+  }
+  .lightbox-stage {
+    display: grid;
+    place-items: center;
+    min-width: 0;
+    min-height: 0;
+  }
+  .lightbox-stage > img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: var(--r-md);
+    object-fit: contain;
+  }
+  /* A placeholder panel keeps its 16:10 shape and fits the space. */
+  .lightbox-stage > .media-frame {
+    width: min(100%, (100dvh - 9rem) * 1.6);
+  }
+
+  /* ---------- More projects, previous and next ---------- */
+  .more-projects {
+    padding-block: clamp(3rem, 2.5rem + 3vw, 5rem);
+    background: var(--band);
+  }
+  .more-projects .card-grid {
+    margin-top: clamp(1.25rem, 1rem + 1vw, 2rem);
+  }
+  .pager {
+    display: grid;
+    gap: 1rem;
+  }
+  .card-grid + .pager {
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+  }
+  .pager-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 4.5rem;
+    padding: 0.875rem 1.25rem;
+  }
+  .pager-link > span {
+    display: grid;
+    min-width: 0;
+  }
+  .pager-next {
+    justify-content: flex-end;
+    text-align: right;
+  }
+  .pager-title {
+    font-family: var(--ff-display);
+    font-weight: var(--heading-weight);
+    font-size: 1.125rem;
+    letter-spacing: var(--heading-tracking);
+    line-height: 1.25;
+  }
+  .pager-link .icon {
+    flex: none;
+    color: var(--c-ink);
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  @media (min-width: 40rem) {
+    .pager {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+}
+
+/* ---------- Proximity ----------
+   The same ring and glow as every other control (see global.css), with the
+   default reach. On the raised links they sit in front of the card's shadow. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .project-card,
+  .pager-link {
+    box-shadow:
+      0 0 0 calc(var(--prox, 0) * var(--prox-ring-w)) var(--prox-ring),
+      0 0 calc(var(--prox, 0) * var(--prox-glow-size)) calc(var(--prox, 0) * 1px) var(--prox-glow),
+      var(--lift-sh);
+  }
+  .gallery-link {
+    box-shadow:
+      0 0 0 calc(var(--prox, 0) * var(--prox-ring-w)) var(--prox-ring),
+      0 0 calc(var(--prox, 0) * var(--prox-glow-size)) calc(var(--prox, 0) * 1px) var(--prox-glow);
+  }
+}
+
+/* ---------- Motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .project-card,
+  .pager-link,
+  .gallery-link {
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .project-card:hover,
+  .pager-link:hover {
+    transform: translateY(-4px);
+  }
+  .gallery-link:hover {
+    transform: translateY(-3px);
+  }
+  .pager-link:hover .icon {
+    transform: translateX(-3px);
+  }
+  .pager-next:hover .icon {
+    transform: translateX(3px);
+  }
+  .lightbox[open] {
+    animation: lightbox-in var(--dur-base) ease both;
+  }
+  @keyframes lightbox-in {
+    from {
+      opacity: 0;
+    }
+  }
+}

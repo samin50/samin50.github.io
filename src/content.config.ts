@@ -18,6 +18,10 @@ const dateOrPlaceholder = z
     "Use 'YYYY', 'YYYY-MM' or a [[TODO: …]] / [[CHECK: …]] placeholder",
   );
 
+const placeholder = z
+  .string()
+  .regex(/^\[\[(TODO|CHECK): .+\]\]$/, 'Use a [[TODO: …]] / [[CHECK: …]] placeholder');
+
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: ({ image }) => {
@@ -47,8 +51,10 @@ const projects = defineCollection({
     return z
       .object({
         title: z.string(),
-        /** One line for cards and meta descriptions. */
+        /** One line for cards, the page header and the archive list. */
         summary: z.string().max(180),
+        /** <meta name="description"> for the project's page. Omitted = the summary. */
+        description: z.string().max(155).optional(),
         tier: z.enum(['featured', 'secondary', 'archive']),
         /** Sort order within the tier, ascending. */
         order: z.number().int(),
@@ -63,9 +69,9 @@ const projects = defineCollection({
         context: z.string().optional(),
         team: z
           .object({
-            /** 1 = solo. */
-            size: z.number().int().min(1),
-            /** Required when size > 1 (validated below). */
+            /** 1 = solo. A `[[CHECK: …]]` placeholder while the size of a team is unconfirmed. */
+            size: z.union([z.number().int().min(1), placeholder]),
+            /** Required for a team (validated below). */
             role: z.string().optional(),
             /** e.g. '[[CHECK: solo or pair?]]'. */
             note: z.string().optional(),
@@ -87,11 +93,12 @@ const projects = defineCollection({
          * The project's colour, as an OKLCH hue angle (0–360). It tints the
          * project's showcase scene, its placeholder panel and its controls.
          * Rough guide: 25 red, 50 orange, 80 amber, 150 green, 200 teal,
-         * 255 blue, 295 violet, 340 pink.
+         * 255 blue, 295 violet, 340 pink. Archive entries, which have no
+         * page or card, can leave it and `icon` out.
          */
-        hue: z.number().min(0).max(360),
+        hue: z.number().min(0).max(360).default(12),
         /** Simple icon shown on the project's placeholder panel and showcase tab. */
-        icon: z.enum(PROJECT_ICONS),
+        icon: z.enum(PROJECT_ICONS).default('box'),
         /** Animated showcase background. Omitted = the generic tinted scene. */
         scene: z.enum(['pcb', 'signal']).optional(),
         /** Draft entries are excluded from every listing and get no page. */
@@ -105,11 +112,11 @@ const projects = defineCollection({
             message: 'cover is required for featured and secondary projects',
           });
         }
-        if (project.team.size > 1 && !project.team.role) {
+        if (project.team.size !== 1 && !project.team.role) {
           ctx.addIssue({
             code: 'custom',
             path: ['team', 'role'],
-            message: 'team.role is required when team.size > 1',
+            message: 'team.role is required for a team project',
           });
         }
       });

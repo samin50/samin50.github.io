@@ -22,7 +22,7 @@ import SceneSignal from './scenes/SceneSignal.astro';
 const projects = await getProjects('featured');
 ---
 
-<section class="showcase" data-showcase aria-labelledby="showcase-heading">
+<section class="showcase" data-showcase data-scenes aria-labelledby="showcase-heading">
   <!-- Marks the section as script-enhanced before it is painted, so the list
        never flashes at full height first. -->
   <script is:inline>

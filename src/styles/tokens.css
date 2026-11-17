@@ -121,6 +121,9 @@
   --scene-veil: oklch(0.2 0.06 345 / 0.3);
   --scene-dim: oklch(0.2 0.06 345 / 0.06);
   --lift-bg: oklch(0.28 0.09 350 / 0.85);
+  /* Project page header: how far the scene is faded back into its own
+     background colour, so the text over it stays the focus (0 = not at all). */
+  --hero-dim: 0.72;
 
   /* Elevation: every surface that sits on a background (showcase bar, list and
      panel, tiles, experience cards) has this hairline border and shadow. The
@@ -197,6 +200,7 @@
   --scene-veil: oklch(0.985 0.012 70 / 0.45);
   --scene-dim: oklch(0.985 0.012 70 / 0.08);
   --lift-bg: oklch(0.992 0.012 70 / 0.95);
+  --hero-dim: 0.72;
 
   --raised-border: oklch(0.25 0.06 345 / 0.14);
   --sh-raised: 0 1px 3px oklch(0.25 0.06 345 / 0.12), 0 22px 44px -20px oklch(0.25 0.06 345 / 0.38);

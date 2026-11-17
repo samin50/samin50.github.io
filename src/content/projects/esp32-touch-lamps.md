@@ -2,6 +2,7 @@
 title: ESP32 Touch Lamps
 # CV wording (CV/main.tex:173); the old site has no text for this project.
 summary: ESP32 touch lamps that signal each other remotely over MQTT.
+description: Pairs of ESP32 touch lamps that signal each other over MQTT.
 tier: featured
 order: 3
 hue: 80
@@ -37,5 +38,18 @@ gallery:
 
 Touch lamps built on ESP32s that signal each other remotely over MQTT: touch one and the other lights up, wherever it is.
 
-<!-- Stub: the rest of the body is in docs/content-plan.md §5.3.4 and is added in Phase 4.
-     [[CHECK: capacitive touch via ESP32 touch pins or a sensor IC; broker hosted where; LED type; enclosure printed?]] -->
+## The problem
+
+[[TODO: why you built the lamps, in your own words]]
+
+## What I did
+
+[[TODO: what you designed and built, in your own words]]
+
+## Technical detail
+
+[[CHECK: capacitive touch via ESP32 touch pins or a sensor IC; broker hosted where; LED type; enclosure printed?]]
+
+## Results
+
+[[TODO: how the lamps are used now]]

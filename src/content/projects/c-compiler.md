@@ -2,6 +2,7 @@
 title: C Compiler
 # Old site wording, unchanged (legacy Imperial.tsx:106).
 summary: In this project, I implemented a C compiler in C++ using Flex and Bison. The compiler supported a subset of C, including functions, structs, arrays, pointers, and basic arithmetic.
+description: A C-to-MIPS compiler built with Flex, Bison and an object-oriented AST in C++.
 tier: featured
 order: 6
 hue: 300
@@ -35,7 +36,45 @@ gallery:
 
 ## Overview
 
-A compiler that translates C into MIPS assembly, using Flex and Bison for parsing and an object-oriented abstract syntax tree in C++. It supports a subset of C including functions, structs, arrays, pointers and basic arithmetic; the output runs on a MIPS simulator.
+In this project, I implemented a C compiler in C++ using Flex and Bison. The compiler supported a subset of C, including functions, structs, arrays, pointers, and basic arithmetic. The compiler compiled C code into MIPS assembly, which could then be run on a MIPS simulator.
 
-<!-- Stub: the full body is in docs/content-plan.md §5.2.5 and is added in Phase 4.
-     [[TODO: a short C input and its generated MIPS output, as text, for a side-by-side code block]] -->
+The parser builds an object-oriented abstract syntax tree in C++.
+
+## The problem
+
+Take C source and produce correct MIPS assembly for a defined language subset, passing a test suite of C programs, with a design that could grow feature by feature.
+
+## What I did
+
+- Lexer in Flex and grammar in Bison, producing an AST of C++ classes. [[CHECK: is each node responsible for its own code generation?]]
+- Code generation for functions, structs, arrays, pointers and basic arithmetic.
+- [[CHECK: register allocation / stack frame approach; how scoping and symbol tables were handled; pass rate on the test suite]]
+
+## Technical detail
+
+[[CHECK: 2–4 bullets on the AST design, context/scope handling, and any optimisation]]
+
+### C in, MIPS out
+
+<div class="code-pair">
+<figure>
+<figcaption>C input</figcaption>
+
+```c
+// [[TODO: a short C input, as text]]
+```
+
+</figure>
+<figure>
+<figcaption>MIPS output</figcaption>
+
+```asm
+# [[TODO: the MIPS assembly the compiler generates for it, as text]]
+```
+
+</figure>
+</div>
+
+## Results
+
+[[CHECK: test pass rate or grade]]

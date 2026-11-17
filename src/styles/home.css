@@ -726,7 +726,9 @@
 }
 
 /* ---------- Scene motion ----------
-   Scenes animate only when the showcase script has switched them on
+   A scene host is any element with `data-scenes`: the home page showcase and
+   the header of a project page. Scenes animate only when the script
+   (src/scripts/scenes.ts) has switched them on
    (`data-live`) and reduced motion is not requested. Without the script, or
    with reduced motion, each scene shows the still image defined above.
    `data-playing` is removed while the section is off screen or paused, which
@@ -746,14 +748,14 @@
       visibility 0s 200ms;
   }
 
-  .showcase[data-live] .pcb-scan path {
+  [data-scenes][data-live] .pcb-scan path {
     animation: pcb-scan 3.6s linear infinite both;
     animation-delay: calc(var(--i) * 0.4s);
   }
-  .showcase[data-live] .pcb-signal path {
+  [data-scenes][data-live] .pcb-signal path {
     animation: pcb-run calc(5s + var(--i) * 1.4s) linear infinite;
   }
-  .showcase[data-live] .pcb-press {
+  [data-scenes][data-live] .pcb-press {
     animation: pcb-press 6.6s ease-out infinite both;
     animation-delay: calc(var(--i) * 1.1s);
   }
@@ -787,29 +789,29 @@
   }
 
   /* Lamps: A sends (0-30%), B lights and answers (30-80%), A lights (80-100%). */
-  .showcase[data-live] .sig-dot {
+  [data-scenes][data-live] .sig-dot {
     animation: 7s linear infinite both;
     animation-delay: calc(var(--i) * 0.22s);
   }
-  .showcase[data-live] .sig-to-b {
+  [data-scenes][data-live] .sig-to-b {
     animation-name: sig-send;
   }
-  .showcase[data-live] .sig-to-a {
+  [data-scenes][data-live] .sig-to-a {
     animation-name: sig-reply;
   }
-  .showcase[data-live] .sig-b .sig-glow {
+  [data-scenes][data-live] .sig-b .sig-glow {
     animation: sig-flare-b 7s ease-out infinite;
   }
-  .showcase[data-live] .sig-a .sig-glow {
+  [data-scenes][data-live] .sig-a .sig-glow {
     animation: sig-flare-a 7s ease-out infinite;
   }
-  .showcase[data-live] .sig-b .sig-ring {
+  [data-scenes][data-live] .sig-b .sig-ring {
     animation: sig-ring-b 7s ease-out infinite;
   }
-  .showcase[data-live] .sig-a .sig-ring {
+  [data-scenes][data-live] .sig-a .sig-ring {
     animation: sig-ring-a 7s ease-out infinite;
   }
-  .showcase[data-live] .sig-ring-2 {
+  [data-scenes][data-live] .sig-ring-2 {
     animation-delay: 0.35s;
   }
   @keyframes sig-send {
@@ -908,10 +910,10 @@
     }
   }
 
-  .showcase[data-live] .gen-blob {
+  [data-scenes][data-live] .gen-blob {
     animation: gen-drift 18s ease-in-out infinite alternate;
   }
-  .showcase[data-live] .gen-blob-2 {
+  [data-scenes][data-live] .gen-blob-2 {
     animation-duration: 23s;
     animation-direction: alternate-reverse;
   }
@@ -961,8 +963,8 @@
   }
 
   /* Hold everything unless the section is playing and the scene is the one on show. */
-  .showcase[data-live]:not([data-playing]) .scene *,
-  .showcase[data-live] .scene:not(.is-active) * {
+  [data-scenes][data-live]:not([data-playing]) .scene *,
+  [data-scenes][data-live] .scene:not(.is-active) * {
     animation-play-state: paused !important;
   }
 }

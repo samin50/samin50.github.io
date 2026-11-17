@@ -1,0 +1,247 @@
+---
+/**
+ * Project page, for featured and secondary projects (archive entries have no
+ * page). Content comes from the project's Markdown file; the layout follows
+ * docs/content-plan.md §2.3.
+ */
+import '../../styles/projects.css';
+import { getImage } from 'astro:assets';
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Gallery from '../../components/Gallery.astro';
+import Icon from '../../components/Icon.astro';
+import MediaSlot from '../../components/MediaSlot.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import TagList from '../../components/TagList.astro';
+import SceneGeneric from '../../components/scenes/SceneGeneric.astro';
+import ScenePcb from '../../components/scenes/ScenePcb.astro';
+import SceneSignal from '../../components/scenes/SceneSignal.astro';
+import placeholder from '../../assets/placeholders/placeholder.svg';
+import {
+  formatDates,
+  getPageProjects,
+  relatedProjects,
+  statusLabel,
+  teamLabel,
+  type Project,
+} from '../../lib/projects';
+import { projectUrl, url } from '../../lib/paths';
+
+export async function getStaticPaths() {
+  const projects = await getPageProjects();
+  return projects.map((project, index) => ({
+    params: { slug: project.id },
+    props: {
+      project,
+      previous: projects[index - 1],
+      next: projects[index + 1],
+      related: relatedProjects(project, projects),
+    },
+  }));
+}
+
+interface Props {
+  project: Project;
+  previous: Project | undefined;
+  next: Project | undefined;
+  related: Project[];
+}
+
+const { project, previous, next, related } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+
+const meta = [
+  { term: 'Date', value: formatDates(data.dates, data.status) },
+  { term: 'Status', value: statusLabel(data.status) },
+  ...(data.context ? [{ term: 'Context', value: data.context }] : []),
+  { term: 'Team', value: teamLabel(data.team) },
+];
+
+// Social preview: the cover, when it is a real picture; otherwise the site default.
+const cover = data.cover;
+const hasRealCover = cover?.type === 'image' && cover.src.src !== placeholder.src;
+const ogImage = hasRealCover
+  ? (await getImage({ src: cover.src, width: Math.min(1200, cover.src.width), format: 'jpg' })).src
+  : undefined;
+
+// A small picture is not stretched across the whole column.
+const coverMaxWidth =
+  hasRealCover && cover.src.width < 1100 ? `${Math.round(cover.src.width * 1.5)}px` : undefined;
+---
+
+<BaseLayout
+  title={data.title}
+  description={data.description ?? data.summary}
+  ogType="article"
+  ogImage={ogImage}
+>
+  <article>
+    <header class="project-hero hue" style={`--h:${data.hue}`} data-scenes data-scene-host>
+      <div class="hero-stage" aria-hidden="true">
+        <div class="scene is-active">
+          {data.scene === 'pcb' ? (
+            <ScenePcb />
+          ) : data.scene === 'signal' ? (
+            <SceneSignal />
+          ) : (
+            <SceneGeneric />
+          )}
+        </div>
+      </div>
+
+      <div class="container-page hero-inner">
+        <div class="hero-top" data-enter>
+          <a class="btn btn-secondary btn-sm" href={url('projects/')}>
+            <Icon name="arrow-left" size={16} class="icon-nudge-back" />
+            All projects
+          </a>
+          <button
+            type="button"
+            class="icon-button scene-toggle"
+            data-scene-toggle
+            aria-label="Pause background animation"
+            hidden
+          >
+            <Icon name="pause" class="scene-icon-pause" />
+            <Icon name="play" class="scene-icon-play" />
+          </button>
+        </div>
+
+        <h1 class="display project-title" data-enter style="--i:1">
+          {data.title}
+        </h1>
+        <p class="project-summary" data-enter style="--i:2">
+          {data.summary}
+        </p>
+
+        <dl class="meta-strip" data-enter style="--i:3">
+          {meta.map(({ term, value }) => (
+            <div class="meta-item">
+              <dt>{term}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <div class="hero-foot" data-enter style="--i:4">
+          <TagList tags={data.tags} />
+          {data.links.length > 0 && (
+            <ul class="links-row" aria-label="Links">
+              {data.links.map((link) => (
+                <li>
+                  <a class="btn btn-hue btn-sm" href={link.url} rel="noopener">
+                    {link.label}
+                    <Icon name="arrow-up-right" size={16} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    </header>
+
+    <div class="container-page project-main hue" style={`--h:${data.hue}`}>
+      {cover && (
+        <figure
+          class="project-cover"
+          style={coverMaxWidth ? `max-width:${coverMaxWidth}` : undefined}
+        >
+          <MediaSlot
+            media={cover}
+            name={data.title}
+            icon={data.icon}
+            hue={data.hue}
+            sizes="(min-width: 76rem) 68rem, 92vw"
+            eager
+          />
+          {cover.caption && <figcaption>{cover.caption}</figcaption>}
+        </figure>
+      )}
+
+      <section class="glance" aria-labelledby="glance-heading">
+        <h2 class="subheading" id="glance-heading">
+          At a glance
+        </h2>
+        {data.results && (
+          <dl class="stat-row">
+            {data.results.map(({ value, label }) => (
+              <div class="stat">
+                <dt>{label}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+        <ul class="tech-list" aria-label="Technologies">
+          {data.tech.map((item) => (
+            <li class="chip">{item}</li>
+          ))}
+        </ul>
+      </section>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {data.gallery.length > 0 && (
+        <Gallery items={data.gallery} name={data.title} icon={data.icon} hue={data.hue} />
+      )}
+    </div>
+  </article>
+
+  <aside class="more-projects" aria-labelledby="more-heading">
+    <div class="container-page">
+      {related.length > 0 && (
+        <>
+          <h2 class="heading" id="more-heading" data-reveal>
+            More projects
+          </h2>
+          <div class="card-grid">
+            {related.map((other, index) => (
+              <ProjectCard project={other} level={3} index={index} />
+            ))}
+          </div>
+        </>
+      )}
+
+      <nav class="pager" aria-label="Previous and next project">
+        {previous ? (
+          <a
+            class="pager-link hue"
+            href={projectUrl(previous.id)}
+            style={`--h:${previous.data.hue}`}
+            rel="prev"
+          >
+            <Icon name="arrow-left" size={20} />
+            <span>
+              <span class="label">Previous</span>
+              <span class="pager-title">{previous.data.title}</span>
+            </span>
+          </a>
+        ) : (
+          <span />
+        )}
+        {next && (
+          <a
+            class="pager-link pager-next hue"
+            href={projectUrl(next.id)}
+            style={`--h:${next.data.hue}`}
+            rel="next"
+          >
+            <span>
+              <span class="label">Next</span>
+              <span class="pager-title">{next.data.title}</span>
+            </span>
+            <Icon name="arrow-right" size={20} />
+          </a>
+        )}
+      </nav>
+    </div>
+  </aside>
+</BaseLayout>
+
+<script>
+  import '../../scripts/project-page';
+</script>

@@ -1,0 +1,55 @@
+---
+/**
+ * Project card, for the projects index and "More projects" on a project page.
+ *
+ * The whole card is one link (the title's link is stretched over the card),
+ * and the tag chips sit above it so they can still be followed on their own.
+ * It is a raised surface that lifts on hover; styles are in projects.css.
+ */
+import { formatDates, type Project } from '../lib/projects';
+import { projectUrl } from '../lib/paths';
+import MediaSlot from './MediaSlot.astro';
+import TagList from './TagList.astro';
+
+interface Props {
+  project: Project;
+  /** Heading level of the title, to fit the page's outline. */
+  level?: 2 | 3;
+  /** Position in its row, for the staggered reveal. */
+  index?: number;
+  eager?: boolean;
+}
+
+const { project, level = 2, index = 0, eager = false } = Astro.props;
+const { id, data } = project;
+const Heading = `h${level}` as const;
+---
+
+<article
+  class="project-card hue"
+  style={`--h:${data.hue};--i:${index % 3}`}
+  data-project
+  data-tags={data.tags.join(' ')}
+  data-reveal
+>
+  <MediaSlot
+    class="card-media"
+    media={data.cover}
+    name={data.title}
+    icon={data.icon}
+    hue={data.hue}
+    sizes="(min-width: 64rem) 22rem, (min-width: 40rem) 46vw, 92vw"
+    eager={eager}
+    still
+  />
+  <div class="card-body">
+    <p class="label">{formatDates(data.dates, data.status)}</p>
+    <Heading class="card-title">
+      <a class="card-link" href={projectUrl(id)}>
+        {data.title}
+      </a>
+    </Heading>
+    <p class="card-summary">{data.summary}</p>
+    <TagList tags={data.tags} class="card-tags" />
+  </div>
+</article>

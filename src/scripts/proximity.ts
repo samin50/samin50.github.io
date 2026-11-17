@@ -20,7 +20,8 @@
  * reach is shorter, the falloff is much steeper, and only the target nearest
  * the cursor responds, so neighbours do not light up together.
  */
-const TARGETS = '.btn, a.chip, .icon-button, .contact-link, .showcase-tab, .nav-link';
+const TARGETS =
+  '.btn, a.chip, .icon-button, .contact-link, .showcase-tab, .nav-link, .project-card, .pager-link, .gallery-link';
 /** Distance in pixels at which an element starts to respond. */
 const REACH = 110;
 /** The same, for targets inside a `data-prox-group`. */

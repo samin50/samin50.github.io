@@ -14,13 +14,24 @@ interface Props {
   title?: string;
   description?: string;
   ogType?: 'website' | 'article';
+  /** Social preview image for this page (a site path); omit for the site default. */
+  ogImage?: string | undefined;
 }
 
-const { title, description = site.description, ogType = 'website' } = Astro.props;
+const {
+  title,
+  description = site.description,
+  ogType = 'website',
+  ogImage: pageImage,
+} = Astro.props;
 
 const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.tagline}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = site.ogImage ? new URL(url(site.ogImage), Astro.site) : null;
+const ogImage = pageImage
+  ? new URL(pageImage, Astro.site)
+  : site.ogImage
+    ? new URL(url(site.ogImage), Astro.site)
+    : null;
 
 const preloadFonts = [bricolageUrl, figtreeUrl];
 

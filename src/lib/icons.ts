@@ -7,6 +7,9 @@ import type { ProjectIcon } from './project-visuals';
 
 export const strokeIcons = {
   'arrow-right': ['M5 12h14', 'm12 5 7 7-7 7'],
+  'arrow-left': ['M19 12H5', 'm12 19-7-7 7-7'],
+  x: ['M18 6 6 18', 'm6 6 12 12'],
+  expand: ['M15 3h6v6', 'M9 21H3v-6', 'M21 3l-7 7', 'M3 21l7-7'],
   'arrow-up-right': ['M7 17 17 7', 'M7 7h10v10'],
   download: ['M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4', 'm7 10 5 5 5-5', 'M12 15V3'],
   mail: [
@@ -80,6 +83,14 @@ export const strokeIcons = {
     'M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z',
     'm3.3 7 8.7 5 8.7-5',
     'M12 22V12',
+  ],
+  pencil: ['M4 20l1-5L16 4l4 4L9 19l-5 1Z', 'm13.5 6.5 4 4'],
+  piano: [
+    'M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z',
+    'M9 19v-6',
+    'M15 19v-6',
+    'M9 5v8',
+    'M15 5v8',
   ],
 } as const;
 

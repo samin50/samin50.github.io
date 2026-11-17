@@ -12,6 +12,51 @@ export async function getProjects(tier?: Tier): Promise<Project[]> {
   return entries.sort((a, b) => a.data.order - b.data.order);
 }
 
+const TIER_ORDER: Record<Tier, number> = { featured: 0, secondary: 1, archive: 2 };
+
+/**
+ * The projects that have a page (featured, then secondary), in showcase
+ * order. This is the order of the cards on the index and of the
+ * previous/next links.
+ */
+export async function getPageProjects(): Promise<Project[]> {
+  const entries = await getCollection(
+    'projects',
+    ({ data }) => !data.draft && data.tier !== 'archive',
+  );
+  return entries.sort(
+    (a, b) => TIER_ORDER[a.data.tier] - TIER_ORDER[b.data.tier] || a.data.order - b.data.order,
+  );
+}
+
+/** Up to `limit` other projects that share a tag, the most shared tags first. */
+export function relatedProjects(project: Project, all: Project[], limit = 3): Project[] {
+  const shared = (other: Project) =>
+    other.data.tags.filter((tag) => project.data.tags.includes(tag)).length;
+  return all
+    .filter((other) => other.id !== project.id && shared(other) > 0)
+    .sort((a, b) => shared(b) - shared(a))
+    .slice(0, limit);
+}
+
+const STATUS_LABELS: Record<Project['data']['status'], string> = {
+  complete: 'Complete',
+  'in-progress': 'In progress',
+  ongoing: 'Ongoing',
+};
+
+export function statusLabel(status: Project['data']['status']): string {
+  return STATUS_LABELS[status];
+}
+
+/** "Solo", or "Team of 6 · my role: FPGA and vision pipeline". */
+export function teamLabel(team: Project['data']['team']): string {
+  const size = team.size === 1 ? 'Solo' : `Team of ${team.size}`;
+  const role = team.role ? ` · my role: ${team.role}` : '';
+  const note = team.note ? ` ${team.note}` : '';
+  return `${size}${role}${note}`;
+}
+
 const PLACEHOLDER = /^\[\[(TODO|CHECK): /;
 
 /**

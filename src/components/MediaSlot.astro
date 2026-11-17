@@ -1,11 +1,16 @@
 ---
 /**
- * A 16:10 (or custom ratio) media frame.
+ * A 16:10 media frame.
  *
  * With a real image or video it shows that. While the photo is still missing
  * (the shared placeholder.svg), it renders a tinted panel in the given hue
  * with a name and a simple icon, so layouts can be judged with colour in them.
  * The <img> stays in the markup either way, with its `[[TODO: …]]` alt text.
+ *
+ * A video is a player with a poster and `preload="none"`, so nothing is
+ * downloaded until it is played. With `still`, a video is shown as a picture
+ * instead (its poster, or the placeholder panel): use it where the frame sits
+ * inside a link, such as a project card.
  */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -16,7 +21,13 @@ import Icon from './Icon.astro';
 
 type Media =
   | { type: 'image'; src: ImageMetadata; alt: string; todo?: string | undefined }
-  | { type: 'video'; src: string; alt: string; todo?: string | undefined };
+  | {
+      type: 'video';
+      src: string;
+      poster?: ImageMetadata | undefined;
+      alt: string;
+      todo?: string | undefined;
+    };
 
 interface Props {
   /** Omit to render a placeholder; then `alt` is required. */
@@ -30,6 +41,8 @@ interface Props {
   hue: number;
   sizes?: string;
   eager?: boolean;
+  /** Never render a video player (see above). */
+  still?: boolean;
   class?: string;
 }
 
@@ -41,21 +54,39 @@ const {
   hue,
   sizes = '(min-width: 64rem) 26rem, (min-width: 48rem) 50vw, 92vw',
   eager = false,
+  still = false,
   class: className,
 } = Astro.props;
 
 const loading = eager ? 'eager' : 'lazy';
-const isPlaceholder =
+const isPlaceholderImage =
   media === undefined || (media.type === 'image' && media.src.src === placeholder.src);
+// A video shown as a picture, with no poster to show.
+const isVideoStill = media?.type === 'video' && still && media.poster === undefined;
+const placeholderAlt =
+  media?.type === 'video' ? `[[TODO: ${media.todo ?? media.alt}]]` : (media?.alt ?? alt);
+
+/** Never ask for a version wider than the original: a small picture stays small. */
+const imageWidths = (original: number) => [
+  ...new Set([480, 800, 1200].map((width) => Math.min(width, original))),
+];
+
+/**
+ * Poster for a video that has none: the project's colour, with the same corner
+ * marks as the placeholder image. An inline SVG, so it costs no request.
+ */
+const fallbackPoster = `data:image/svg+xml,${encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="oklch(0.5 0.17 ${hue})"/><stop offset="1" stop-color="oklch(0.5 0.17 ${hue - 30})"/></linearGradient></defs><rect width="1600" height="1000" fill="#555"/><rect width="1600" height="1000" fill="url(#g)"/><path d="M48 128V48h80M1472 48h80v80M1552 872v80h-80M128 952H48v-80" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/></svg>`,
+)}`;
 ---
 
-{isPlaceholder ? (
+{isPlaceholderImage || isVideoStill ? (
   <div class:list={['media-frame ph hue', className]} style={`--h:${hue}`}>
     <img
       src={placeholder.src}
       width={placeholder.width}
       height={placeholder.height}
-      alt={media?.alt ?? alt}
+      alt={placeholderAlt}
       loading={loading}
       decoding="async"
     />
@@ -65,17 +96,34 @@ const isPlaceholder =
     </div>
     <span class="placeholder-badge">placeholder</span>
   </div>
+) : media.type === 'video' && still && media.poster ? (
+  <div class:list={['media-frame', className]}>
+    <Image
+      src={media.poster}
+      alt={media.alt}
+      widths={[480, 800, 1200]}
+      sizes={sizes}
+      loading={loading}
+    />
+  </div>
 ) : media.type === 'video' ? (
   <div class:list={['media-frame', className]}>
-    <video src={url(media.src)} controls playsinline preload="none" aria-label={media.alt} />
-    {media.todo && <span class="placeholder-badge">placeholder</span>}
+    <video
+      src={url(media.src)}
+      poster={media.poster?.src ?? fallbackPoster}
+      controls
+      playsinline
+      preload="none"
+      aria-label={media.alt}
+    />
+    {media.todo && <span class="placeholder-badge">placeholder video</span>}
   </div>
 ) : (
   <div class:list={['media-frame', className]}>
     <Image
       src={media.src}
       alt={media.alt}
-      widths={[480, 800, 1200]}
+      widths={imageWidths(media.src.width)}
       sizes={sizes}
       loading={loading}
     />
