@@ -335,8 +335,16 @@
   .panel-head {
     grid-area: head;
   }
-  .panel-media {
+  .panel-side {
     grid-area: media;
+    display: grid;
+    align-content: start;
+    gap: 1.125rem;
+  }
+  /* Results or technologies under the picture. On phones the panel is already
+     long and these are on the project page, so they show from 768 px only. */
+  .panel-extra {
+    display: none;
   }
   .panel-body {
     grid-area: body;
@@ -388,6 +396,28 @@
       grid-template-areas:
         'media head'
         'media body';
+    }
+    .panel-extra {
+      display: block;
+      padding: 0 0.25rem;
+    }
+    /* Every panel shares the height of the tallest one. A shorter panel
+       centres its content in that height, so the space left over is shared
+       above and below instead of collecting under the picture, and the
+       shorter of the two columns is centred against the taller. */
+    [data-enhanced] .showcase-panel {
+      grid-template-rows: auto auto;
+      align-content: center;
+    }
+    /* The title and the text stay together, whichever column is taller. */
+    [data-enhanced] .panel-head {
+      align-self: end;
+    }
+    [data-enhanced] .panel-body {
+      align-self: start;
+    }
+    [data-enhanced] .panel-side {
+      align-self: center;
     }
   }
   @media (min-width: 64rem) {

@@ -1,0 +1,15 @@
+---
+/** A project's technologies as plain (non-link) chips. */
+interface Props {
+  tech: string[];
+  class?: string;
+}
+
+const { tech, class: className } = Astro.props;
+---
+
+<ul class:list={['tech-list', className]} aria-label="Technologies">
+  {tech.map((item) => (
+    <li class="chip">{item}</li>
+  ))}
+</ul>

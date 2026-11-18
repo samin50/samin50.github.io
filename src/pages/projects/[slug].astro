@@ -14,6 +14,8 @@ import Gallery from '../../components/Gallery.astro';
 import Icon from '../../components/Icon.astro';
 import MediaSlot from '../../components/MediaSlot.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
+import StatRow from '../../components/StatRow.astro';
+import TechList from '../../components/TechList.astro';
 import TagList from '../../components/TagList.astro';
 import SceneGeneric from '../../components/scenes/SceneGeneric.astro';
 import ScenePcb from '../../components/scenes/ScenePcb.astro';
@@ -172,21 +174,8 @@ const coverMaxWidth =
         <h2 class="subheading" id="glance-heading">
           At a glance
         </h2>
-        {data.results && (
-          <dl class="stat-row">
-            {data.results.map(({ value, label }) => (
-              <div class="stat">
-                <dt>{label}</dt>
-                <dd>{value}</dd>
-              </div>
-            ))}
-          </dl>
-        )}
-        <ul class="tech-list" aria-label="Technologies">
-          {data.tech.map((item) => (
-            <li class="chip">{item}</li>
-          ))}
-        </ul>
+        {data.results && <StatRow results={data.results} />}
+        <TechList tech={data.tech} />
       </section>
 
       <div class="prose">

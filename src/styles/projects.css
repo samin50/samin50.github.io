@@ -2,7 +2,8 @@
  * Inner pages. Projects index and project pages: the page head and tag filter, the project
  * card, the archive list, the project header over its scene, the body text,
  * the gallery and its lightbox, and the previous/next links. Also the
- * breadcrumb trail, the context badge and the Experience page's timeline.
+ * breadcrumb trail, the context badge, the Experience page's timeline, and
+ * the About, Contact and 404 pages.
  *
  * Everything here is built from the shared system in tokens.css and
  * global.css: the three radii, the raised border and shadows, the hue system
@@ -475,36 +476,6 @@
     background: var(--surface);
     box-shadow: var(--sh-raised);
   }
-  .stat-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(11.5rem, 1fr));
-    gap: 1.25rem 2rem;
-  }
-  /* The number is shown above its label; in the markup the label (dt) comes first. */
-  .stat {
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: flex-end;
-    gap: 0.25rem;
-  }
-  .stat dd {
-    color: var(--c-ink);
-    font-family: var(--ff-display);
-    font-weight: var(--display-weight);
-    font-size: clamp(2rem, 1.6rem + 1.6vw, 2.75rem);
-    letter-spacing: var(--display-tracking);
-    line-height: 1;
-  }
-  .stat dt {
-    color: var(--text-muted);
-    font-size: 0.875rem;
-    line-height: 1.4;
-  }
-  .tech-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.375rem;
-  }
   @media (min-width: 48rem) {
     .glance {
       padding: 1.75rem 2rem;
@@ -701,6 +672,196 @@
     }
   }
 
+  /* ---------- About ---------- */
+  .about {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(2.5rem, 2rem + 2.5vw, 4.5rem);
+    padding-block: clamp(2rem, 1.5rem + 2vw, 3.5rem) clamp(3rem, 2.5rem + 3vw, 5rem);
+  }
+  .about-profile {
+    display: grid;
+    gap: 1.5rem 3rem;
+    align-items: center;
+  }
+  /* The photo: square, tilted and offset like the home page's. */
+  /* Two classes, so it wins over the shared 16:10 media frame. */
+  .media-frame.about-photo {
+    width: min(100%, 15rem);
+    aspect-ratio: 1;
+    rotate: -2deg;
+    box-shadow: 0.375rem 0.375rem 0 var(--text);
+  }
+  .about-profile-text {
+    display: grid;
+    justify-items: start;
+    gap: 0.875rem;
+    max-width: 44rem;
+  }
+  .about-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+  .about-lead {
+    font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .about-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    margin-top: 0.5rem;
+  }
+  /* A band-coloured strip pointing to the Experience page. */
+  .about-pointer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    padding: 1.125rem 1.5rem;
+    border: 1px solid var(--raised-border);
+    border-radius: var(--r-lg);
+    background: var(--band);
+    box-shadow: var(--sh-raised);
+    font-size: 1.0625rem;
+    font-weight: 600;
+  }
+  .about-section {
+    display: grid;
+    gap: clamp(1.25rem, 1rem + 1vw, 2rem);
+  }
+  .about-card {
+    display: grid;
+    justify-items: start;
+    align-content: start;
+    gap: 0.25rem;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--raised-border);
+    border-radius: var(--r-md);
+    background: var(--surface);
+    box-shadow: var(--sh-raised);
+  }
+  .about-card .role-dates {
+    margin-bottom: 0.5rem;
+  }
+  .skills-grid {
+    display: grid;
+    gap: 1rem;
+  }
+  .beyond-grid {
+    display: grid;
+    gap: 1.5rem 3rem;
+    align-items: start;
+  }
+  .beyond-video figcaption {
+    margin-top: 0.625rem;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+  }
+  @media (min-width: 40rem) {
+    .skills-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 48rem) {
+    .about-profile {
+      grid-template-columns: 15rem minmax(0, 1fr);
+    }
+    .beyond-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+  }
+  @media (min-width: 64rem) {
+    .skills-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .about-profile {
+      grid-template-columns: 18rem minmax(0, 1fr);
+    }
+    .media-frame.about-photo {
+      width: 18rem;
+    }
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-rows {
+    display: grid;
+    gap: 1rem;
+    max-width: 44rem;
+  }
+  /* One large row per way to get in touch: icon, label, the address itself. */
+  .contact-row {
+    --lift-sh: var(--sh-raised);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 4.75rem;
+    padding: 0.875rem 1.25rem;
+    border: 1px solid var(--raised-border);
+    border-radius: var(--r-md);
+    background: var(--surface);
+    box-shadow: var(--lift-sh);
+  }
+  a.contact-row:hover {
+    --lift-sh: var(--sh-raised-hover);
+  }
+  .contact-row-icon {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--r-full);
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+  .contact-row-static .contact-row-icon {
+    background: var(--sun);
+    color: oklch(0.25 0.06 60);
+  }
+  .contact-row-text {
+    display: grid;
+    flex: 1;
+    min-width: 0;
+  }
+  .contact-row-value {
+    overflow-wrap: anywhere;
+    font-family: var(--ff-display);
+    font-weight: var(--heading-weight);
+    font-size: 1.1875rem;
+    letter-spacing: var(--heading-tracking);
+    line-height: 1.25;
+  }
+  .contact-row-arrow {
+    flex: none;
+    color: var(--accent-text);
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .contact-cv {
+    margin-top: 2rem;
+  }
+
+  /* ---------- 404 ---------- */
+  /* The 404 page is only its head: the colour field fills the screen down to the footer. */
+  main:has(.page-head-tall) {
+    display: flex;
+    flex-direction: column;
+  }
+  .page-head-tall {
+    flex: 1;
+    padding-bottom: clamp(3rem, 2rem + 4vw, 5rem);
+  }
+  .not-found-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+
   /* ---------- Gallery ---------- */
   .gallery-grid {
     display: grid;
@@ -842,7 +1003,8 @@
    default reach. On the raised links they sit in front of the card's shadow. */
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .project-card,
-  .pager-link {
+  .pager-link,
+  .contact-row {
     box-shadow:
       0 0 0 calc(var(--prox, 0) * var(--prox-ring-w)) var(--prox-ring),
       0 0 calc(var(--prox, 0) * var(--prox-glow-size)) calc(var(--prox, 0) * 1px) var(--prox-glow),
@@ -860,12 +1022,17 @@
 @media (prefers-reduced-motion: no-preference) {
   .project-card,
   .pager-link,
-  .gallery-link {
+  .gallery-link,
+  .contact-row {
     transition: transform var(--dur-base) var(--ease-out);
   }
   .project-card:hover,
-  .pager-link:hover {
+  .pager-link:hover,
+  a.contact-row:hover {
     transform: translateY(-4px);
+  }
+  a.contact-row:hover .contact-row-arrow {
+    transform: translate(2px, -2px);
   }
   .gallery-link:hover {
     transform: translateY(-3px);

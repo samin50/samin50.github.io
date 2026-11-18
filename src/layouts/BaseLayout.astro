@@ -16,6 +16,8 @@ interface Props {
   ogType?: 'website' | 'article';
   /** Social preview image for this page (a site path); omit for the site default. */
   ogImage?: string | undefined;
+  /** Keep the page out of search results (the 404 page). */
+  noindex?: boolean;
 }
 
 const {
@@ -23,6 +25,7 @@ const {
   description = site.description,
   ogType = 'website',
   ogImage: pageImage,
+  noindex = false,
 } = Astro.props;
 
 const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.tagline}`;
@@ -76,7 +79,7 @@ const themeColor = '#310b23';
 
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <meta name="color-scheme" content="dark light" />
     <meta name="theme-color" content={themeColor} />
     <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />

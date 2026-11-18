@@ -1,0 +1,24 @@
+---
+/**
+ * A project's results as a row of numbers with their labels. Used under
+ * "At a glance" on project pages and, in the compact size, in the home page
+ * showcase panel. Styles are in global.css (`.stat-row`).
+ */
+interface Props {
+  results: { value: string; label: string }[];
+  /** Smaller numbers, two to a row: for the showcase panel. */
+  compact?: boolean;
+  class?: string;
+}
+
+const { results, compact = false, class: className } = Astro.props;
+---
+
+<dl class:list={['stat-row', { 'stat-row-compact': compact }, className]}>
+  {results.map(({ value, label }) => (
+    <div class="stat">
+      <dt>{label}</dt>
+      <dd>{value}</dd>
+    </div>
+  ))}
+</dl>

@@ -5,11 +5,8 @@ node_modules/
 package-lock.json
 
 # not part of the new site
-legacy/
+_archive/
 docs/
-.github/
-.netlify/
-.vscode/
 CLAUDE.md
 README.md
 

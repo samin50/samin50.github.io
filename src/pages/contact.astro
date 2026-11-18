@@ -1,0 +1,68 @@
+---
+/**
+ * Contact: the links from src/config/site.ts, the location and the CV.
+ * The old site's contact form (a third-party form service) is not carried
+ * over: the site is static, and adding a form service needs the owner's say.
+ */
+import '../styles/projects.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Icon from '../components/Icon.astro';
+import { linkAttrs, site } from '../config/site';
+---
+
+<BaseLayout
+  title="Contact"
+  description={`Email, LinkedIn and GitHub for ${site.name}, a software and electronics engineer in London.`}
+>
+  <div class="page-head">
+    <div class="container-page">
+      <Breadcrumbs current="Contact" />
+      <!-- Old site heading and line, unchanged (legacy Contact.tsx:12-13). -->
+      <h1 class="display page-title" data-enter>
+        Contact Me
+      </h1>
+      <p class="page-intro" data-enter style="--i:1">
+        Want to reach out? Send me a message! I'm based in London and happy to talk about the
+        projects here or about engineering work.
+      </p>
+    </div>
+  </div>
+
+  <div class="container-page section-tight">
+    <ul class="contact-rows">
+      {site.contact.map((link) => (
+        <li>
+          <a class="contact-row" {...linkAttrs(link)}>
+            <span class="contact-row-icon" aria-hidden="true">
+              <Icon name={link.icon} size={22} />
+            </span>
+            <span class="contact-row-text">
+              <span class="label">{link.label}</span>
+              <span class="contact-row-value">{link.text}</span>
+            </span>
+            <Icon name="arrow-up-right" size={20} class="contact-row-arrow" />
+          </a>
+        </li>
+      ))}
+      <li>
+        <div class="contact-row contact-row-static">
+          <span class="contact-row-icon" aria-hidden="true">
+            <Icon name="map-pin" size={22} />
+          </span>
+          <span class="contact-row-text">
+            <span class="label">Location</span>
+            <span class="contact-row-value">{site.location}</span>
+          </span>
+        </div>
+      </li>
+    </ul>
+
+    <p class="contact-cv">
+      <a class="btn btn-primary" {...linkAttrs(site.cv)}>
+        <Icon name="download" size={18} class="icon-nudge-y" />
+        {site.cv.label}
+      </a>
+    </p>
+  </div>
+</BaseLayout>

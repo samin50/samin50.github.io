@@ -15,6 +15,8 @@ import { projectUrl, tagUrl, url } from '../lib/paths';
 import { TAG_LABELS } from '../lib/tags';
 import Icon from './Icon.astro';
 import MediaSlot from './MediaSlot.astro';
+import StatRow from './StatRow.astro';
+import TechList from './TechList.astro';
 import SceneGeneric from './scenes/SceneGeneric.astro';
 import ScenePcb from './scenes/ScenePcb.astro';
 import SceneSignal from './scenes/SceneSignal.astro';
@@ -104,14 +106,25 @@ const projects = await getProjects('featured');
               </p>
               <h3 class="panel-title">{data.title}</h3>
             </div>
-            <MediaSlot
-              class="panel-media"
-              media={data.cover}
-              name={data.title}
-              icon={data.icon}
-              hue={data.hue}
-              eager={index === 0}
-            />
+            <div class="panel-side">
+              <MediaSlot
+                class="panel-media"
+                media={data.cover}
+                name={data.title}
+                icon={data.icon}
+                hue={data.hue}
+                eager={index === 0}
+              />
+              <!-- Fills the space under the picture: the results where there
+                   are any, otherwise the technologies. -->
+              <div class="panel-extra">
+                {data.results ? (
+                  <StatRow results={data.results} compact />
+                ) : (
+                  <TechList tech={data.tech} />
+                )}
+              </div>
+            </div>
             <div class="panel-body">
               <p>{data.summary}</p>
               <ul class="flex flex-wrap gap-1.5">

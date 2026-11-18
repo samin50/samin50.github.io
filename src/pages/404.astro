@@ -1,0 +1,39 @@
+---
+/**
+ * Not found. Built as dist/404.html, which GitHub Pages (and Cloudflare
+ * Pages) serve for any missing path. Every link goes through `url()`, so it
+ * works from whatever folder the missing path was in.
+ */
+import '../styles/projects.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Icon from '../components/Icon.astro';
+import { url } from '../lib/paths';
+---
+
+<BaseLayout
+  title="Page not found"
+  description="This page does not exist. Try the projects index or the home page."
+  noindex
+>
+  <div class="page-head page-head-tall">
+    <div class="container-page">
+      <Breadcrumbs current="Page not found" />
+      <h1 class="display page-title" data-enter>
+        Page not found
+      </h1>
+      <p class="page-intro" data-enter style="--i:1">
+        That link doesn't go anywhere. Try the projects index or go back home.
+      </p>
+      <p class="not-found-actions" data-enter style="--i:2">
+        <a class="btn btn-ink" href={url('projects/')}>
+          Projects
+          <Icon name="arrow-right" size={16} class="icon-nudge-x" />
+        </a>
+        <a class="btn btn-secondary" href={url()}>
+          Home
+        </a>
+      </p>
+    </div>
+  </div>
+</BaseLayout>

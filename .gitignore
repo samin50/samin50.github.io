@@ -29,6 +29,9 @@ examples
 docs
 Claude.md
 
-# Astro
-/dist/
+# Astro: build output (also deployed to the Cloudflare Pages review site) and cache
+dist/
 .astro/
+
+# Media from the old site, kept locally and never committed (decision X-4)
+_archive/
