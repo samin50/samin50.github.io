@@ -4,23 +4,10 @@ organisation: Amadeus IT Group
 dates: Apr 2023 – Oct 2023
 start: 2023-04
 # Old site, legacy/src/components/Experience/Professional/Amadeus.tsx:13-17 (two sentences, unchanged).
-summary: I was in charge of developing two powerful internal tools for use by the company. These tools saved several hundred hours of manual labour and were used by several teams across the company.
+summary: I was in charge of developing two powerful internal tools for use by the company, saving hundreds of hours of manual labour and were used by several teams.
 ---
 
-<!--
-  Everything below is the owner's text from the old site
-  (legacy/src/components/Experience/Professional/Amadeus.tsx), word for word
-  apart from spelling fixes. It is here in full for the owner to cut down
-  (decision W-10). The old screenshots of the tools are not used.
--->
-
-From April 2023 to October 2023, I worked with Amadeus IT a Software Engineer.
-
-I was in charge of developing two powerful internal tools for use by the company, and as such, I was given a lot of freedom to develop them as I saw fit as long as they met the requirements. I delivered both projects on time and to a high standard, and I hosted several demos and QnAs to give guidance on the proper use of the tools.
-
-These tools saved several hundred hours of manual labour and were used by several teams across the company.
-
-[[CHECK: the CV describes this role in one line (two Python automation tools, documentation maintenance and Java product data analysis, presented to senior leadership and the wider company). Everything in the two highlights below goes beyond that: confirm it is accurate and that you are happy to publish it]]
+I delivered both projects on time and to a high standard, and I hosted several demos and QnAs to give guidance on the proper use of the tools.
 
 ### Specification Repair Tool
 
@@ -30,23 +17,11 @@ These tools saved several hundred hours of manual labour and were used by severa
 
 #### Context
 
-I was asked to devise a tool that could analyse outdated written HTML documents that contained several hyperlinks, and to update these hyperlinks to their new locations. There are thousands of these documents, so doing this by hand would take hundreds of man-hours. The tool was written with Python and used a certain REST API to access and update the documents (kept confidential for security reasons).
+A tool was needed to repair an outdated customer specification containing thousands of HTML documents containing several broken hyperlinks. Doing this by hand would take hundreds of man-hours. The tool was written with Python and used a certain REST API to access and update the documents. An automated Selenium browser was also used to allow the user to view the documents and the changes made to them in real time.
 
-The tool also interfaced with a web browser using Selenium to allow the user to view the documents and the changes made to them in real time.
+It was to be used by non-developers, so it was designed to be as user-friendly as possible. As the tool had to account for human error (in the form of typos and mismatched names), several techniques such as fuzzy matching were incorporated to ensure that the tool could repair as many links as possible. In the event the tool was not able to automatically resolve a link, the user was given the option to manually resolve the link themselves. Backups were also kept to ensure easy reversal.
 
-#### Implementation
-
-The tool had to repair 3 types of links:
-
-- Existing broken hyperlinks
-- Inserting new links between &lt;&gt; and &lt;&lt;&gt;&gt; identifiers.
-- Replacing plaintext that matches a predefined pattern with a link to their correct page.
-
-The tool used a combination of BeautifulSoup, Regex, and proprietary techniques to identify and repair the links, and the tool was designed to be as modular as possible to allow for easy expansion in the future. This was accomplished by not hardcoding variables and instead allowing a user-configurable file to be used to define the patterns and links to be used.
-
-This tool was designed with the intention of being used by non-developers, so it was designed to be as user-friendly as possible. As the tool had to account for human error (in the form of typos and mismatched names), several techniques such as fuzzy matching were incorporated to ensure that the tool could repair as many links as possible. In the event the tool was not able to automatically resolve a link, the user was given the option to manually resolve the link themselves.
-
-The tool also used a proprietary update system to ensure that the tool was always up to date with the latest version, and to allow for easy updates in the future. This is crucial as the tool is used by several teams across the company, so asking them to manually update the tool would be unfeasible.
+The tool also used a proprietary update system to ensure that the tool was always up-to-date with the latest version, and to allow for easy updates in the future.
 
 ### Java Code Analyser
 
@@ -56,7 +31,7 @@ The tool also used a proprietary update system to ensure that the tool was alway
 
 #### Context
 
-I was asked to devise a tool that could analyse an Amadeus product written in Java to extract and tabulate information that is crucial to the end user. Doing this by hand can require hours of manual effort, and there are hundreds of tables that need to be generated. These tables are usually generated by non-developers who are not familiar with Java, meaning they were sometimes blocked by needing to wait for a developer to aid them. My tool was to be used by these non-developers, and so it was designed to be as user-friendly as possible.
+A tool was needed for to analyse a Java product to extract and tabulate hundreds of tables of information that was crucial to the end user. These tables are usually generated by non-developers who are not familiar with Java, meaning they were sometimes blocked by needing to wait for a developer to aid them, and so it was designed to be as user-friendly as possible.
 
 #### Implementation
 

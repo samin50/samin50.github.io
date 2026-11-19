@@ -4,7 +4,7 @@ title: C Compiler
 summary: In this project, I implemented a C compiler in C++ using Flex and Bison. The compiler supported a subset of C, including functions, structs, arrays, pointers, and basic arithmetic.
 description: A C-to-MIPS compiler built with Flex, Bison and an object-oriented AST in C++.
 tier: featured
-order: 6
+order: 12
 hue: 300
 icon: code
 tags: [software]

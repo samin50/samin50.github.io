@@ -1,0 +1,26 @@
+---
+/**
+ * The lightbox dialog shared by every gallery on a page. src/scripts/lightbox.ts
+ * fills it in. Include it once per page (Gallery.astro does, unless told not to).
+ */
+import Icon from './Icon.astro';
+---
+
+<dialog class="lightbox" data-lightbox-dialog aria-label="Gallery">
+  <div class="lightbox-bar">
+    <p class="label" data-lightbox-count aria-live="polite"></p>
+    <button type="button" class="icon-button" data-lightbox-close aria-label="Close">
+      <Icon name="x" />
+    </button>
+  </div>
+  <div class="lightbox-stage" data-lightbox-stage></div>
+  <div class="lightbox-bar">
+    <button type="button" class="icon-button" data-lightbox-prev aria-label="Previous item">
+      <Icon name="arrow-left" />
+    </button>
+    <p class="lightbox-caption" data-lightbox-caption></p>
+    <button type="button" class="icon-button" data-lightbox-next aria-label="Next item">
+      <Icon name="arrow-right" />
+    </button>
+  </div>
+</dialog>

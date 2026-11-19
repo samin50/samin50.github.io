@@ -2,16 +2,21 @@
 /**
  * Project gallery with a lightbox.
  *
- * Each picture is a plain link to its full-size image, so the gallery works
- * without JavaScript. src/scripts/project-page.ts opens the pictures in the
- * <dialog> below instead. Videos play in place and are not part of the
- * lightbox.
+ * Every item is a plain link to its full-size picture or its video file, so
+ * the gallery works without JavaScript. src/scripts/lightbox.ts opens the
+ * items in the lightbox dialog instead, stepping through this gallery's items
+ * only: videos are shown in the grid as a still
+ * with a play icon and play in the lightbox, from the player kept in each
+ * video's template. In the project page's right column, gallery-fit.ts fits
+ * the column to the text beside it, ending on a "+N more" tile.
  */
 import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import placeholder from '../assets/placeholders/placeholder.svg';
 import type { IconName } from '../lib/icons';
+import { url } from '../lib/paths';
 import Icon from './Icon.astro';
+import Lightbox from './Lightbox.astro';
 import MediaSlot from './MediaSlot.astro';
 
 type Item =
@@ -37,14 +42,36 @@ interface Props {
   name: string;
   icon: IconName;
   hue: number;
+  /** For more than one gallery on a page (the Experience page has one per role). */
+  headingId?: string;
+  headingLevel?: 2 | 3;
+  class?: string;
+  /** Thumbnail widths, as an `<img sizes>` value. */
+  sizes?: string;
+  /**
+   * Include the lightbox dialog. A page with several galleries includes it
+   * once, with <Lightbox />; every gallery on the page shares it.
+   */
+  dialog?: boolean;
 }
 
-const { items, name, icon, hue } = Astro.props;
-const sizes = '(min-width: 64rem) 22rem, (min-width: 40rem) 46vw, 92vw';
+const {
+  items,
+  name,
+  icon,
+  hue,
+  headingId = 'gallery-heading',
+  headingLevel = 2,
+  class: className,
+  sizes = '(min-width: 64rem) 18rem, (min-width: 40rem) 46vw, 92vw',
+  dialog = true,
+} = Astro.props;
+const Heading = headingLevel === 3 ? 'h3' : 'h2';
+const total = items.length;
 
 const entries = await Promise.all(
   items.map(async (item) => {
-    if (item.type === 'video') return { item, full: undefined, isPlaceholder: false };
+    if (item.type === 'video') return { item, full: url(item.src), isPlaceholder: false };
     const isPlaceholder = item.src.src === placeholder.src;
     const full = isPlaceholder
       ? placeholder.src
@@ -55,52 +82,49 @@ const entries = await Promise.all(
 );
 ---
 
-<section class="gallery" aria-labelledby="gallery-heading">
-  <h2 class="heading" id="gallery-heading" data-reveal>
+<section class:list={['gallery', className]} aria-labelledby={headingId} data-gallery>
+  <Heading class="heading" id={headingId} data-reveal>
     Gallery
-  </h2>
-  <ul class="gallery-grid">
-    {entries.map(({ item, full, isPlaceholder }, index) => (
-      <li data-reveal style={`--i:${index % 3}`}>
-        <figure class="gallery-item">
-          {item.type === 'image' && full ? (
+  </Heading>
+  <ul class="gallery-grid" data-gallery-grid>
+    {entries.map(({ item, full, isPlaceholder }, index) => {
+      const kind = item.type === 'video' ? 'Video' : 'Picture';
+      const label = `${kind} ${index + 1} of ${total}: ${item.caption ?? item.alt}`;
+      return (
+        <li data-reveal style={`--i:${index % 3}`}>
+          <figure class="gallery-item">
             <a
               class="gallery-link"
               href={full}
+              aria-label={label}
+              data-label={label}
               data-lightbox
+              data-video={item.type === 'video' ? '' : undefined}
               data-placeholder={isPlaceholder ? '' : undefined}
               data-caption={item.caption}
             >
-              <MediaSlot media={item} name={name} icon={icon} hue={hue} sizes={sizes} />
-              <span class="gallery-zoom" aria-hidden="true">
-                <Icon name="expand" size={16} />
-              </span>
+              <MediaSlot media={item} name={name} icon={icon} hue={hue} sizes={sizes} still />
+              {item.type === 'video' ? (
+                <span class="gallery-play" aria-hidden="true">
+                  <Icon name="play" size={20} />
+                </span>
+              ) : (
+                <span class="gallery-zoom" aria-hidden="true">
+                  <Icon name="expand" size={16} />
+                </span>
+              )}
             </a>
-          ) : (
-            <MediaSlot media={item} name={name} icon={icon} hue={hue} sizes={sizes} />
-          )}
-          {item.caption && <figcaption>{item.caption}</figcaption>}
-        </figure>
-      </li>
-    ))}
+            {item.type === 'video' && (
+              <template data-lightbox-player>
+                <MediaSlot media={item} name={name} icon={icon} hue={hue} />
+              </template>
+            )}
+            {item.caption && <figcaption>{item.caption}</figcaption>}
+          </figure>
+        </li>
+      );
+    })}
   </ul>
 </section>
 
-<dialog class="lightbox" data-lightbox-dialog aria-label="Gallery picture">
-  <div class="lightbox-bar">
-    <p class="label" data-lightbox-count aria-live="polite"></p>
-    <button type="button" class="icon-button" data-lightbox-close aria-label="Close">
-      <Icon name="x" />
-    </button>
-  </div>
-  <div class="lightbox-stage" data-lightbox-stage></div>
-  <div class="lightbox-bar">
-    <button type="button" class="icon-button" data-lightbox-prev aria-label="Previous picture">
-      <Icon name="arrow-left" />
-    </button>
-    <p class="lightbox-caption" data-lightbox-caption></p>
-    <button type="button" class="icon-button" data-lightbox-next aria-label="Next picture">
-      <Icon name="arrow-right" />
-    </button>
-  </div>
-</dialog>
+{dialog && <Lightbox />}

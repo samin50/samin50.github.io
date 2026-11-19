@@ -115,8 +115,6 @@ const projects = await getProjects('featured');
                 hue={data.hue}
                 eager={index === 0}
               />
-              <!-- Fills the space under the picture: the results where there
-                   are any, otherwise the technologies. -->
               <div class="panel-extra">
                 {data.results ? (
                   <StatRow results={data.results} compact />

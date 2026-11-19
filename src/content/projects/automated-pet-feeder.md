@@ -14,18 +14,15 @@ status: complete
 context: university
 contextDetail: University group project
 team:
-  size: '[[CHECK: team size]]'
+  size: 4
   role: Mechanical design, CAD and 3D printing; project manager
 tech:
   - Raspberry Pi
   - Python
-  - FastAPI
   - Vue.js
   - MQTT (Mosquitto)
   - Servo motor
-  - Load cell
-  - 3D printing
-  - SketchUp
+  - FDM and MSLA printing
 links: []
 # The pictures are from the old site (legacy/public/Imperial/Embedded/PetFeeder/).
 # They are 480 x 339, so they are shown small.

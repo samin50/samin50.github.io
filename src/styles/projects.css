@@ -378,9 +378,54 @@
     background: linear-gradient(150deg, var(--c-field), var(--c-field-2));
     opacity: var(--hero-dim);
   }
+  /* Breadcrumb row across the top; under it the text, then the cover. From
+     64rem the cover moves to the right of the text (decision Y-4). */
   .hero-inner {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'top' 'text' 'cover';
+    align-items: center;
+  }
+  .hero-top {
+    grid-area: top;
+  }
+  .hero-text {
+    grid-area: text;
+    display: grid;
     gap: 1rem;
+  }
+  .hero-cover {
+    grid-area: cover;
+    width: 100%;
+    /* --cover-max is set on small pictures, so they are never enlarged much. */
+    max-width: min(36rem, var(--cover-max, 100%));
+    margin-top: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+  }
+  .hero-cover .media-frame {
+    border: 1px solid var(--raised-border);
+    box-shadow: var(--sh-raised);
+  }
+  /* Over the scene the caption is in the body colour, not the muted one, so
+     it keeps its contrast against the tinted veil. */
+  .hero-cover figcaption {
+    margin-top: 0.625rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  @media (min-width: 64rem) {
+    .hero-inner:has(.hero-cover) {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      grid-template-areas: 'top top' 'text cover';
+      column-gap: clamp(2.5rem, 1rem + 2.5vw, 4rem);
+    }
+    .hero-inner:has(.hero-cover) .project-title {
+      font-size: clamp(2.5rem, 1.25rem + 2.4vw, 3.5rem);
+    }
+    .hero-cover {
+      max-width: var(--cover-max, 100%);
+      margin-top: 0;
+      justify-self: end;
+    }
   }
   .hero-top {
     display: flex;
@@ -398,16 +443,35 @@
     font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
     line-height: 1.5;
   }
+  /* Context, Date, Status, Team: one row of equal-height cells (decision
+     AA-1). Every value sits in a line box the badge's height, so labels and
+     values line up across the columns. Team, the only value that can be
+     long, takes the remaining width and wraps inside its cell. Where the
+     header text is narrow, two rows of two. */
+  .hero-text {
+    container-type: inline-size;
+  }
   .meta-strip {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 2.5rem;
+    --meta-line: 1.625rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, max-content));
+    gap: 0.875rem 2rem;
     margin-top: 0.5rem;
     padding-block: 1rem;
     border-block: 1px solid var(--control-border);
   }
+  @container (min-width: 30rem) {
+    .meta-strip {
+      grid-template-columns: repeat(3, max-content) minmax(0, 1fr);
+      gap: 0.75rem clamp(1.25rem, 3cqi, 2.5rem);
+    }
+  }
   .meta-item {
-    max-width: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    align-content: start;
+    gap: 0.125rem;
+    min-width: 0;
   }
   .meta-item dt {
     font-size: 0.8125rem;
@@ -418,11 +482,22 @@
     font-weight: 700;
     line-height: 1.4;
   }
+  /* Plain values: their first line centred in the badge-height line box, so
+     a Team value that wraps keeps normal line spacing. */
+  .meta-item dd:not(.meta-context) {
+    padding-block: calc((var(--meta-line) - 1.4em) / 2);
+  }
   .meta-context {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.25rem 0.5rem;
+    align-items: flex-start;
+  }
+  .meta-context .context-badge {
+    min-height: var(--meta-line);
+  }
+  /* The project's longer context ("MEng final-year project, awarded a
+     First") above the title (decision AA-2). */
+  .project-eyebrow {
+    margin-bottom: -0.375rem;
   }
   .hero-foot {
     display: flex;
@@ -437,27 +512,72 @@
     gap: 0.5rem;
   }
 
-  /* ---------- Project page body ---------- */
+  /* ---------- Project page body ----------
+     Below 64rem one column: At a glance, the text, the gallery. From 64rem the
+     text keeps the left column and At a glance and the gallery run down the
+     right (decision Y-5). The right column scrolls with the page; it is not
+     sticky, as long galleries are taller than the screen. */
   .project-main {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: clamp(2.25rem, 1.75rem + 2.4vw, 4rem);
     padding-block: clamp(2rem, 1.5rem + 2.2vw, 3.5rem) clamp(3rem, 2.5rem + 3vw, 5rem);
   }
-  .project-cover {
-    width: 100%;
-    margin-inline: auto;
-  }
-  .project-cover .media-frame {
-    border: 1px solid var(--raised-border);
-    box-shadow: var(--sh-raised);
-  }
-  .project-cover figcaption,
   .gallery-item figcaption {
     margin-top: 0.625rem;
     color: var(--text-muted);
     font-size: 0.875rem;
     line-height: 1.5;
+  }
+  @media (min-width: 64rem) {
+    .project-main {
+      grid-template-columns: minmax(0, 46rem) minmax(17rem, 1fr);
+      grid-template-rows: auto 1fr;
+      grid-template-areas: 'body glance' 'body gallery';
+      gap: 2.5rem clamp(3rem, 1rem + 3vw, 4rem);
+      align-items: start;
+    }
+    .project-main > .prose {
+      grid-area: body;
+    }
+    .project-main > .glance {
+      grid-area: glance;
+    }
+    .project-main > .gallery {
+      grid-area: gallery;
+    }
+    /* In the narrow column: results two to a row, smaller; one thumbnail per row. */
+    .project-main > .glance {
+      padding: 1.5rem;
+    }
+    .project-main > .glance .stat-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem 1.25rem;
+    }
+    .project-main > .glance .stat dd {
+      font-size: 1.75rem;
+    }
+    .project-main > .gallery .heading {
+      font-size: 1.25rem;
+    }
+    /* One item per row, the full width of the column (decision Z-5). With
+       the script, captions are hidden here (they are in each link's label and
+       in the lightbox) so every row is the same height, and gallery-fit.ts
+       shows only what fits beside the text. Without it every item is shown,
+       with its caption. */
+    .project-main > .gallery .gallery-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .project-main > [data-fit] .gallery-item figcaption {
+      display: none;
+    }
+  }
+  /* A video's placeholder panel drops its icon and name: the play button
+     takes the middle. */
+  .gallery-link[data-video] .ph-body {
+    display: none;
   }
 
   /* On a video the badge sits at the top, clear of the player's controls. */
@@ -627,13 +747,121 @@
     background: var(--surface);
     box-shadow: var(--sh-raised);
   }
-  .timeline-head {
+  /* Inside a card: the role (identity), its detail and highlights (main),
+     then its gallery across the bottom. Stacked below 64rem (decision AB-4). */
+  .timeline-card {
+    --role-sticky-top: 6.5rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'identity' 'main' 'gallery';
+  }
+  .role-identity {
+    grid-area: identity;
     display: grid;
     justify-items: start;
+    align-content: start;
     gap: 0.25rem;
   }
-  .timeline-head .role-dates {
+  .role-identity .role-dates {
     margin-bottom: 0.5rem;
+  }
+  .role-tech {
+    margin-top: 0.75rem;
+  }
+  .role-main {
+    grid-area: main;
+    display: grid;
+    gap: 1.75rem;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    container-type: inline-size;
+  }
+  .role-detail {
+    max-width: 46rem;
+  }
+  /* Highlights: raised sub-cards, one per row; two per row where the column
+     is wide enough for a comfortable line (decision AB-2). */
+  .role-highlights {
+    display: grid;
+    gap: 1rem;
+  }
+  .role-highlight {
+    max-width: none;
+    padding: 1.125rem 1.25rem 1.25rem;
+    border: 1px solid var(--raised-border);
+    border-radius: var(--r-md);
+    background: var(--bg);
+    box-shadow: var(--sh-raised);
+    font-size: 0.9688rem;
+    line-height: 1.6;
+  }
+  .role-highlights:not(.is-grid) .role-highlight {
+    max-width: 46rem;
+  }
+  @container (min-width: 40rem) {
+    .role-highlights.is-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .role-highlight h3 {
+    font-size: 1.1875rem;
+  }
+  .role-highlight h4 {
+    font-size: 1rem;
+  }
+  /* A list of chips in the Markdown is not a bulleted list. */
+  .prose .tech-list {
+    padding-left: 0;
+    list-style: none;
+  }
+  .prose .tech-list li + li {
+    margin-top: 0;
+  }
+  .role-gallery {
+    grid-area: gallery;
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .role-gallery .heading {
+    font-size: 1.1875rem;
+  }
+  .role-gallery .gallery-grid {
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  @media (min-width: 64rem) {
+    .timeline-card {
+      grid-template-columns: 14rem minmax(0, 1fr);
+      grid-template-areas: 'identity main' 'gallery gallery';
+    }
+    /* A hairline between the columns, in place of a gap. */
+    .role-main {
+      margin-top: 0;
+      padding-top: 0;
+      padding-left: 2.5rem;
+      border-top: 0;
+      border-left: 1px solid var(--border);
+    }
+    .role-identity {
+      align-self: start;
+      padding-right: 2rem;
+    }
+    /* The title fits the narrow column in two or three lines. */
+    .role-identity .timeline-title {
+      font-size: 1.625rem;
+    }
+    /* Set by src/scripts/experience.ts only where the column fits on screen
+       and is shorter than the right column (decision AB-1). It sticks within
+       its own grid cell, so it never reaches the gallery or the next card. */
+    .timeline-card[data-sticky] .role-identity {
+      position: sticky;
+      top: var(--role-sticky-top);
+    }
+    .role-gallery .gallery-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
   }
   .timeline-title {
     font-weight: var(--heading-weight);
@@ -647,20 +875,6 @@
     font-size: 1.0625rem;
     font-weight: 600;
     line-height: 1.55;
-  }
-  .timeline-body {
-    margin-top: 1.25rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--border);
-  }
-  /* A highlight (one tool or piece of work) within a role. */
-  .timeline-body h3 {
-    font-size: 1.375rem;
-  }
-  .timeline-body > * + h3 {
-    margin-top: 2.25rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
   }
   @media (min-width: 48rem) {
     .timeline-item {
@@ -752,6 +966,10 @@
     display: grid;
     gap: 1rem;
   }
+  /* The uncategorised group can be long: it takes a whole row. */
+  .skills-grid > .skills-other {
+    grid-column: 1 / -1;
+  }
   .beyond-grid {
     display: grid;
     gap: 1.5rem 3rem;
@@ -776,8 +994,9 @@
     }
   }
   @media (min-width: 64rem) {
+    /* Three across: the nine skill groups make three full rows. */
     .skills-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
     .about-profile {
       grid-template-columns: 18rem minmax(0, 1fr);
@@ -896,6 +1115,59 @@
     background: var(--bg);
     color: var(--text);
   }
+  /* A video: its poster (or the project-colour panel) with a play button.
+     It plays in the lightbox. */
+  .gallery-play {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--r-full);
+    background: var(--bg);
+    color: var(--text);
+    box-shadow: var(--sh-raised);
+    transform: translate(-50%, -50%);
+  }
+  .gallery-play .icon {
+    translate: 1px 0;
+  }
+  /* The last tile shown when the column has more than fits: its own
+     thumbnail, dimmed, with the count over it (gallery-fit.ts). */
+  .gallery-more {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    border-radius: var(--r-md);
+    /* A dark veil in both themes, so the tile reads as a control, not as
+       something disabled (decision AA-4). The count sits on a solid dark
+       pill, in cream, so it keeps its contrast over any picture. */
+    background: oklch(0.2 0.05 345 / 0.62);
+    transition: background-color var(--dur-fast) ease;
+  }
+  .gallery-more > span {
+    padding: 0.375rem 1rem;
+    border-radius: var(--r-full);
+    background: oklch(0.2 0.05 345 / 0.92);
+    color: oklch(0.975 0.015 70);
+    font-family: var(--ff-display);
+    font-weight: var(--heading-weight);
+    font-size: 1.375rem;
+    letter-spacing: var(--heading-tracking);
+    line-height: 1.2;
+  }
+  .is-more:hover .gallery-more,
+  .is-more:focus-visible .gallery-more {
+    background: oklch(0.2 0.05 345 / 0.45);
+  }
+  /* Under the count, a placeholder panel's icon and name would collide with it. */
+  .is-more .gallery-zoom,
+  .is-more .gallery-play,
+  .is-more .ph-body {
+    display: none;
+  }
 
   /* ---------- Lightbox ---------- */
   .lightbox {
@@ -944,9 +1216,12 @@
     border-radius: var(--r-md);
     object-fit: contain;
   }
-  /* A placeholder panel keeps its 16:10 shape and fits the space. */
+  /* A placeholder panel or a video player keeps its 16:10 shape and fits the space. */
   .lightbox-stage > .media-frame {
     width: min(100%, (100dvh - 9rem) * 1.6);
+  }
+  .lightbox-stage > .media-frame > video {
+    object-fit: contain;
   }
 
   /* ---------- More projects, previous and next ---------- */

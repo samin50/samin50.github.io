@@ -68,7 +68,7 @@ const ogImage = hasRealCover
   ? (await getImage({ src: cover.src, width: Math.min(1200, cover.src.width), format: 'jpg' })).src
   : undefined;
 
-// A small picture is not stretched across the whole column.
+// A small picture is not stretched across the whole cover column.
 const coverMaxWidth =
   hasRealCover && cover.src.width < 1100 ? `${Math.round(cover.src.width * 1.5)}px` : undefined;
 ---
@@ -111,65 +111,72 @@ const coverMaxWidth =
           </button>
         </div>
 
-        <h1 class="display project-title" data-enter style="--i:1">
-          {data.title}
-        </h1>
-        <p class="project-summary" data-enter style="--i:2">
-          {data.summary}
-        </p>
-
-        <dl class="meta-strip" data-enter style="--i:3">
-          <div class="meta-item">
-            <dt>Context</dt>
-            <dd class="meta-context">
-              <ContextBadge context={data.context} />
+        <div class="hero-text">
+          {data.contextDetail && (
+            <p class="label project-eyebrow" data-enter>
               {data.contextDetail}
-            </dd>
-          </div>
-          {meta.map(({ term, value }) => (
-            <div class="meta-item">
-              <dt>{term}</dt>
-              <dd>{value}</dd>
-            </div>
-          ))}
-        </dl>
-
-        <div class="hero-foot" data-enter style="--i:4">
-          <TagList tags={data.tags} />
-          {data.links.length > 0 && (
-            <ul class="links-row" aria-label="Links">
-              {data.links.map((link) => (
-                <li>
-                  <a class="btn btn-hue btn-sm" href={link.url} rel="noopener">
-                    {link.label}
-                    <Icon name="arrow-up-right" size={16} />
-                  </a>
-                </li>
-              ))}
-            </ul>
+            </p>
           )}
+          <h1 class="display project-title" data-enter style="--i:1">
+            {data.title}
+          </h1>
+          <p class="project-summary" data-enter style="--i:2">
+            {data.summary}
+          </p>
+
+          <dl class="meta-strip" data-enter style="--i:3">
+            <div class="meta-item">
+              <dt>Context</dt>
+              <dd class="meta-context">
+                <ContextBadge context={data.context} />
+              </dd>
+            </div>
+            {meta.map(({ term, value }) => (
+              <div class="meta-item">
+                <dt>{term}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <div class="hero-foot" data-enter style="--i:4">
+            <TagList tags={data.tags} />
+            {data.links.length > 0 && (
+              <ul class="links-row" aria-label="Links">
+                {data.links.map((link) => (
+                  <li>
+                    <a class="btn btn-hue btn-sm" href={link.url} rel="noopener">
+                      {link.label}
+                      <Icon name="arrow-up-right" size={16} />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
+
+        {cover && (
+          <figure
+            class="hero-cover"
+            data-enter
+            style={`--i:2${coverMaxWidth ? `;--cover-max:${coverMaxWidth}` : ''}`}
+          >
+            <MediaSlot
+              media={cover}
+              name={data.title}
+              icon={data.icon}
+              hue={data.hue}
+              sizes="(min-width: 76rem) 32rem, (min-width: 64rem) 40vw, (min-width: 40rem) 36rem, 92vw"
+              eager
+            />
+            {cover.caption && <figcaption>{cover.caption}</figcaption>}
+          </figure>
+        )}
       </div>
     </header>
 
     <div class="container-page project-main hue" style={`--h:${data.hue}`}>
-      {cover && (
-        <figure
-          class="project-cover"
-          style={coverMaxWidth ? `max-width:${coverMaxWidth}` : undefined}
-        >
-          <MediaSlot
-            media={cover}
-            name={data.title}
-            icon={data.icon}
-            hue={data.hue}
-            sizes="(min-width: 76rem) 68rem, 92vw"
-            eager
-          />
-          {cover.caption && <figcaption>{cover.caption}</figcaption>}
-        </figure>
-      )}
-
       <section class="glance" aria-labelledby="glance-heading">
         <h2 class="subheading" id="glance-heading">
           At a glance

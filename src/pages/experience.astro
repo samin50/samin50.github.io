@@ -1,17 +1,25 @@
 ---
 /**
- * Experience: one section per role, newest first, laid out as a timeline.
+ * Experience: one card per role, newest first, laid out as a timeline.
  * Each role is a Markdown file in src/content/experience/.
+ *
+ * From 64rem a card has two columns (decisions AB-1 to AB-4): the role on the
+ * left (dates, title, organisation, summary), and on the right the detail
+ * (the text before the first `###`) then the highlights (one raised sub-card
+ * per `###` section). The Markdown's images are shown as a gallery across the
+ * bottom of the card. Below 64rem it all stacks in that order. The Markdown is
+ * not changed: src/lib/roles.ts splits its rendered HTML.
  */
 import '../styles/projects.css';
-import { render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Gallery from '../components/Gallery.astro';
+import Lightbox from '../components/Lightbox.astro';
 import { getRoles } from '../lib/projects';
+import { splitRole } from '../lib/roles';
 
-const roles = await Promise.all(
-  (await getRoles()).map(async (role) => ({ role, Content: (await render(role)).Content })),
-);
+const roles = (await getRoles()).map((role) => ({ role, ...splitRole(role) }));
+const hasGallery = roles.some(({ images }) => images.length > 0);
 ---
 
 <BaseLayout
@@ -34,27 +42,64 @@ const roles = await Promise.all(
   <div class="section-tight">
     <div class="container-page">
       <ol class="timeline">
-        {roles.map(({ role, Content }) => (
+        {roles.map(({ role, detail, highlights, images }) => (
           <li class="timeline-item" id={role.id}>
             <div class="timeline-rail" aria-hidden="true">
               <span class="timeline-dot" />
             </div>
-            <article class="timeline-card" aria-labelledby={`${role.id}-title`} data-reveal>
-              <header class="timeline-head">
+            <article
+              class="timeline-card"
+              aria-labelledby={`${role.id}-title`}
+              data-role-card
+              data-reveal
+            >
+              <header class="role-identity">
                 <p class="role-dates">{role.data.dates}</p>
                 <h2 class="timeline-title" id={`${role.id}-title`}>
                   {role.data.title}
                 </h2>
                 <p class="role-org">{role.data.organisation}</p>
                 <p class="timeline-summary">{role.data.summary}</p>
+                {role.data.tech && role.data.tech.length > 0 && (
+                  <ul class="tech-list role-tech" aria-label="Tech">
+                    {role.data.tech.map((item) => (
+                      <li class="chip">{item}</li>
+                    ))}
+                  </ul>
+                )}
               </header>
-              <div class="prose timeline-body">
-                <Content />
+              <div class="role-main">
+                {detail && <div class="prose role-detail" set:html={detail} />}
+                {highlights.length > 0 && (
+                  <div class:list={['role-highlights', { 'is-grid': highlights.length > 1 }]}>
+                    {highlights.map((highlight) => (
+                      <section class="prose role-highlight" set:html={highlight} />
+                    ))}
+                  </div>
+                )}
               </div>
+              {images.length > 0 && (
+                <Gallery
+                  class="role-gallery"
+                  items={images}
+                  name={role.data.organisation}
+                  icon="code"
+                  hue={12}
+                  headingId={`${role.id}-gallery`}
+                  headingLevel={3}
+                  sizes="(min-width: 64rem) 15rem, (min-width: 40rem) 42vw, 88vw"
+                  dialog={false}
+                />
+              )}
             </article>
           </li>
         ))}
       </ol>
     </div>
   </div>
+  {hasGallery && <Lightbox />}
 </BaseLayout>
+
+<script>
+  import '../scripts/experience';
+</script>

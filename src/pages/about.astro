@@ -12,79 +12,10 @@ import Icon from '../components/Icon.astro';
 import MediaSlot from '../components/MediaSlot.astro';
 import { linkAttrs, site } from '../config/site';
 import { contextUrl, projectUrl, url } from '../lib/paths';
+import { skillGroups } from '../data/skills';
 
-/** Skill groups as on the CV (CV/main.tex:117-127, the union of its variants). */
-const skills = [
-  { group: 'Languages', items: ['Python', 'C++', 'C', 'Embedded C', 'Java', 'JavaScript'] },
-  {
-    group: 'Computer vision',
-    items: [
-      'PyTorch',
-      'OpenCV',
-      'ONNX Runtime',
-      'YOLOv8',
-      'Classical vision',
-      'Model training',
-      'Edge deployment (Raspberry Pi)',
-    ],
-  },
-  {
-    group: 'AI and LLMs',
-    items: [
-      'LLM agents',
-      'Prompt engineering',
-      'Local LLMs (Ollama)',
-      'CNNs',
-      'GANs',
-      'VAEs',
-      'NLP',
-    ],
-  },
-  {
-    group: 'Electronics',
-    items: [
-      'PCB design',
-      'Schematic capture',
-      'Component selection',
-      'Power design',
-      'KiCad',
-      'KiKit',
-      'Hand soldering',
-      'Board bring-up',
-      'Verilog/SystemVerilog',
-      'FPGA',
-    ],
-  },
-  {
-    group: 'Embedded',
-    items: [
-      'C',
-      'Zephyr RTOS',
-      'Nordic nRF52',
-      'ESP32',
-      'Raspberry Pi',
-      'PlatformIO',
-      'BLE',
-      'MQTT',
-      'USB HID',
-      'I2C',
-    ],
-  },
-  {
-    group: 'CAD and fabrication',
-    items: [
-      'FreeCAD',
-      'OpenSCAD',
-      'Blender',
-      'FDM and MSLA printing (tuning, Klipper, maintenance)',
-    ],
-  },
-  {
-    group: 'Cloud and tools',
-    items: ['Docker', 'Git', 'SQL', 'Linux', 'AI coding agents', 'AWS'],
-  },
-  { group: 'Compliance', items: ['GDPR', 'PCI DSS', 'US accessibility requirements'] },
-];
+/** Skill groups from the registry (src/data/skills.ts), in category order, then "Other". */
+const skills = skillGroups();
 
 /** The old site's "Interests" (legacy Sidebar.tsx). */
 const interests = ['3D Printing', 'Piano', 'DIY', 'CAD'];
@@ -132,8 +63,7 @@ const social = site.contact.filter((link) => link.icon !== 'mail');
         <p>
           I have an MEng in Electronic and Information Engineering from Imperial College London. At
           Amadeus I'm the primary technical contact for around 50 airline clients on self-service
-          check-in kiosks and web check-in. Outside work I build hardware: two generations of KiCad
-          PCBs, about 10k lines of Zephyr RTOS firmware with BLE, mechanical CAD and 3D printing.
+          check-in kiosks and web check-in. Outside of work I spend my time on various projects, from PCB design to CAD to firmware development.
         </p>
         <div class="about-actions">
           <a class="btn btn-primary" {...linkAttrs(site.cv)}>
@@ -187,8 +117,12 @@ const social = site.contact.filter((link) => link.icon !== 'mail');
         Skills
       </h2>
       <div class="skills-grid">
-        {skills.map(({ group, items }, index) => (
-          <div class="about-card" data-reveal style={`--i:${index % 3}`}>
+        {skills.map(({ name: group, items }, index) => (
+          <div
+            class:list={['about-card', { 'skills-other': group === 'Other' }]}
+            data-reveal
+            style={`--i:${index % 3}`}
+          >
             <h3 class="subheading">{group}</h3>
             <ul class="tech-list mt-3" aria-label={group}>
               {items.map((item) => (
@@ -214,11 +148,7 @@ const social = site.contact.filter((link) => link.icon !== 'mail');
       <div class="beyond-grid">
         <div class="prose">
           <!-- legacy DIYProjects.tsx:10, first sentence -->
-          <p>I have always been fascinated by the idea of making things with my own hands.</p>
-          <!-- legacy Printing.tsx:12, one sentence -->
-          <p>
-            I have always been interested in physically making things, and 3D printing opened the
-            door to a whole new world of possibilities.
+          <p>I have always been fascinated by the idea of physically making things with my own hands, and 3D printing opened the door to a whole new world of possibilities. This, coupled with my programming and PCB design skills, means I can bring any idea of mine to life.
           </p>
           <p>
             <a class="btn btn-secondary btn-sm" href={contextUrl('personal')}>
@@ -256,21 +186,8 @@ const social = site.contact.filter((link) => link.icon !== 'mail');
         <h3>My setup</h3>
         <!-- legacy Hero.tsx:22-25, unchanged (decision C-4) -->
         <p>
-          My current setup is a Legion 7 5950HX with a 3080, which I use for both work, gaming and
-          AI work; the RTX 3080 with 16GB VRAM has proven very useful for this. I regularly play
-          piano, and I have outfitted it and my monitor with reactive LEDs (all of which you can see
-          in my Personal Portfolio section!). My desk is also equipped with my custom built DIY
-          storage solution that houses my piano and mounts my monitor, that I personally built out
-          of MDF and some rebar. To the left of my desk I have my 3D Printer that I use for
-          prototyping and personal projects, and have upgraded myself by flashing Linux on an old
-          Android TV Box and installing Klipper.
-        </p>
-        <p>
-          [[CHECK: still accurate? (a) the laptop: Legion 7 5950HX with an RTX 3080; (b) reactive
-          LEDs on the piano and the monitor; (c) the MDF and rebar desk storage; (d) the printer
-          sentence describes the earlier printer on an Android TV box, where the CV now lists
-          Klipper on an SV08; (e) "my Personal Portfolio section" names a section this site does not
-          have]]
+          My current setup is a Legion 9 82F5 with an RTX 5090, which I use for both work, gaming and
+          AI work; the RTX 5090 with 24GB VRAM has proven very useful for this. I
         </p>
       </div>
     </section>

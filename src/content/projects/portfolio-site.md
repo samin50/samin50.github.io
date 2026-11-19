@@ -1,5 +1,5 @@
 ---
-title: This site
+title: This Site
 # New wording (docs/content-plan.md §5.4); the old site described the React version.
 summary: 'Astro, Tailwind and TypeScript, deployed to GitHub Pages; projects are a typed content collection.'
 tier: archive

@@ -3,6 +3,7 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { PROJECT_ICONS } from './lib/project-visuals';
 import { CONTEXTS, TAGS } from './lib/tags';
+import { withSkillCheck } from './lib/skill-check';
 
 /**
  * Projects collection. One Markdown file per project in src/content/projects/;
@@ -23,7 +24,7 @@ const placeholder = z
   .regex(/^\[\[(TODO|CHECK): .+\]\]$/, 'Use a [[TODO: …]] / [[CHECK: …]] placeholder');
 
 const projects = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
+  loader: withSkillCheck(glob({ pattern: '**/*.md', base: './src/content/projects' })),
   schema: ({ image }) => {
     const media = z.discriminatedUnion('type', [
       z.object({
@@ -79,7 +80,7 @@ const projects = defineCollection({
             note: z.string().optional(),
           })
           .default({ size: 1 }),
-        /** Free text, shown as chips. */
+        /** Skills from src/data/skills.ts, shown as chips; an unknown one is a build warning (lib/skill-check.ts). */
         tech: z.array(z.string()).min(1),
         /** Optional stat row. */
         results: z
@@ -131,7 +132,7 @@ const projects = defineCollection({
  * the body is the detail shown on the Experience page.
  */
 const experience = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/experience' }),
+  loader: withSkillCheck(glob({ pattern: '**/*.md', base: './src/content/experience' })),
   schema: z.object({
     title: z.string(),
     organisation: z.string(),
@@ -141,6 +142,8 @@ const experience = defineCollection({
     start: z.string().regex(/^\d{4}-\d{2}$/),
     /** Shown on the home page and at the top of the role. */
     summary: z.string(),
+    /** Optional: the role's tech, shown as chips under the summary on the Experience page. */
+    tech: z.array(z.string()).optional(),
   }),
 });
 

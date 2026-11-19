@@ -22,16 +22,14 @@ dist-ssr
 *.sln
 *.sw?
 examples
-# Local Netlify folder
 .netlify
 
 # etc
 docs
 Claude.md
+.wrangler
 
 # Astro: build output (also deployed to the Cloudflare Pages review site) and cache
 dist/
 .astro/
-
-# Media from the old site, kept locally and never committed (decision X-4)
 _archive/
