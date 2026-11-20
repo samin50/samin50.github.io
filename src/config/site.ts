@@ -36,7 +36,7 @@ export const site = {
     'Software engineer at Amadeus with a hardware portfolio: KiCad PCBs, Zephyr firmware, FPGA vision and YOLOv8 models deployed on edge devices.',
 
   /** Suffix for the home page <title>: "{name} - {tagline}". */
-  tagline: 'Software, electronics and applied AI',
+  tagline: 'Software, Electronics and Applied AI',
 
   /** A single general CV PDF (decision 11). Put the file in public/ and set e.g. 'cv.pdf'. */
   cv: {

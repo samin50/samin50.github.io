@@ -45,43 +45,14 @@ cover:
 gallery:
   - type: image
     src: current.jpeg
-    alt: '[[TODO: photo of the bare generation-1 4-layer PCB]]'
+    alt: 'The current status of the keyboard'
     caption: The current status of the keyboard
     todo: Bare generation-1 PCB, top side
   - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: photo of the bare generation-2 2-layer PCB]]'
-    caption: Generation 2, redesigned to 2 layers.
+    src: resin.jpeg
+    alt: 'me!'
+    caption: Me dealing with the resin :)
     todo: Bare generation-2 PCB, top side
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: close-up of the assembled PCB showing the nRF52833 and chip antenna]]'
-    todo: Assembled PCB close-up around the MCU and antenna
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: KiCad 3D render of the board, front and back]]'
-    todo: KiCad 3D render, front and back
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: schematic of the power section: charger, fuel gauge, buck-boost]]'
-    caption: Power section.
-    todo: Schematic export of the power sheet, PNG or SVG
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: KiCad layout screenshot]]'
-    todo: Layout screenshot
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: bench photo of bring-up with the J-Link attached]]'
-    todo: Bring-up bench photo with J-Link
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: OpenSCAD keycap render or photo of the resin-printed keycaps]]'
-    todo: Keycap render or photo
-  - type: video
-    src: sampleVideo.mp4
-    alt: The keyboard pairing and being typed on
-    todo: '15–30 s pairing and typing clip'
 ---
 
 ## Overview
