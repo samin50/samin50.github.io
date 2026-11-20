@@ -8,6 +8,7 @@
  * A link whose `href` is `null` renders as `href="#"` with a `data-todo`
  * attribute, so the page still works while the real URL is missing.
  */
+import { newTabAttrs, type NewTabAttrs } from '../lib/links';
 
 export interface SiteLink {
   /** Visible label, e.g. "Email". */
@@ -80,10 +81,15 @@ export const site = {
   showArchiveMedia: false as boolean,
 } as const;
 
-/** Attributes for an anchor whose target may still be a placeholder. */
-export function linkAttrs(link: { href: string | null; todo: string }): {
+/**
+ * Attributes for an anchor whose target may still be a placeholder. A real
+ * link to another site (or a PDF) opens in a new tab (src/lib/links.ts).
+ */
+export function linkAttrs(link: { href: string | null; todo: string }): NewTabAttrs & {
   href: string;
   'data-todo'?: string;
 } {
-  return link.href === null ? { href: '#', 'data-todo': link.todo } : { href: link.href };
+  return link.href === null
+    ? { href: '#', 'data-todo': link.todo }
+    : { href: link.href, ...newTabAttrs(link.href) };
 }

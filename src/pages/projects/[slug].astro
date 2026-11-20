@@ -28,6 +28,7 @@ import {
   type Project,
 } from '../../lib/projects';
 import { projectUrl, url } from '../../lib/paths';
+import { newTabAttrs } from '../../lib/links';
 
 export async function getStaticPaths() {
   const projects = await getPageProjects();
@@ -137,7 +138,7 @@ const coverMaxWidth =
               <ul class="links-row" aria-label="Links">
                 {data.links.map((link) => (
                   <li>
-                    <a class="btn btn-hue btn-sm" href={link.url} rel="noopener">
+                    <a class="btn btn-hue btn-sm" href={link.url} {...newTabAttrs(link.url)}>
                       {link.label}
                       <Icon name="arrow-up-right" size={16} />
                     </a>

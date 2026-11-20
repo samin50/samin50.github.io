@@ -3,6 +3,7 @@ import '../styles/global.css';
 import '../styles/home.css';
 import { site } from '../config/site';
 import { url } from '../lib/paths';
+import { NEW_TAB_NOTE_ID } from '../lib/links';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
@@ -82,7 +83,7 @@ const themeColor = '#fff0e2';
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content={themeColor} />
-    <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
+    <!-- <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} /> -->
 
     {preloadFonts.map((href) => (
       <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />
@@ -106,6 +107,10 @@ const themeColor = '#fff0e2';
       class="pointer-events-none absolute top-0 h-4 w-px"
       aria-hidden="true"
     ></div>
+    <!-- Read out after any link that opens in a new tab (aria-describedby; src/lib/links.ts). -->
+    <span id={NEW_TAB_NOTE_ID} hidden>
+      Opens in a new tab
+    </span>
     <Header />
     <main id="main">
       <slot />
