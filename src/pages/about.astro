@@ -14,6 +14,7 @@ import { linkAttrs, site } from '../config/site';
 import { contextUrl, projectUrl, url } from '../lib/paths';
 import { skillGroups } from '../data/skills';
 
+import pianoPoster from '../assets/pianoscreenshot.png';
 /** Skill groups from the registry (src/data/skills.ts), in category order, then "Other". */
 const skills = skillGroups();
 
@@ -165,22 +166,22 @@ import me from '../assets/me.jpeg';
             I have been playing piano on and off since I was around 13, but I have never had any
             formal training; after begging my parents for a keyboard, I taught myself how to play. I
             have always been interested in music, and to this day I do not consider myself a good
-            pianist, but I do enjoy playing. I hope you enjoy some of my recordings!
+            pianist, but I do enjoy playing!
           </p>
         </div>
         <figure class="beyond-video">
-          <!-- <MediaSlot
+          <MediaSlot
             media={{
               type: 'video',
-              src: 'sampleVideo.mp4',
-              alt: 'A piano recording',
-              todo: 'A short piano recording, 60 s or less, re-encoded from the old Call of Silence or 0sk clip',
+              src: 'CallOfSilenceSample.mp4',
+              poster: pianoPoster,
+              alt: 'Call of Silence',
             }}
             name="Piano"
             icon="piano"
             hue={325}
           />
-          <figcaption>[[TODO: title of the piece]]</figcaption> -->
+          <figcaption>Call of Silence from Attack on Titan</figcaption>
         </figure>
       </div>
 
