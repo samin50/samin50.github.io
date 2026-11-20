@@ -22,7 +22,7 @@
   .page-head {
     position: relative;
     isolation: isolate;
-    padding-block: clamp(1.5rem, 1rem + 2.5vw, 3rem) clamp(1.5rem, 1.25rem + 1.2vw, 2.25rem);
+    padding-block: var(--page-top) clamp(1.5rem, 1.25rem + 1.2vw, 2.25rem);
   }
   /* The same colour field as the home page intro, running up behind the header. */
   .page-head::before {
@@ -428,7 +428,7 @@
   .project-hero {
     position: relative;
     isolation: isolate;
-    padding-block: clamp(0.75rem, 0.5rem + 1vw, 1.5rem) clamp(2rem, 1.5rem + 2vw, 3.25rem);
+    padding-block: var(--page-top) clamp(2rem, 1.5rem + 2vw, 3.25rem);
   }
   /* Holds the scene. It runs up behind the site header, as the intro's colour
      field does on the home page, and is not fixed: it scrolls with the page. */

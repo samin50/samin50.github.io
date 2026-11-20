@@ -44,7 +44,7 @@ cover:
 gallery:
   - type: video
     src: skribbldemo.mp4
-    poster: ../../assets/projects/skribblnios/Startup.png
+    poster: Startup.png
     alt: 'Demo video'
     caption: Demo video of the FPGA with the SkribblNios game
 ---

@@ -6,10 +6,11 @@
  *   src/content/projects/wireless-split-keyboard.md
  *   → src/assets/projects/wireless-split-keyboard/
  *
- * A bare filename (no folder) in the entry's cover, gallery or Markdown body,
- * such as `PCBKeyboard.png`, means a file in that folder. Anything else (a
- * relative path such as `../../assets/placeholders/placeholder.svg`, a URL) is
- * left exactly as written.
+ * A bare filename (no folder) in the entry's cover, gallery (an image's src or
+ * a video's poster) or Markdown body, such as `PCBKeyboard.png`, means a file
+ * in that folder. Anything else (a relative path such as
+ * `../../assets/placeholders/placeholder.svg`, a URL) is left exactly as
+ * written.
  *
  * Pure string handling, shared by the content loader (src/lib/image-check.ts)
  * and the Markdown plugin (src/lib/markdown-image-folders.ts).
