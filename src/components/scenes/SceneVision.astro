@@ -1,0 +1,119 @@
+---
+/**
+ * Showcase scene: the component sorter. Parts ride a conveyor under a camera;
+ * as each one enters the camera's field a bounding box snaps onto it, turned
+ * to the part's angle (the sorter detects oriented boxes), and stays with it.
+ * Purely decorative.
+ *
+ * The belt, parts and boxes are HTML laid out in container units, so the belt
+ * spans any screen shape. Only `translate`, `scale` and `opacity` animate, so
+ * playing costs no repaint. Every part has the same cycle, offset by its place
+ * in the queue; the belt's slats move at the same speed as the parts.
+ */
+type Kind = 'ic' | 'res' | 'cap' | 'led' | 'tr';
+
+/** One cycle: a part crosses from 12% off the left edge to 12% off the right. */
+const CYCLE = 21;
+/** Fraction of the cycle at which a part enters the camera's field (x ≈ 35%). */
+const DETECT = 0.375;
+
+const parts: { kind: Kind; angle: number }[] = [
+  { kind: 'ic', angle: -9 },
+  { kind: 'res', angle: 16 },
+  { kind: 'cap', angle: -22 },
+  { kind: 'led', angle: 8 },
+  { kind: 'res', angle: -31 },
+  { kind: 'tr', angle: 19 },
+  { kind: 'ic', angle: 24 },
+];
+const count = parts.length;
+const queue = parts.map((part, i) => {
+  // Evenly spaced along the belt; `progress` is where the part is at time 0.
+  const progress = (1 - i / count + 0.03) % 1;
+  return { ...part, progress, boxed: progress > DETECT && progress < 0.97 };
+});
+/** The camera field flashes each time a part enters it: every CYCLE / count seconds. */
+const period = CYCLE / count;
+const flashDelay = ((DETECT * CYCLE) % period) - period;
+---
+
+<div class="mv" style={`--cycle:${CYCLE}s;--flash-period:${period}s;--flash-delay:${flashDelay}s`}>
+  <svg class="mv-field" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
+    <defs>
+      <linearGradient id="mv-cone" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="currentColor" stop-opacity="0.32"></stop>
+        <stop offset="1" stop-color="currentColor" stop-opacity="0.06"></stop>
+      </linearGradient>
+    </defs>
+    <polygon class="mv-cone" points="47.5,22 52.5,22 72,55 28,55"></polygon>
+    <polyline class="mv-cone-edge" points="47.5,22 28,55"></polyline>
+    <polyline class="mv-cone-edge" points="52.5,22 72,55"></polyline>
+  </svg>
+  <span class="mv-flash"></span>
+
+  <div class="mv-cam">
+    <span class="mv-cam-lens"></span>
+  </div>
+
+  <div class="mv-belt">
+    <span class="mv-slats"></span>
+  </div>
+
+  {queue.map(({ kind, angle, progress, boxed }, i) => (
+    <div
+      class="mv-item"
+      style={`--p:${progress.toFixed(3)};--delay:${(-progress * CYCLE).toFixed(2)}s;--a:${angle}deg`}
+    >
+      <div class="mv-part">
+        <svg class={`mv-svg mv-${kind}`} viewBox="0 0 100 60" focusable="false">
+          {kind === 'ic' && (
+            <>
+              {[24, 38, 52, 66].map((x) => (
+                <>
+                  <rect class="mv-lead-fill" x={x} y="2" width="8" height="12" rx="1" />
+                  <rect class="mv-lead-fill" x={x} y="46" width="8" height="12" rx="1" />
+                </>
+              ))}
+              <rect class="mv-body" x="16" y="11" width="68" height="38" rx="3" />
+              <circle class="mv-mark" cx="27" cy="39" r="3" />
+              <path class="mv-mark" d="M16 24a6 6 0 0 1 0 12z" />
+            </>
+          )}
+          {kind === 'res' && (
+            <>
+              <path class="mv-lead" d="M2 30H98" />
+              <rect class="mv-body" x="26" y="18" width="48" height="24" rx="11" />
+              <rect class="mv-band" x="36" y="18" width="5" height="24" />
+              <rect class="mv-band mv-band-2" x="46" y="18" width="5" height="24" />
+              <rect class="mv-band" x="56" y="18" width="5" height="24" />
+              <rect class="mv-band mv-band-3" x="66" y="20" width="3" height="20" />
+            </>
+          )}
+          {kind === 'cap' && (
+            <>
+              <path class="mv-lead" d="M4 24H26M4 36H26" />
+              <rect class="mv-body" x="24" y="10" width="54" height="40" rx="7" />
+              <rect class="mv-band" x="66" y="10" width="9" height="40" />
+              <path class="mv-mark-line" d="M36 22V38M30 30H42" />
+            </>
+          )}
+          {kind === 'led' && (
+            <>
+              <path class="mv-lead" d="M4 24H40M4 36H32" />
+              <path class="mv-body mv-glass" d="M38 14H62A16 16 0 0 1 62 46H38Z" />
+              <rect class="mv-band" x="34" y="12" width="6" height="36" rx="1" />
+            </>
+          )}
+          {kind === 'tr' && (
+            <>
+              <path class="mv-lead" d="M4 20H34M4 30H34M4 40H34" />
+              <path class="mv-body" d="M32 12H56A18 18 0 0 1 56 48H32Z" />
+              <path class="mv-mark-line" d="M42 22H52" />
+            </>
+          )}
+        </svg>
+        <span class:list={['mv-box', { 'is-boxed': boxed }]} style={`--i:${i}`} />
+      </div>
+    </div>
+  ))}
+</div>

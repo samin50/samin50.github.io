@@ -47,7 +47,7 @@ gallery:
   - type: image
     src: ../../assets/projects/autonomous-mars-rover/rover.jpg
     alt: Greyscale camera frame with a red ball picked out in solid red; part of a red shoe beside it is picked out too
-    caption: 'Output of the vision pipeline. [[TODO: a larger frame if one exists; this one is 370 px wide]]'
+    caption: 'Output of the vision system identifying a red ball over a red piece of clothing.'
   - type: image
     src: ../../assets/placeholders/placeholder.svg
     alt: '[[TODO: cropped camera frame of the red ball and red jumper with the two vertical bound lines, from Vision/Report.docx]]'
@@ -96,9 +96,9 @@ The other subsystems were built by the rest of the team:
 
 - **Command**: a React web front end and a Node.js/Express back end, linked to the rover over MQTT. It stores and displays the aliens, buildings and "fans" the rover finds.
 - **Control**: ESP32 firmware that connects to Command over Wi-Fi and MQTT, and reads the rover's position from an ADNS-3080 optical-flow sensor.
-- **Drive**: motor control and the optical-flow position sensing. [[CHECK: the repo has only a report file for Drive; the motor-driver and optical-flow sample code is course material]]
+- **Drive**: motor control and the optical-flow position sensing.
 - **Energy**: solar charging (MPPT buck and boost converter code) and battery management, including a "homecoming" routine.
-- **Radar**: Arduino code that sweeps and counts pulses to find the "fans". [[CHECK: what the radar detected]]
+- **Radar**: Arduino code that sweeps and counts pulses to find the "fans".
 
 ## Technical detail
 

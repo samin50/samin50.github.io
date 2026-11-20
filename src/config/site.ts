@@ -22,7 +22,7 @@ export interface SiteLink {
 }
 
 export const site = {
-  name: '[[TODO: full name]]',
+  name: '[WIP] [[TODO: full name]]',
   /** Used in the home page greeting ("Hi! I'm …!"), as on the old site. */
   firstName: '[[TODO: first name]]',
   /** The old site's strapline, kept verbatim (legacy/src/components/Navbar.tsx:36). */
@@ -34,7 +34,7 @@ export const site = {
   description:
     'Software engineer at Amadeus with a hardware portfolio: KiCad PCBs, Zephyr firmware, FPGA vision and YOLOv8 models deployed on edge devices.',
 
-  /** Suffix for the home page <title>: "{name} — {tagline}". */
+  /** Suffix for the home page <title>: "{name} - {tagline}". */
   tagline: 'Software, electronics and applied AI',
 
   /** A single general CV PDF (decision 11). Put the file in public/ and set e.g. 'cv.pdf'. */
@@ -70,6 +70,14 @@ export const site = {
 
   /** Social preview image (1200×630 PNG/JPG in public/), or null until supplied. */
   ogImage: null as string | null, // [[TODO: 1200x630 social preview image]]
+
+  /**
+   * Archive ("More projects") cards on the projects index: show each card's
+   * picture slot (its photo, or the project's colour tile when there is none).
+   * Off: text-only cards with the project's icon beside the title. Off for now,
+   * while most archive entries have no real photo; turn on once they do.
+   */
+  showArchiveMedia: false as boolean,
 } as const;
 
 /** Attributes for an anchor whose target may still be a placeholder. */

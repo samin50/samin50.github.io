@@ -1,0 +1,63 @@
+---
+/**
+ * Showcase scene: on-demand game servers. Racks of server units, mostly
+ * asleep; now and then a unit wakes (its lights blink on), runs (activity
+ * lights flicker) and goes back to sleep, as instances start on demand and
+ * stop when idle. Generic hardware only: no imagery from any game. Purely
+ * decorative.
+ *
+ * Plain HTML and CSS, laid out in container units so the racks fill any
+ * screen shape. The racks are painted once; each unit that comes alive has
+ * one layer for its lights and one for its activity, and only their opacity
+ * animates.
+ */
+const RACKS = 3;
+/** Unit heights (1U or 2U), top to bottom, the same pattern in each rack. */
+const UNITS = [1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1];
+
+/** Deterministic 0..1 per unit, so the pattern of live units is fixed. */
+const rand = (i: number) => {
+  const s = Math.sin(i * 91.7 + 13.1) * 43758.5453;
+  return s - Math.floor(s);
+};
+
+const racks = Array.from({ length: RACKS }, (_, r) =>
+  UNITS.map((size, u) => {
+    const k = r * UNITS.length + u;
+    const live = rand(k) < 0.34;
+    return {
+      size,
+      live,
+      // Each live unit has its own cycle, so they drift in and out of step.
+      cycle: (15 + rand(k + 50) * 9).toFixed(1),
+      delay: (-rand(k + 100) * 24).toFixed(1),
+      // A few that never sleep in the still image.
+      lit: live && rand(k + 150) < 0.55,
+    };
+  }),
+);
+---
+
+<div class="rk">
+  {racks.map((units) => (
+    <div class="rk-rack">
+      {units.map(({ size, live, cycle, delay, lit }) => (
+        <div
+          class:list={['rk-unit', { 'rk-2u': size === 2 }]}
+          style={live ? `--cycle:${cycle}s;--delay:${delay}s` : undefined}
+        >
+          <span class="rk-bays" />
+          <span class="rk-vent" />
+          <span class="rk-leds">
+            <span class="rk-standby" />
+            {live && (
+              <span class:list={['rk-lit', { 'is-lit': lit }]}>
+                <span class="rk-act" />
+              </span>
+            )}
+          </span>
+        </div>
+      ))}
+    </div>
+  ))}
+</div>

@@ -1,0 +1,156 @@
+---
+/**
+ * Showcase scene: SkribblNIOS. A simple picture (ground, a house, a tree and a
+ * cloud) is drawn as one continuous line, a stroke at a time, by a small
+ * cursor that leads the line, while the board tilts the way the line is
+ * heading, as if it were drawn by tilting the board. Then it fades and starts
+ * again. Purely decorative.
+ *
+ * The line is laid out here at build time from a list of points, with a
+ * slight hand-held wobble, as short straight strokes: rounded bars, each
+ * placed and turned to its stretch of line. Drawing one grows it along its
+ * length (`scale`) while the cursor crosses it; the cursor moves by
+ * `translate` through every point of the line at a constant speed; the board
+ * tilts by `transform`. So everything runs on the compositor, as in the other
+ * scenes, rather than repainting an SVG stroke every frame. The keyframes
+ * (one set per stroke, the cursor's and the tilt) are worked out here too.
+ *
+ * Positions are in a 1200 x 800 box that covers the stage (like an SVG with
+ * `slice`): one unit is 1/12 cqw of that box, or 1/8 cqh.
+ */
+/** Seconds per drawing; the line is drawn over the first DRAW of it. */
+const CYCLE = 20;
+const DRAW = 0.72;
+/** Stroke width, in units of the 1200 x 800 box. */
+const STROKE = 7;
+/** Length of the short strokes the line is cut into. */
+const STEP = 60;
+
+/** The picture, as one continuous line (retracing the ground where needed). */
+const points: [number, number][] = [
+  [80, 610],
+  [300, 610],
+  // House: wall, roof, wall, then back along the ground to the door.
+  [300, 430],
+  [425, 318],
+  [550, 430],
+  [300, 430],
+  [550, 430],
+  [550, 610],
+  [490, 610],
+  [490, 512],
+  [425, 512],
+  [425, 610],
+  // Along the ground to the tree.
+  [760, 610],
+  [760, 492],
+  // Canopy, as a bumpy loop.
+  [700, 486],
+  [664, 446],
+  [672, 394],
+  [714, 360],
+  [762, 342],
+  [812, 356],
+  [850, 392],
+  [858, 442],
+  [826, 482],
+  [776, 492],
+  [776, 610],
+  // On to the end of the ground, then up to a cloud.
+  [1110, 610],
+  [1110, 560],
+  [1040, 300],
+  [992, 296],
+  [972, 258],
+  [1012, 226],
+  [1060, 236],
+  [1092, 206],
+  [1146, 216],
+  [1166, 258],
+  [1150, 296],
+  [1040, 300],
+];
+
+/** Small deterministic noise in -1..1. */
+const wobble = (i: number) => Math.sin(i * 12.9898) * 0.6 + Math.sin(i * 4.1414 + 1) * 0.4;
+
+// Cut each segment into short steps, push the joins a little off the line,
+// and note each step's direction for the board's tilt.
+let n = 0;
+const vertices: [number, number][] = [];
+const heading: { dx: number; dy: number }[] = [];
+for (const [i, point] of points.entries()) {
+  const next = points[i + 1];
+  if (!next) break;
+  const [x1, y1] = point;
+  const [x2, y2] = next;
+  const length = Math.hypot(x2 - x1, y2 - y1);
+  if (length === 0) continue;
+  const steps = Math.max(1, Math.round(length / STEP));
+  if (vertices.length === 0) vertices.push(point);
+  for (let s = 1; s <= steps; s++) {
+    const t = s / steps;
+    const offset = s < steps ? wobble(n++) * 3.2 : 0;
+    vertices.push([
+      x1 + (x2 - x1) * t - ((y2 - y1) / length) * offset,
+      y1 + (y2 - y1) * t + ((x2 - x1) / length) * offset,
+    ]);
+    heading.push({ dx: (x2 - x1) / length, dy: (y2 - y1) / length });
+  }
+}
+
+const strokes = vertices.slice(1).map(([x2, y2], i) => {
+  const [x1, y1] = vertices[i] ?? [x2, y2];
+  return { x1, y1, length: Math.hypot(x2 - x1, y2 - y1), angle: Math.atan2(y2 - y1, x2 - x1) };
+});
+const total = strokes.reduce((sum, { length }) => sum + length, 0);
+const at = (along: number) => ((along / total) * DRAW * 100).toFixed(2);
+const unit = (value: number, axis: 'x' | 'y') =>
+  `${(value / (axis === 'x' ? 12 : 8)).toFixed(3)}cq${axis === 'x' ? 'w' : 'h'}`;
+
+// Keyframes. A stroke grows while the cursor crosses it; the cursor passes
+// every vertex at a constant speed; the board leans the way the line heads.
+const grow: string[] = [];
+const cursor: string[] = [];
+const tilt: string[] = [];
+const MAX_TILT = 5;
+const flat = 'transform:perspective(1600px) rotateX(0deg) rotateY(0deg)';
+let along = 0;
+for (const [i, { length }] of strokes.entries()) {
+  const [x, y] = vertices[i] ?? [0, 0];
+  cursor.push(`${at(along)}%{translate:${unit(x, 'x')} ${unit(y, 'y')}}`);
+  grow.push(
+    `@keyframes sk-s${i}{0%,${at(along)}%{scale:0 1}${at(along + length)}%,100%{scale:1 1}}`,
+  );
+  const { dx, dy } = heading[i] ?? { dx: 0, dy: 0 };
+  tilt.push(
+    `${at(along + length / 2)}%{transform:perspective(1600px) rotateX(${(-dy * MAX_TILT).toFixed(2)}deg) rotateY(${(dx * MAX_TILT).toFixed(2)}deg)}`,
+  );
+  along += length;
+}
+const [endX, endY] = vertices.at(-1) ?? [0, 0];
+const end = `translate:${unit(endX, 'x')} ${unit(endY, 'y')}`;
+cursor.push(`${at(total)}%,100%{${end}}`);
+const css =
+  `@keyframes sk-move{${cursor.join('')}}` +
+  `@keyframes sk-tilt{0%{${flat}}${tilt.join('')}${(DRAW * 100 + 4).toFixed(2)}%,100%{${flat}}}` +
+  grow.join('');
+---
+
+<div class="sk" style={`--cycle:${CYCLE}s;--stroke:${unit(STROKE, 'x')}`}>
+  <style is:inline set:html={css} />
+  <div class="sk-board">
+    <span class="sk-paper"></span>
+    <div class="sk-map">
+      <div class="sk-lines">
+        {strokes.map(({ x1, y1, length, angle }, i) => (
+          <span
+            class="sk-line"
+            style={`left:${unit(x1, 'x')};top:${unit(y1, 'y')};width:${unit(length, 'x')};rotate:${angle.toFixed(4)}rad;--seg:sk-s${i}`}
+          />
+        ))}
+      </div>
+      <span class="sk-cursor" style={end}></span>
+    </div>
+  </div>
+</div>

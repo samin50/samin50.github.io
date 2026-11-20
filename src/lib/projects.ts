@@ -78,12 +78,15 @@ const PLACEHOLDER = /^\[\[(TODO|CHECK): /;
  * (`[[CHECK: …]]`) are passed through as visible text so they are easy to find.
  */
 export function formatDates(dates: Project['data']['dates'], status: Project['data']['status']) {
+  // Only archive entries may leave dates out, and they never show them; this
+  // keeps a missing value visible rather than blank if that ever changes.
+  if (dates === undefined) return '[[TODO: dates]]';
   const year = (value: string) => (PLACEHOLDER.test(value) ? value : value.slice(0, 4));
   const start = year(dates.start);
   if (dates.end === undefined) {
-    return status === 'complete' ? start : `${start} – present`;
+    return status === 'complete' ? start : `${start} - present`;
   }
   const end = year(dates.end);
   if (PLACEHOLDER.test(dates.start)) return end;
-  return start === end ? start : `${start} – ${end}`;
+  return start === end ? start : `${start} - ${end}`;
 }

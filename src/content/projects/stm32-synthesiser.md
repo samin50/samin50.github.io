@@ -3,7 +3,7 @@ title: STM32 Synthesiser
 # Old site wording (legacy Imperial.tsx:42), first sentence, with "in a team of four" added.
 summary: In this project, I worked in a team of four to program an STM32 microcontroller to synthesise music in real time, written in C++ with PlatformIO.
 description: 'Real-time synthesiser on an STM32: 22 kHz DAC interrupt, polyphony, linked boards, recording and playback.'
-tier: secondary
+tier: archive
 order: 10
 hue: 325
 icon: music

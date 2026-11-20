@@ -3,13 +3,13 @@ title: 'SV08 3D Printer: Klipper and Enclosure'
 # CV wording (CV/main.tex:174-175); the old site predates this printer.
 summary: Installed Klipper on an SV08 3D printer and upgraded it with an enclosure.
 description: Klipper install, tuning and an enclosure for a Sovol SV08, plus FDM and MSLA printing for other projects.
-tier: secondary
+tier: archive
 order: 15
 hue: 225
 icon: printer
 tags: [fabrication]
 dates:
-  start: '[[CHECK: year]]'
+  start: '2025'
 status: complete
 context: personal
 team:
@@ -26,16 +26,6 @@ cover:
   src: ../../assets/placeholders/placeholder.svg
   alt: '[[TODO: photo of the SV08 in its enclosure]]'
   todo: Photo of the SV08 in its enclosure, landscape, at least 1600 px wide
-gallery:
-  # From the old site (legacy/public/Printer.jpg), resized to 2000 px wide.
-  - type: image
-    src: ../../assets/projects/sv08-klipper-enclosure/aquila.jpg
-    alt: A Voxelab Aquila 3D printer with red printed parts fitted, on a shelf beside a desk
-    caption: The earlier printer, a Voxelab Aquila.
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: photo of printed parts from the keyboard or the sorter]]'
-    todo: A photo of printed parts from the keyboard or the sorter
 ---
 
 ## Overview

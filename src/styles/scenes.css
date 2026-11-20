@@ -1,0 +1,1054 @@
+/*
+ * Project scenes added in Phase 4c: component sorter (vision), Mars rover
+ * (rover), SkribblNIOS (sketch), local AI inference (diffuse), cloud game
+ * server (rack) and C compiler (compile). The PCB, lamps and generic scenes,
+ * the stage, the depth treatment and the shared playback rules are in
+ * home.css. Imported by Scene.astro, so only pages with a scene load it.
+ *
+ * Same rules as the first scenes (style guide §5, §11.16):
+ * - colours come from the surrounding `.hue` element's tokens;
+ * - the values outside the motion block are the still image (no JavaScript,
+ *   reduced motion, and before the scene first plays);
+ * - animations run only under `[data-scenes][data-live]`, and are held by
+ *   home.css when the host is off screen, paused, or not the scene on show;
+ * - only `translate`, `scale`, `rotate`, `transform` and `opacity` animate,
+ *   except the SkribblNIOS line and cursor (stroke and motion path, on their
+ *   own small layer).
+ */
+@layer components {
+  .mv,
+  .rv,
+  .sk,
+  .df,
+  .rk,
+  .cc {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    container-type: size;
+  }
+
+  /* ---------- Component sorter (SceneVision.astro) ---------- */
+  .mv {
+    --belt-y: 66cqh;
+    --u: clamp(3.25rem, 12cqmin, 8.5rem);
+    --slat: 4cqw;
+    --mv-body: oklch(0.27 0.06 var(--h));
+    --mv-lead: oklch(0.86 0.02 var(--h));
+    --mv-mark: oklch(1 0 0 / 0.5);
+    --mv-belt: color-mix(in oklab, var(--c-field-2) 70%, black);
+    --mv-belt-edge: var(--c-line);
+    --mv-box: var(--c-hot);
+  }
+  [data-theme='light'] .mv {
+    --mv-body: oklch(0.36 0.06 var(--h));
+    --mv-lead: oklch(0.62 0.03 var(--h));
+    --mv-mark: oklch(1 0 0 / 0.65);
+    --mv-belt: color-mix(in oklab, var(--c-line) 55%, var(--c-field));
+    --mv-belt-edge: color-mix(in oklab, var(--c-ink) 45%, var(--c-field));
+  }
+  .mv-field {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--c-ink);
+  }
+  .mv-cone {
+    fill: url(#mv-cone);
+  }
+  .mv-cone-edge {
+    fill: none;
+    stroke: var(--c-ink);
+    stroke-opacity: 0.35;
+    stroke-width: 1.5;
+    stroke-dasharray: 3 7;
+    vector-effect: non-scaling-stroke;
+  }
+  /* A brief brightening of the field each time a part enters it. */
+  .mv-flash {
+    position: absolute;
+    left: 28cqw;
+    top: 22cqh;
+    width: 44cqw;
+    height: 33cqh;
+    clip-path: polygon(44.3% 0, 55.7% 0, 100% 100%, 0 100%);
+    background: linear-gradient(transparent, color-mix(in oklab, var(--c-hot) 30%, transparent));
+    opacity: 0;
+  }
+  .mv-cam {
+    position: absolute;
+    left: 50cqw;
+    top: 22cqh;
+    width: calc(var(--u) * 1.5);
+    height: calc(var(--u) * 0.85);
+    translate: -50% -100%;
+    border-radius: calc(var(--u) * 0.14);
+    background: var(--mv-body);
+    border: 2px solid var(--mv-belt-edge);
+  }
+  .mv-cam-lens {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: calc(var(--u) * 0.46);
+    aspect-ratio: 1;
+    translate: -50% 45%;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 38% 36%,
+      var(--c-hot) 0 14%,
+      var(--mv-body) 24% 54%,
+      var(--mv-belt-edge) 58%
+    );
+  }
+  .mv-belt {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: var(--belt-y);
+    height: calc(var(--u) * 1.6);
+    translate: 0 -50%;
+    overflow: hidden;
+    background: var(--mv-belt);
+    border-block: 4px solid var(--mv-belt-edge);
+  }
+  .mv-slats {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: calc(100% + var(--slat));
+    background: repeating-linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--mv-belt-edge) 45%, transparent) 0 2px,
+      transparent 2px var(--slat)
+    );
+  }
+  .mv-item {
+    position: absolute;
+    left: 0;
+    top: var(--belt-y);
+    translate: calc(-12cqw + 124cqw * var(--p)) -50%;
+  }
+  .mv-part {
+    position: relative;
+    width: var(--u);
+    rotate: var(--a);
+  }
+  .mv-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .mv-body {
+    fill: var(--mv-body);
+    stroke: var(--mv-belt-edge);
+    stroke-width: 2;
+  }
+  .mv-glass {
+    fill: color-mix(in oklab, var(--c-hot) 55%, var(--mv-body));
+  }
+  .mv-lead {
+    fill: none;
+    stroke: var(--mv-lead);
+    stroke-width: 4;
+    stroke-linecap: round;
+  }
+  .mv-lead-fill {
+    fill: var(--mv-lead);
+  }
+  .mv-band {
+    fill: var(--c-hot);
+  }
+  .mv-band-2 {
+    fill: var(--c-ink);
+  }
+  .mv-band-3 {
+    fill: var(--mv-lead);
+  }
+  .mv-mark {
+    fill: var(--mv-mark);
+  }
+  .mv-mark-line {
+    fill: none;
+    stroke: var(--mv-mark);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+  /* The oriented bounding box, turned with its part; the tab on top stands for its label. */
+  .mv-box {
+    position: absolute;
+    inset: -22% -12%;
+    border: 2px solid var(--mv-box);
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--mv-box) 30%, transparent);
+    opacity: 0;
+  }
+  .mv-box::before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    bottom: 100%;
+    width: 52%;
+    height: max(0.45rem, calc(var(--u) * 0.13));
+    border-radius: 2px 2px 0 0;
+    background: var(--mv-box);
+  }
+  .mv-box.is-boxed {
+    opacity: 1;
+  }
+
+  /* ---------- Mars rover camera (SceneRover.astro) ---------- */
+  .rv {
+    --rv-t0: oklch(0.17 0.04 var(--h));
+    --rv-t1: oklch(0.24 0.06 var(--h));
+    --rv-t2: oklch(0.31 0.08 var(--h));
+    --rv-t3: oklch(0.38 0.1 var(--h));
+    --rv-t4: oklch(0.46 0.11 var(--h));
+    --rv-t5: oklch(0.54 0.11 var(--h));
+    --rv-t6: oklch(0.62 0.1 var(--h));
+    --rv-ball-l: 0.78;
+    --rv-ball-c: 0.15;
+    --rv-hud: oklch(0.95 0.04 var(--h));
+    --rv-scan: oklch(0 0 0 / 0.16);
+  }
+  [data-theme='light'] .rv {
+    --rv-t0: oklch(0.52 0.13 var(--h));
+    --rv-t1: oklch(0.6 0.13 var(--h));
+    --rv-t2: oklch(0.68 0.12 var(--h));
+    --rv-t3: oklch(0.75 0.11 var(--h));
+    --rv-t4: oklch(0.82 0.09 var(--h));
+    --rv-t5: oklch(0.88 0.07 var(--h));
+    --rv-t6: oklch(0.93 0.05 var(--h));
+    --rv-ball-l: 0.6;
+    --rv-ball-c: 0.19;
+    --rv-hud: oklch(0.3 0.08 var(--h));
+    --rv-scan: oklch(1 0 0 / 0.22);
+  }
+  .rv .t0 {
+    fill: var(--rv-t0);
+  }
+  .rv .t1 {
+    fill: var(--rv-t1);
+  }
+  .rv .t2 {
+    fill: var(--rv-t2);
+  }
+  .rv .t3 {
+    fill: var(--rv-t3);
+  }
+  .rv .t4 {
+    fill: var(--rv-t4);
+  }
+  .rv .t5 {
+    fill: var(--rv-t5);
+  }
+  .rv .t6 {
+    fill: var(--rv-t6);
+  }
+  .rv-ball {
+    fill: oklch(var(--rv-ball-l) var(--rv-ball-c) calc(var(--h) + var(--bh)));
+  }
+  .rv-ball-lit {
+    fill: oklch(
+      calc(var(--rv-ball-l) + 0.14) calc(var(--rv-ball-c) * 0.55) calc(var(--h) + var(--bh))
+    );
+  }
+  /* Covers the stage with room to pan: the widest of 118% of its width and
+     the picture's ratio at full height. Still: centred. */
+  .rv-view {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: max(118cqw, 160cqh);
+    aspect-ratio: 160 / 100;
+    translate: calc((100cqw - 100%) / 2) -50%;
+  }
+  .rv-img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .rv-box {
+    position: absolute;
+    border: 2px solid var(--rv-hud);
+    border-radius: 2px;
+    opacity: 0;
+  }
+  .rv-box::before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    bottom: 100%;
+    width: 60%;
+    height: max(0.4rem, 0.9cqmin);
+    background: var(--rv-hud);
+  }
+  .rv-box.is-boxed {
+    opacity: 1;
+  }
+  /* The viewfinder: scan lines, corner marks, a crosshair and a record light. */
+  .rv-hud {
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(transparent 0 3px, var(--rv-scan) 3px 4px),
+      radial-gradient(ellipse 75% 70% at 50% 50%, transparent 55%, oklch(0 0 0 / 0.28));
+  }
+  [data-theme='light'] .rv-hud {
+    background:
+      repeating-linear-gradient(transparent 0 3px, var(--rv-scan) 3px 4px),
+      radial-gradient(ellipse 75% 70% at 50% 50%, transparent 55%, oklch(1 0 0 / 0.3));
+  }
+  .rv-corner {
+    position: absolute;
+    width: max(2rem, 7cqmin);
+    aspect-ratio: 1;
+    border: 3px solid var(--rv-hud);
+    opacity: 0.75;
+  }
+  .rv-tl {
+    left: 5cqmin;
+    top: 12cqh;
+    border-right: 0;
+    border-bottom: 0;
+  }
+  .rv-tr {
+    right: 5cqmin;
+    top: 12cqh;
+    border-left: 0;
+    border-bottom: 0;
+  }
+  .rv-bl {
+    left: 5cqmin;
+    bottom: 5cqmin;
+    border-right: 0;
+    border-top: 0;
+  }
+  .rv-br {
+    right: 5cqmin;
+    bottom: 5cqmin;
+    border-left: 0;
+    border-top: 0;
+  }
+  .rv-cross {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: max(1.75rem, 5cqmin);
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    opacity: 0.6;
+    background:
+      linear-gradient(var(--rv-hud), var(--rv-hud)) center / 2px 100% no-repeat,
+      linear-gradient(var(--rv-hud), var(--rv-hud)) center / 100% 2px no-repeat;
+  }
+  .rv-rec {
+    position: absolute;
+    left: calc(5cqmin + max(2rem, 7cqmin) + 0.75rem);
+    top: calc(12cqh + 0.25rem);
+    width: 0.75rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: oklch(0.68 0.22 25);
+  }
+
+  /* ---------- SkribblNIOS (SceneSketch.astro) ---------- */
+  /* Larger than the stage, so its edges never show when it tilts. */
+  .sk-board {
+    position: absolute;
+    inset: -6%;
+    container-type: size;
+  }
+  .sk-paper {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, var(--c-ink) 1.4px, transparent 1.9px);
+    background-size: 30px 30px;
+    opacity: 0.2;
+  }
+  /* The drawing's 1200 x 800 box, covering the board (as `slice` would). */
+  .sk-map {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: max(100cqw, 150cqh);
+    aspect-ratio: 3 / 2;
+    translate: -50% -50%;
+    container-type: size;
+  }
+  .sk-lines {
+    position: absolute;
+    inset: 0;
+  }
+  /* One short stroke: a rounded bar from its start point to the next, half
+     a stroke longer at each end so the joins are round. It turns, and grows,
+     about its start point. Softened towards the background, so light text
+     over it (the project page header) keeps its contrast. */
+  .sk-line {
+    position: absolute;
+    /* The padding adds to the width, which is the stroke's length. */
+    box-sizing: content-box;
+    height: var(--stroke);
+    padding-inline: calc(var(--stroke) / 2);
+    margin: calc(var(--stroke) / -2) 0 0 calc(var(--stroke) / -2);
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--c-ink) 60%, var(--c-field));
+    transform-origin: calc(var(--stroke) / 2) 50%;
+  }
+  .sk-cursor {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: calc(var(--stroke) * 5);
+    aspect-ratio: 1;
+    margin: calc(var(--stroke) * -2.5) 0 0 calc(var(--stroke) * -2.5);
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      var(--c-hot) 0 22%,
+      color-mix(in oklab, var(--c-hot) 18%, transparent) 26%
+    );
+    box-shadow: inset 0 0 0 max(2px, calc(var(--stroke) * 0.55)) var(--c-hot);
+  }
+
+  /* ---------- Local AI inference (SceneDiffuse.astro) ---------- */
+  .df {
+    --df-sky-top: oklch(0.22 0.06 var(--h));
+    --df-sky-low: oklch(0.42 0.11 var(--h));
+    --df-deep: oklch(0.17 0.05 var(--h));
+    --df-m1: oklch(0.36 0.09 var(--h));
+    --df-m2: oklch(0.28 0.08 var(--h));
+    --df-m3: oklch(0.21 0.06 var(--h));
+  }
+  [data-theme='light'] .df {
+    --df-sky-top: oklch(0.8 0.08 var(--h));
+    --df-sky-low: oklch(0.94 0.05 var(--h));
+    --df-deep: oklch(0.7 0.1 var(--h));
+    --df-m1: oklch(0.74 0.09 var(--h));
+    --df-m2: oklch(0.64 0.11 var(--h));
+    --df-m3: oklch(0.54 0.12 var(--h));
+  }
+  .df-art,
+  .df-soft {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+  .df-sky-top {
+    stop-color: var(--df-sky-top);
+  }
+  .df-sky-low {
+    stop-color: var(--df-sky-low);
+  }
+  .df-deep {
+    stop-color: var(--df-deep);
+  }
+  .df-sun {
+    fill: var(--c-hot);
+  }
+  .df-halo {
+    fill: var(--c-hot);
+    opacity: 0.16;
+  }
+  .df-m1 {
+    fill: var(--df-m1);
+  }
+  .df-m2 {
+    fill: var(--df-m2);
+  }
+  .df-m3 {
+    fill: var(--df-m3);
+  }
+  .df-glint {
+    fill: var(--c-hot);
+    opacity: 0.5;
+  }
+  /* Still: the finished picture with a little grain left. */
+  .df-soft,
+  .df-veil {
+    opacity: 0;
+  }
+  .df-veil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(150deg, var(--c-field), var(--c-field-2));
+  }
+  .df-noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0.3;
+  }
+  .df-grain {
+    position: absolute;
+    inset: 0;
+    background: var(--c-ink);
+    mask-image: var(--grain-a);
+    mask-size: 160px 160px;
+  }
+  .df-grain-b {
+    background: var(--c-line);
+    mask-image: var(--grain-b);
+    opacity: 0;
+  }
+  .df-steps {
+    position: absolute;
+    left: 50%;
+    bottom: 7cqh;
+    width: min(40cqw, 18rem);
+    height: 4px;
+    translate: -50% 0;
+    overflow: hidden;
+    border-radius: 2px;
+    background: color-mix(in oklab, var(--c-ink) 25%, transparent);
+  }
+  .df-steps-bar {
+    position: absolute;
+    inset: 0;
+    background: var(--c-hot);
+    transform-origin: left;
+  }
+
+  /* ---------- Cloud game servers (SceneRack.astro) ---------- */
+  .rk {
+    --rk-frame: oklch(0.15 0.03 var(--h));
+    --rk-post: oklch(0.22 0.04 var(--h));
+    --rk-unit: oklch(0.24 0.05 var(--h));
+    --rk-edge: oklch(0.34 0.07 var(--h));
+    --rk-bay: oklch(0.18 0.04 var(--h));
+    --rk-vent: oklch(0.36 0.06 var(--h));
+    --rk-sleep: oklch(0.46 0.08 var(--h));
+    --rk-act: var(--c-ink);
+    --rk-h: 112cqh;
+    --led: clamp(5px, 0.95cqh, 10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3.5cqmin;
+  }
+  [data-theme='light'] .rk {
+    --rk-frame: oklch(0.7 0.06 var(--h));
+    --rk-post: oklch(0.78 0.05 var(--h));
+    --rk-unit: oklch(0.86 0.05 var(--h));
+    --rk-edge: oklch(0.7 0.08 var(--h));
+    --rk-bay: oklch(0.76 0.05 var(--h));
+    --rk-vent: oklch(0.66 0.07 var(--h));
+    --rk-sleep: oklch(0.64 0.07 var(--h));
+  }
+  .rk-rack {
+    position: relative;
+    flex: none;
+    width: calc(var(--rk-h) * 0.4);
+    height: var(--rk-h);
+    display: grid;
+    grid-template-rows: repeat(16, minmax(0, 1fr));
+    gap: 0.45cqh;
+    /* In units of the rack: a percentage would be of the whole stage. */
+    padding: 2cqh calc(var(--rk-h) * 0.036);
+    border-radius: 6px;
+    background: var(--rk-frame);
+  }
+  /* Mounting posts with their square holes. */
+  .rk-rack::before,
+  .rk-rack::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 6%;
+    background:
+      repeating-linear-gradient(transparent 0 0.9cqh, var(--rk-frame) 0.9cqh 1.5cqh) center / 45%
+        100% no-repeat,
+      var(--rk-post);
+  }
+  .rk-rack::before {
+    left: 1.5%;
+  }
+  .rk-rack::after {
+    right: 1.5%;
+  }
+  .rk-unit {
+    position: relative;
+    display: grid;
+    grid-template-columns: 30% minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 6%;
+    padding: 0 6%;
+    border: 1px solid var(--rk-edge);
+    border-radius: 4px;
+    background: var(--rk-unit);
+  }
+  .rk-2u {
+    grid-row: span 2;
+  }
+  .rk-bays {
+    height: 52%;
+    max-height: 2.25rem;
+    background: repeating-linear-gradient(90deg, var(--rk-bay) 0 21%, transparent 21% 26.3%);
+    border-radius: 2px;
+  }
+  .rk-vent {
+    height: 44%;
+    max-height: 1.75rem;
+    background: repeating-linear-gradient(90deg, var(--rk-vent) 0 2px, transparent 2px 6px);
+    opacity: 0.7;
+  }
+  /* Four lights: power, then three activity lights. Drawn off; the lit
+     versions are the layers above. */
+  .rk-leds {
+    position: relative;
+    width: calc(var(--led) * 6.4);
+    height: var(--led);
+    --at: calc(var(--led) * 0.5);
+    --spot: closest-side;
+  }
+  .rk-standby,
+  .rk-lit,
+  .rk-act {
+    position: absolute;
+    inset: 0;
+    background-repeat: no-repeat;
+    background-size: var(--led) var(--led);
+  }
+  .rk-standby {
+    background-image:
+      radial-gradient(closest-side, var(--rk-sleep) 70%, transparent 80%),
+      radial-gradient(closest-side, var(--rk-bay) 70%, transparent 80%),
+      radial-gradient(closest-side, var(--rk-bay) 70%, transparent 80%),
+      radial-gradient(closest-side, var(--rk-bay) 70%, transparent 80%);
+    background-position:
+      0 0,
+      calc(var(--led) * 2.2) 0,
+      calc(var(--led) * 3.8) 0,
+      calc(var(--led) * 5.4) 0;
+  }
+  .rk-lit {
+    opacity: 0;
+    background-image: radial-gradient(closest-side, var(--c-hot) 70%, transparent 80%);
+    background-position: 0 0;
+    filter: drop-shadow(0 0 calc(var(--led) * 0.8) var(--c-hot));
+  }
+  .rk-lit.is-lit {
+    opacity: 1;
+  }
+  .rk-act {
+    background-image:
+      radial-gradient(closest-side, var(--rk-act) 70%, transparent 80%),
+      radial-gradient(closest-side, var(--rk-act) 70%, transparent 80%),
+      radial-gradient(closest-side, var(--rk-act) 70%, transparent 80%);
+    background-position:
+      calc(var(--led) * 2.2) 0,
+      calc(var(--led) * 3.8) 0,
+      calc(var(--led) * 5.4) 0;
+    opacity: 0.85;
+  }
+
+  /* ---------- C compiler (SceneCompile.astro) ---------- */
+  .cc {
+    --cc-ink: color-mix(in oklab, var(--c-ink) 55%, transparent);
+    font-family: var(--ff-mono);
+    font-size: clamp(0.75rem, 0.45rem + 0.95cqw, 1.3rem);
+    line-height: 1.6;
+    color: var(--cc-ink);
+  }
+  .cc-block {
+    position: absolute;
+    white-space: pre;
+  }
+  .cc-block-1 {
+    left: 7cqw;
+    top: 14cqh;
+  }
+  .cc-block-2 {
+    left: 56cqw;
+    top: 40cqh;
+  }
+  @container (max-aspect-ratio: 1 / 1) {
+    .cc-block-1 {
+      left: 7cqw;
+      top: 9cqh;
+    }
+    .cc-block-2 {
+      left: 24cqw;
+      top: 52cqh;
+    }
+  }
+  .cc-c,
+  .cc-asm {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .cc-tok {
+    display: inline-block;
+  }
+  .cc-k,
+  .cc-op {
+    color: color-mix(in oklab, var(--c-hot) 70%, transparent);
+  }
+  .cc-n {
+    color: color-mix(
+      in oklab,
+      color-mix(in oklab, var(--c-hot) 60%, var(--c-ink)) 65%,
+      transparent
+    );
+  }
+  .cc-label {
+    color: color-mix(in oklab, var(--c-ink) 75%, transparent);
+    font-weight: 600;
+  }
+  /* Still: the first block in C, the second in assembly. */
+  .cc-mline,
+  .cc-block.is-asm .cc-tok {
+    opacity: 0;
+  }
+  .cc-block.is-asm .cc-mline {
+    opacity: 1;
+  }
+}
+
+/* ---------- Motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  [data-scenes][data-live] .mv-item {
+    animation: mv-ride var(--cycle) linear infinite both;
+    animation-delay: var(--delay);
+  }
+  [data-scenes][data-live] .mv-box {
+    animation: mv-snap var(--cycle) linear infinite both;
+    animation-delay: var(--delay);
+  }
+  [data-scenes][data-live] .mv-slats {
+    animation: mv-belt calc(var(--cycle) * 4 / 124) linear infinite;
+  }
+  [data-scenes][data-live] .mv-flash {
+    animation: mv-flash var(--flash-period) ease-out infinite;
+    animation-delay: var(--flash-delay);
+  }
+  @keyframes mv-ride {
+    from {
+      translate: -12cqw -50%;
+    }
+    to {
+      translate: 112cqw -50%;
+    }
+  }
+  @keyframes mv-belt {
+    to {
+      translate: calc(-1 * var(--slat)) 0;
+    }
+  }
+  /* Matches DETECT in SceneVision.astro: the box snaps on at 37.5% of the ride. */
+  @keyframes mv-snap {
+    0%,
+    37.5% {
+      opacity: 0;
+      scale: 1.4;
+      animation-timing-function: cubic-bezier(0.2, 0.9, 0.3, 1.2);
+    }
+    39.5% {
+      opacity: 1;
+      scale: 1;
+    }
+    97% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      scale: 1;
+    }
+  }
+  @keyframes mv-flash {
+    0% {
+      opacity: 0;
+    }
+    4% {
+      opacity: 1;
+    }
+    30%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* Rover: a slow pan, starting from the centre (half way through the
+     alternating cycle); boxes snap on to the balls in turn. */
+  [data-scenes][data-live] .rv-view {
+    animation: rv-pan 44s ease-in-out -22s infinite alternate both;
+  }
+  [data-scenes][data-live] .rv-box {
+    animation: rv-detect 10.8s linear infinite both;
+    animation-delay: var(--delay);
+  }
+  [data-scenes][data-live] .rv-rec {
+    animation: rv-rec 1.6s step-end infinite;
+  }
+  @keyframes rv-pan {
+    from {
+      translate: 0 -50%;
+    }
+    to {
+      translate: calc(100cqw - 100%) -50%;
+    }
+  }
+  @keyframes rv-detect {
+    0%,
+    8% {
+      opacity: 0;
+      scale: 1.5;
+      animation-timing-function: cubic-bezier(0.2, 0.9, 0.3, 1.2);
+    }
+    10% {
+      opacity: 1;
+      scale: 1;
+      animation-timing-function: step-end;
+    }
+    12% {
+      opacity: 0.3;
+      animation-timing-function: step-end;
+    }
+    14%,
+    46% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0;
+      scale: 1;
+    }
+  }
+  @keyframes rv-rec {
+    50% {
+      opacity: 0.15;
+    }
+  }
+
+  /* SkribblNIOS: the line is drawn over 72% of the cycle with the cursor at
+     its tip (matches DRAW in SceneSketch.astro), held, then faded. Each
+     segment's keyframes (sk-s0, sk-s1, …, named in its --seg) and the board's
+     tilt keyframes are generated in the component. */
+  [data-scenes][data-live] .sk-board {
+    animation: sk-tilt var(--cycle) ease-in-out infinite;
+  }
+  [data-scenes][data-live] .sk-line {
+    animation: var(--seg) var(--cycle) linear infinite;
+  }
+  [data-scenes][data-live] .sk-lines {
+    animation: sk-fade var(--cycle) linear infinite;
+  }
+  /* sk-move (the cursor's path) is generated in the component too. */
+  [data-scenes][data-live] .sk-cursor {
+    animation:
+      sk-move var(--cycle) linear infinite,
+      sk-fade var(--cycle) linear infinite;
+  }
+  @keyframes sk-fade {
+    0%,
+    86% {
+      opacity: 1;
+    }
+    95%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* Local AI: ten denoising steps over the first half of the cycle (the veil
+     and the grain lift, the blurred picture gives way to the sharp one, the
+     step bar fills), a hold, then back into noise. */
+  /* Starts 30% in, so the first thing shown is the picture forming. */
+  [data-scenes][data-live] .df-veil {
+    animation: df-veil var(--cycle) calc(var(--cycle) * -0.3) infinite both;
+  }
+  [data-scenes][data-live] .df-soft {
+    animation: df-soft var(--cycle) calc(var(--cycle) * -0.3) infinite both;
+  }
+  [data-scenes][data-live] .df-noise {
+    animation: df-noise var(--cycle) calc(var(--cycle) * -0.3) infinite both;
+  }
+  [data-scenes][data-live] .df-grain {
+    animation: df-flick calc(var(--cycle) / 10) step-end infinite;
+  }
+  [data-scenes][data-live] .df-grain-b {
+    animation-delay: calc(var(--cycle) / -20);
+  }
+  [data-scenes][data-live] .df-steps-bar {
+    animation: df-bar var(--cycle) calc(var(--cycle) * -0.3) infinite both;
+  }
+  @keyframes df-veil {
+    0% {
+      opacity: 1;
+      animation-timing-function: steps(10, jump-end);
+    }
+    50%,
+    84% {
+      opacity: 0;
+      animation-timing-function: ease-in;
+    }
+    94%,
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes df-soft {
+    0%,
+    25% {
+      opacity: 1;
+      animation-timing-function: steps(5, jump-end);
+    }
+    55%,
+    84% {
+      opacity: 0;
+      animation-timing-function: ease-in;
+    }
+    92%,
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes df-noise {
+    0% {
+      opacity: 1;
+      animation-timing-function: steps(10, jump-end);
+    }
+    55%,
+    84% {
+      opacity: 0.12;
+      animation-timing-function: ease-in;
+    }
+    94%,
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes df-flick {
+    0% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes df-bar {
+    0% {
+      scale: 0 1;
+      animation-timing-function: steps(10, jump-end);
+    }
+    50%,
+    84% {
+      scale: 1 1;
+      animation-timing-function: ease-in-out;
+    }
+    94%,
+    100% {
+      scale: 0 1;
+    }
+  }
+
+  /* Racks: a live unit wakes (three blinks), runs with its activity lights
+     flickering, then fades back to sleep. */
+  [data-scenes][data-live] .rk-lit {
+    animation: rk-life var(--cycle) linear infinite both;
+    animation-delay: var(--delay);
+  }
+  [data-scenes][data-live] .rk-act {
+    animation: rk-flicker 0.9s step-end infinite;
+    animation-delay: var(--delay);
+  }
+  @keyframes rk-life {
+    0% {
+      opacity: 0;
+      animation-timing-function: step-end;
+    }
+    6% {
+      opacity: 1;
+      animation-timing-function: step-end;
+    }
+    7.5% {
+      opacity: 0;
+      animation-timing-function: step-end;
+    }
+    9% {
+      opacity: 1;
+      animation-timing-function: step-end;
+    }
+    10.5% {
+      opacity: 0;
+      animation-timing-function: step-end;
+    }
+    12%,
+    64% {
+      opacity: 1;
+      animation-timing-function: ease-in;
+    }
+    74%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes rk-flicker {
+    0% {
+      opacity: 0.9;
+    }
+    22% {
+      opacity: 0.25;
+    }
+    38% {
+      opacity: 1;
+    }
+    61% {
+      opacity: 0.4;
+    }
+    80% {
+      opacity: 0.95;
+    }
+  }
+
+  /* Compiler: C tokens drift apart and fade, the assembly assembles line by
+     line, holds, and gives way to C again. The second block is half a cycle
+     behind the first. */
+  [data-scenes][data-live] .cc-tok {
+    animation: cc-dissolve var(--cycle) ease-in-out infinite both;
+    animation-delay: calc(var(--bd) + var(--d));
+  }
+  [data-scenes][data-live] .cc-mline {
+    animation: cc-assemble var(--cycle) ease-out infinite both;
+    animation-delay: calc(var(--bd) + var(--i) * 0.1s);
+  }
+  @keyframes cc-dissolve {
+    0%,
+    16% {
+      opacity: 1;
+      translate: 0 0;
+    }
+    30%,
+    86% {
+      opacity: 0;
+      translate: var(--dx) var(--dy);
+    }
+    97%,
+    100% {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+  @keyframes cc-assemble {
+    0%,
+    28% {
+      opacity: 0;
+      translate: -0.8em 0;
+    }
+    34%,
+    76% {
+      opacity: 1;
+      translate: 0 0;
+    }
+    84%,
+    100% {
+      opacity: 0;
+      translate: 0.8em 0;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 ---
 title: Software Development Engineer
 organisation: Amadeus IT Group
-dates: Sep 2024 – present
+dates: Sep 2024 - present
 start: 2024-09
 # From CV/main.tex:94 (the old site predates this role).
 summary: Primary technical contact for ~50 airline clients on self-service check-in; I gather requirements, then design, build and ship features.

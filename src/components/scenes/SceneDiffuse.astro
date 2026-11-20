@@ -1,0 +1,105 @@
+---
+/**
+ * Showcase scene: local AI inference. Noise resolves, step by step, into a
+ * picture (a sun over mountains and a lake, in the project's colour), holds,
+ * and dissolves back into noise: an image model denoising. Purely decorative,
+ * and deliberately a picture, not text, so it reads apart from the compiler
+ * scene, and filled tone, not line work, so it reads apart from SkribblNIOS.
+ *
+ * Everything is drawn once: the sharp picture, a blurred copy of it (an SVG
+ * blur, rasterised once), a veil in the scene's colour and two grain layers
+ * (small noise tiles used as masks). Playing only changes their opacity, in
+ * ten discrete steps, plus a step counter bar.
+ */
+const W = 1200;
+const H = 800;
+const CYCLE = 13;
+const STEPS = 10;
+
+/** A noise tile, as a mask: its alpha is the noise. */
+function grain(seed: number, frequency: number): string {
+  const svg =
+    `<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'>` +
+    `<filter id='n' x='0' y='0'><feTurbulence type='fractalNoise' baseFrequency='${frequency}' numOctaves='2' seed='${seed}' stitchTiles='stitch'/>` +
+    `<feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2.6 0 0 0 -0.95'/></filter>` +
+    `<rect width='160' height='160' filter='url(%23n)'/></svg>`;
+  return `url("data:image/svg+xml,${svg.replaceAll('<', '%3C').replaceAll('>', '%3E')}")`;
+}
+
+const ridge = (base: number, amp: number, seed: number) => {
+  let d = `M0 ${H}V${base}`;
+  for (let x = 0; x <= W; x += 40) {
+    const y =
+      base -
+      amp * (0.55 + 0.45 * Math.sin(x / 170 + seed)) * (0.6 + 0.4 * Math.sin(x / 61 + seed * 2));
+    d += `L${x} ${y.toFixed(1)}`;
+  }
+  return `${d}V${H}Z`;
+};
+---
+
+<div
+  class="df"
+  style={`--cycle:${CYCLE}s;--steps:${STEPS};--grain-a:${grain(7, 0.85)};--grain-b:${grain(23, 0.95)}`}
+>
+  <svg
+    class="df-art"
+    viewBox={`0 0 ${W} ${H}`}
+    preserveAspectRatio="xMidYMid slice"
+    width="100%"
+    height="100%"
+    focusable="false"
+  >
+    <defs>
+      <linearGradient id="df-sky" x1="0" y1="0" x2="0" y2="1">
+        <stop class="df-sky-top" offset="0"></stop>
+        <stop class="df-sky-low" offset="0.7"></stop>
+      </linearGradient>
+      <linearGradient id="df-water" x1="0" y1="0" x2="0" y2="1">
+        <stop class="df-sky-low" offset="0"></stop>
+        <stop class="df-deep" offset="1"></stop>
+      </linearGradient>
+      <filter id="df-soft" x="-10%" y="-10%" width="120%" height="120%">
+        <feGaussianBlur stdDeviation="26"></feGaussianBlur>
+      </filter>
+      <g id="df-picture">
+        <rect width={W} height={H} fill="url(#df-sky)"></rect>
+        <circle class="df-halo" cx="790" cy="300" r="210"></circle>
+        <circle class="df-sun" cx="790" cy="300" r="118"></circle>
+        <path class="df-m1" d={ridge(470, 150, 0.4)}></path>
+        <path class="df-m2" d={ridge(540, 120, 2.1)}></path>
+        <path class="df-m3" d={ridge(600, 80, 4.2)}></path>
+        <rect y="610" width={W} height={H - 610} fill="url(#df-water)"></rect>
+        {[0, 1, 2, 3, 4].map((i) => (
+          <rect
+            class="df-glint"
+            x={790 - 110 + i * 14}
+            y={632 + i * 30}
+            width={220 - i * 28}
+            height="7"
+            rx="3.5"
+          />
+        ))}
+      </g>
+    </defs>
+    <use href="#df-picture"></use>
+  </svg>
+  <svg
+    class="df-soft"
+    viewBox={`0 0 ${W} ${H}`}
+    preserveAspectRatio="xMidYMid slice"
+    width="100%"
+    height="100%"
+    focusable="false"
+  >
+    <use href="#df-picture" filter="url(#df-soft)"></use>
+  </svg>
+  <span class="df-veil"></span>
+  <span class="df-noise">
+    <span class="df-grain df-grain-a"></span>
+    <span class="df-grain df-grain-b"></span>
+  </span>
+  <span class="df-steps">
+    <span class="df-steps-bar"></span>
+  </span>
+</div>

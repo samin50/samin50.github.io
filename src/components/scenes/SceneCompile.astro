@@ -1,0 +1,144 @@
+---
+/**
+ * Showcase scene: the C compiler. Two short C functions; each line of C
+ * dissolves, its halves drifting apart, and the function's MIPS assembly assembles in the
+ * same place, line by line, then turns back into C. The two blocks are half a
+ * cycle apart, so one shows C while the other shows assembly. Purely
+ * decorative, and deliberately text, so it reads apart from the image-based
+ * local AI scene.
+ *
+ * Plain HTML text in the monospace stack; each half line of C and each
+ * assembly line animates only `translate` and `opacity`.
+ */
+const CYCLE = 16;
+
+const blocks = [
+  {
+    c: [
+      'int sum(int *a, int n) {',
+      '  int s = 0;',
+      '  for (int i = 0; i < n; i++)',
+      '    s += a[i];',
+      '  return s;',
+      '}',
+    ],
+    asm: [
+      'sum:',
+      '  move  $v0, $zero',
+      '  move  $t0, $zero',
+      'loop:',
+      '  bge   $t0, $a1, done',
+      '  sll   $t1, $t0, 2',
+      '  addu  $t1, $a0, $t1',
+      '  lw    $t2, 0($t1)',
+      '  addu  $v0, $v0, $t2',
+      '  addiu $t0, $t0, 1',
+      '  j     loop',
+      'done:',
+      '  jr    $ra',
+    ],
+  },
+  {
+    c: ['int fact(int n) {', '  if (n <= 1)', '    return 1;', '  return n * fact(n - 1);', '}'],
+    asm: [
+      'fact:',
+      '  addiu $sp, $sp, -8',
+      '  sw    $ra, 4($sp)',
+      '  sw    $a0, 0($sp)',
+      '  li    $v0, 1',
+      '  ble   $a0, 1, ret',
+      '  addiu $a0, $a0, -1',
+      '  jal   fact',
+      '  lw    $a0, 0($sp)',
+      '  mul   $v0, $a0, $v0',
+      'ret:',
+      '  lw    $ra, 4($sp)',
+      '  addiu $sp, $sp, 8',
+      '  jr    $ra',
+    ],
+  },
+];
+
+const KEYWORDS = new Set(['int', 'for', 'if', 'return']);
+/** Deterministic -1..1. */
+const rand = (i: number) => Math.sin(i * 78.233 + 4.1) * 0.5 + Math.sin(i * 12.9898) * 0.5;
+
+let k = 0;
+/**
+ * A line of C as at most two pieces that drift apart separately (the
+ * indentation stays put), each keeping its keywords and numbers coloured.
+ * Two pieces per line, not one per token, keeps the number of animations
+ * low: every running animation costs a little whenever the page draws a
+ * frame on the main thread (while scrolling, for instance).
+ */
+const tokenise = (line: string) => {
+  const indent = /^s*/.exec(line)?.[0] ?? '';
+  const words = line.slice(indent.length).split(' ');
+  const half = Math.ceil(words.length / 2);
+  const pieces = (words.length > 2 ? [words.slice(0, half), words.slice(half)] : [words]).map(
+    (group, p, all) => {
+      const i = k++;
+      const text = group.join(' ') + (p < all.length - 1 ? ' ' : '');
+      return {
+        parts: (text.match(/s+|[A-Za-z_]w*|d+|[^sA-Za-z_d]+/g) ?? []).map((part) => ({
+          text: part,
+          kind: KEYWORDS.has(part) ? 'k' : /^d+$/.test(part) ? 'n' : '',
+        })),
+        style: `--dx:${(rand(i) * 1.8).toFixed(2)}em;--dy:${(-0.4 - Math.abs(rand(i + 7)) * 1.4).toFixed(2)}em;--d:${(Math.abs(rand(i + 13)) * 0.9).toFixed(2)}s`,
+      };
+    },
+  );
+  return { indent, pieces };
+};
+
+const prepared = blocks.map(({ c, asm }, b) => ({
+  delay: `${(-b * CYCLE) / 2}s`,
+  // The second block starts half a cycle on, so its still shows assembly.
+  showsAsm: b === 1,
+  c: c.map(tokenise),
+  asm: asm.map((line) => {
+    const label = line.endsWith(':');
+    const [op = '', ...rest] = line.trim().split(/\s+/);
+    return { label, op: label ? line : op, args: label ? '' : rest.join(' ') };
+  }),
+}));
+---
+
+<div class="cc" style={`--cycle:${CYCLE}s`}>
+  {prepared.map(({ delay, showsAsm, c, asm }, b) => (
+    <div
+      class:list={['cc-block', `cc-block-${b + 1}`, { 'is-asm': showsAsm }]}
+      style={`--bd:${delay}`}
+    >
+      <div class="cc-c">
+        {c.map(({ indent, pieces }) => (
+          <div class="cc-line">
+            {indent}
+            {pieces.map(({ parts, style }) => (
+              <span class="cc-tok" style={style}>
+                {parts.map(({ text, kind }) =>
+                  kind ? <span class={`cc-${kind}`}>{text}</span> : text,
+                )}
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
+      <div class="cc-asm">
+        {asm.map(({ label, op, args }, i) => (
+          <div class:list={['cc-mline', { 'cc-label': label }]} style={`--i:${i}`}>
+            {label ? (
+              op
+            ) : (
+              <>
+                {'  '}
+                <span class="cc-op">{op.padEnd(6)}</span>
+                {args}
+              </>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  ))}
+</div>

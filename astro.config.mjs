@@ -1,6 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import { satteri } from '@astrojs/markdown-satteri';
+import { imageFolders } from './src/lib/markdown-image-folders.ts';
 
 /**
  * Deployment target. This is the ONE place that says where the site is served from.
@@ -22,7 +24,12 @@ export default defineConfig({
   build: { format: 'directory' },
   // Code blocks in project pages are plain text styled by the site's own
   // tokens (src/styles/projects.css), so they follow the light and dark themes.
-  markdown: { syntaxHighlight: false },
+  // Images in a project's or role's Markdown body can be named by filename
+  // alone, for the entry's own image folder (src/lib/image-folders.ts).
+  markdown: {
+    syntaxHighlight: false,
+    processor: satteri({ mdastPlugins: [imageFolders] }),
+  },
   vite: {
     plugins: [tailwindcss()],
   },

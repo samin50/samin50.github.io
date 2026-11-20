@@ -39,7 +39,7 @@ results:
 links: []
 cover:
   type: image
-  src: ../../assets/placeholders/placeholder.svg
+  src: PCBKeyboard.png
   alt: '[[TODO: photo of the finished split keyboard, both halves, top-down or three-quarter view]]'
   todo: Photo of the finished keyboard, both halves, landscape, at least 1600 px wide
 gallery:
@@ -86,11 +86,11 @@ gallery:
 
 ## Overview
 
-A battery-powered wireless split keyboard that I designed, hand-soldered and programmed after mulitple iterations: first, a 4-layer version, then a 2-layer redesign once my newly developed skills gave me enough confidence to do so (and for cost!). Each half is built around a bare nRF52833 QFN with a chip antenna, running C firmware on Zephyr RTOS that I wrote with a custom board definition.
+A battery-powered wireless split keyboard that I designed, hand-soldered and programmed after multiple iterations: first, a 4-layer version, then a 2-layer redesign once my newly developed skills gave me enough confidence to do so (and for cost!). Each half is built around a bare nRF52833 QFN with a chip antenna, running C firmware on Zephyr RTOS that I wrote with a custom board definition.
 
 ## The motivation
 
-This project started because I had the desire to learn PCB design and I believed it was the final skill I needed in the product-creation skill set, but was never offered this module at University. I wanted a challenge and the chance to really express my passion and pride towards engineering and building things - I wanted to make something I could really make mine. Hence, the idea to make my own keyboard was born. 
+This project started because I had the desire to learn PCB design and I believed it was the final skill I needed in the product-creation skill set, but was never offered this module at University. I wanted a challenge and the chance to really express my passion and pride in engineering and building things - I wanted to make something I could really make mine. Hence, the idea to make my own keyboard was born. 
 
 ## What I did
 
@@ -107,7 +107,7 @@ For this project, I:
 
 ## Technical detail
 
-- **Radio and MCU:** a bare nRF52833 with a chip antenna rather than a module, so antenna matching and layout were part of the design. Impedance control was needed here to ensure the performance of the antenna, and proper routing and component selection was needed to for hte nRF52833 to perform within spec.
+- **Radio and MCU:** a bare nRF52833 with a chip antenna rather than a module, so antenna matching and layout were part of the design. Impedance control was needed here to ensure the performance of the antenna, and proper routing and component selection was needed to for the nRF52833 to perform within spec.
 - **Power:** power-path charging lets the keyboard run from USB while charging; the fuel gauge reports charging to the MCU via i2c; the buck-boost keeps 3.3 V across the full Li-ion range.
 - **Firmware structure:** a Zephyr board definition and devicetree for the custom hardware; the halves talk over a custom GATT service; the central half presents as a BLE HID device or a USB HID device with three switchable host profiles; matrix scanning is interrupt-driven via an I2C expander; sleep states manage power when idle.
 

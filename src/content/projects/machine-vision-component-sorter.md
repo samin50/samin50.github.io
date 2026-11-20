@@ -42,7 +42,7 @@ results:
 links: []
 cover:
   type: image
-  src: ../../assets/placeholders/placeholder.svg
+  src: FYP.png
   alt: '[[TODO: photo of the complete sorter: conveyor, camera mount and bins, three-quarter view]]'
   todo: Photo of the complete sorter, three-quarter view, landscape, at least 1600 px wide
 gallery:
@@ -87,7 +87,7 @@ A component placed on the belt breaks an IR beam, the conveyor stops, the camera
 
 ## The problem
 
-Loose electronic components are slow to sort by hand and look alike at a glance. The goal was a machine that could do it unattended on cheap hardware, which meant a vision model accurate enough to trust and fast enough to run on a Pi without a GPU. This would be particularly useful for those working in the first-level labs on the Imperial South Kensington campus, where the components are currently sorted by hand by the lab technicians.
+Loose electronic components are slow to sort by hand and look alike at a glance. The goal was a machine that could do it unattended on cheap hardware, which meant a vision model accurate enough to trust and fast enough to run on a Pi without a GPU. This would be particularly useful for those working in the Level 1 labs on the Imperial South Kensington campus, where the components are currently sorted by hand by the lab technicians.
 
 The project brief had three motivations: cut electronic waste and clutter in the Level 1 labs, save the technicians time, and support the labs' work towards LEAF (Laboratory Efficiency Assessment Framework) certification.
 

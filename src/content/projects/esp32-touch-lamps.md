@@ -2,7 +2,7 @@
 title: ESP32 Touch Lamps
 # CV wording (CV/main.tex:173); the old site has no text for this project.
 summary: A pair of ESP32-C6 touch lamps that signal each other remotely over MQTT, with always-on FreeRTOS firmware.
-description: Pairs of ESP32 touch lamps that signal each other over MQTT.
+description: A pair of ESP32 touch lamps that signal each other over MQTT.
 tier: featured
 order: 3
 hue: 80
@@ -36,7 +36,7 @@ results:
 links: []
 cover:
   type: image
-  src: ../../assets/placeholders/placeholder.svg
+  src: Lamps.png
   alt: '[[TODO: photo of the two lamps lit]]'
   todo: Photo of both lamps lit, landscape, at least 1600 px wide
 gallery:
@@ -70,7 +70,7 @@ These were made as a special birthday gift, and this was an idea that would be b
 
 ## What I did
 
-All the electronics, the enclosures and the firmware - I bought some cheap lamps so I can harvest the diffusers and batteries. I ended up not using the batteries due to (understandable) safety concerns.
+All the electronics, the enclosures and the firmware - I bought some cheap lamps so I could harvest the diffusers and batteries. I ended up not using the batteries due to (understandable) safety concerns.
 
 - **Hardware:** Chose and wired the parts: XIAO ESP32-C6, TTP223 touch module, TEMT6000 ambient light sensor, a 1 W warm-white LED (~3200 K) on an aluminium star PCB, and an LDO6AJSA linear constant-current driver fed from the 5 V USB rail.
 - **Enclosures:** Designed the housings in FreeCAD based on the diffusers I bought; a rabbit-shaped lamp and a box lamp, split into base, housing, cover, lid, light mount, an ESP32-C6 mount and a USB inlet. I printed them in a brown PLA.

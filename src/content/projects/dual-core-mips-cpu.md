@@ -5,7 +5,7 @@ summary: 'In this project, I worked in a team of three to create a dual-core MIP
 tier: archive
 context: university
 order: 20
-tags: [fpga]
+tags: ["embedded"]
 dates:
   start: '[[CHECK: year]]'
 tech:

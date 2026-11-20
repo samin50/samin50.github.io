@@ -9,12 +9,12 @@ hue: 300
 icon: code
 tags: [software]
 dates:
-  start: '[[CHECK: year]]'
+  start: '2023'
 status: complete
 context: university
 team:
-  size: 1
-  note: '[[CHECK: solo or pair?]]'
+  size: 2
+  role: "-"
 tech:
   - C++
   - Flex
@@ -46,35 +46,7 @@ Take C source and produce correct MIPS assembly for a defined language subset, p
 
 ## What I did
 
-- Lexer in Flex and grammar in Bison, producing an AST of C++ classes. [[CHECK: is each node responsible for its own code generation?]]
+- Lexer in Flex and grammar in Bison, producing an AST of C++ classes.
 - Code generation for functions, structs, arrays, pointers and basic arithmetic.
 - [[CHECK: register allocation / stack frame approach; how scoping and symbol tables were handled; pass rate on the test suite]]
 
-## Technical detail
-
-[[CHECK: 2–4 bullets on the AST design, context/scope handling, and any optimisation]]
-
-### C in, MIPS out
-
-<div class="code-pair">
-<figure>
-<figcaption>C input</figcaption>
-
-```c
-// [[TODO: a short C input, as text]]
-```
-
-</figure>
-<figure>
-<figcaption>MIPS output</figcaption>
-
-```asm
-# [[TODO: the MIPS assembly the compiler generates for it, as text]]
-```
-
-</figure>
-</div>
-
-## Results
-
-[[CHECK: test pass rate or grade]]

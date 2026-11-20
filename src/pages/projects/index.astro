@@ -9,12 +9,9 @@
  */
 import '../../styles/projects.css';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArchiveCard from '../../components/ArchiveCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import ContextBadge from '../../components/ContextBadge.astro';
-import Icon from '../../components/Icon.astro';
-import MediaSlot from '../../components/MediaSlot.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
-import TagList from '../../components/TagList.astro';
 import { getPageProjects, getProjects } from '../../lib/projects';
 import { contextUrl, tagUrl, url } from '../../lib/paths';
 import { CONTEXTS, CONTEXT_LABELS, TAGS, TAG_LABELS } from '../../lib/tags';
@@ -123,45 +120,11 @@ const plural = (count: number) => (count === 1 ? 'project' : 'projects');
       <h2 class="heading" id="archive-heading" data-reveal>
         More projects
       </h2>
-      <ul class="archive" data-reveal>
-        {archive.map(({ data }) => (
-          <li
-            class="archive-item hue"
-            style={`--h:${data.hue}`}
-            data-project
-            data-context={data.context}
-            data-tags={data.tags.join(' ')}
-          >
-            <div class="archive-text">
-              <h3 class="archive-title">{data.title}</h3>
-              <p>{data.summary}</p>
-            </div>
-            <div class="archive-side">
-              <ContextBadge context={data.context} />
-              <TagList tags={data.tags} />
-              {data.links.map((link) => (
-                <a class="text-link archive-link" href={link.url} rel="noopener">
-                  {link.label}
-                  <Icon name="arrow-up-right" size={14} />
-                </a>
-              ))}
-            </div>
-            {data.cover && (
-              <figure class="archive-media">
-                <MediaSlot
-                  media={data.cover}
-                  name={data.title}
-                  icon={data.icon}
-                  hue={data.hue}
-                  sizes="16rem"
-                  still
-                />
-                {data.cover.caption && <figcaption>{data.cover.caption}</figcaption>}
-              </figure>
-            )}
-          </li>
+      <div class="archive-grid">
+        {archive.map((project, index) => (
+          <ArchiveCard project={project} index={index} />
         ))}
-      </ul>
+      </div>
     </div>
   </section>
 

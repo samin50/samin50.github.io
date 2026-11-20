@@ -28,7 +28,7 @@ const {
   noindex = false,
 } = Astro.props;
 
-const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.tagline}`;
+const fullTitle = title ? `${title} - ${site.name}` : `${site.name} - ${site.tagline}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = pageImage
   ? new URL(pageImage, Astro.site)
@@ -38,19 +38,19 @@ const ogImage = pageImage
 
 const preloadFonts = [bricolageUrl, figtreeUrl];
 
-// Initial browser-chrome colour: the dark theme's background (`--chrome` in
+// Initial browser-chrome colour: the light theme's background (`--chrome` in
 // tokens.css). theme.ts keeps it in step when the theme changes.
-const themeColor = '#310b23';
+const themeColor = '#fff0e2';
 ---
 
 <!doctype html>
-<html lang="en-GB" data-theme="dark">
+<html lang="en-GB" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!--
-      Theme, before first paint. Dark is the default (set on <html> above, so it
+      Theme, before first paint. Light is the default (set on <html> above, so it
       also applies without JavaScript); a remembered choice overrides it here,
       before any CSS is applied, so the wrong theme never flashes.
     -->
@@ -80,7 +80,7 @@ const themeColor = '#310b23';
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
-    <meta name="color-scheme" content="dark light" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content={themeColor} />
     <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
 

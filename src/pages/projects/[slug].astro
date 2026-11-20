@@ -17,9 +17,7 @@ import ProjectCard from '../../components/ProjectCard.astro';
 import StatRow from '../../components/StatRow.astro';
 import TechList from '../../components/TechList.astro';
 import TagList from '../../components/TagList.astro';
-import SceneGeneric from '../../components/scenes/SceneGeneric.astro';
-import ScenePcb from '../../components/scenes/ScenePcb.astro';
-import SceneSignal from '../../components/scenes/SceneSignal.astro';
+import Scene from '../../components/scenes/Scene.astro';
 import placeholder from '../../assets/placeholders/placeholder.svg';
 import {
   formatDates,
@@ -83,13 +81,7 @@ const coverMaxWidth =
     <header class="project-hero hue" style={`--h:${data.hue}`} data-scenes data-scene-host>
       <div class="hero-stage" aria-hidden="true">
         <div class="scene is-active">
-          {data.scene === 'pcb' ? (
-            <ScenePcb />
-          ) : data.scene === 'signal' ? (
-            <SceneSignal />
-          ) : (
-            <SceneGeneric />
-          )}
+          <Scene project={project} />
         </div>
       </div>
 
@@ -182,7 +174,7 @@ const coverMaxWidth =
           At a glance
         </h2>
         {data.results && <StatRow results={data.results} />}
-        <TechList tech={data.tech} />
+        <TechList tech={data.tech ?? []} />
       </section>
 
       <div class="prose">

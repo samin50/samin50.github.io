@@ -6,15 +6,28 @@
  * "armed" (hidden), and each is revealed once as it scrolls into view. If the
  * script never runs, nothing is ever hidden. With reduced motion, nothing is
  * armed at all.
+ *
+ * Once an element's reveal has finished, its reveal classes are removed, so
+ * its own styles apply again (a revealed card still lifts on hover).
  */
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function reveal(element: Element): void {
+  element.addEventListener('transitionend', function done(event) {
+    if (!(event instanceof TransitionEvent)) return;
+    if (event.target !== element || event.propertyName !== 'opacity') return;
+    element.removeEventListener('transitionend', done);
+    element.classList.remove('reveal-armed', 'is-visible');
+  });
+  element.classList.add('is-visible');
+}
 
 if (!reduceMotion && 'IntersectionObserver' in window) {
   const observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
+          reveal(entry.target);
           observer.unobserve(entry.target);
         }
       }

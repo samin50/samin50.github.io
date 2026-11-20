@@ -9,7 +9,7 @@ hue: 120
 icon: box
 tags: [embedded, fabrication, computer-vision, software]
 dates:
-  start: '[[CHECK: year]]'
+  start: '2023'
 status: complete
 context: university
 contextDetail: University group project
@@ -30,7 +30,7 @@ cover:
   type: image
   src: ../../assets/projects/automated-pet-feeder/feeder-02.jpg
   alt: CAD render of the pet feeder, a white box with a black lid and base and a slot at the front
-  caption: 'The feeder, modelled in SketchUp. [[TODO: higher-resolution originals if available]]'
+  caption: 'The feeder, modelled in SketchUp.'
 gallery:
   - type: video
     src: sampleVideo.mp4
@@ -70,12 +70,8 @@ In this project, I designed and built an automated pet feeder using a 3D printer
 
 ### My part
 
-As I was the only team member with CAD and 3D Printing experience (from my hobbies), I was solely responsible for the aesthetic and mechanical design of the feeder. I also took on the role of project manager, and was responsible for the planning and organisation of the project. The main difficulty I faced was incorporating the load cell into the dispensing mechanism - I had to account for the relatively weak servo motor and had to ensure the accuracy of the load cell as the quantities of food dispensed were only a few grams at most. [[CHECK: "servo motor" is used throughout; the old text said "stepper motor" once, in the description]]
+As I was the only team member with CAD and 3D Printing experience (from my hobbies), I was solely responsible for the aesthetic and mechanical design of the feeder. I also took on the role of project manager, and was responsible for the planning and organisation of the project. The main difficulty I faced was incorporating the load cell into the dispensing mechanism - I had to account for the relatively weak servo motor and had to ensure the accuracy of the load cell as the quantities of food dispensed were only a few grams at most.
 
 I came up with a design that securely mounted the load cell to plate beneath the dispensing platform, which rotated with the servo motor to dispense food. The dispensing platform could be decoupled from the servo motor, to ensure that the load cell can obtain an accurate reading. For fun, I also decided to implement a Computer Vision model and integrate it into the front-mounted camera to identify whether the pet to be fed was a dog or cat so the feeder would know if the correct pet had come to feed.
 
 I greatly enjoyed this project as I was able to apply and improve my hobbyist CAD and 3D printing skills to a real-world problem.
-
-### The team
-
-[[CHECK: who built the web app, the backend and the Raspberry Pi software]]

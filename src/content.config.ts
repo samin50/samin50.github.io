@@ -1,8 +1,9 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
-import { PROJECT_ICONS } from './lib/project-visuals';
+import { PROJECT_ICONS, PROJECT_SCENES } from './lib/project-visuals';
 import { CONTEXTS, TAGS } from './lib/tags';
+import { withImageFolders } from './lib/image-check';
 import { withSkillCheck } from './lib/skill-check';
 
 /**
@@ -24,12 +25,19 @@ const placeholder = z
   .regex(/^\[\[(TODO|CHECK): .+\]\]$/, 'Use a [[TODO: …]] / [[CHECK: …]] placeholder');
 
 const projects = defineCollection({
-  loader: withSkillCheck(glob({ pattern: '**/*.md', base: './src/content/projects' })),
+  loader: withImageFolders(
+    withSkillCheck(glob({ pattern: '**/*.md', base: './src/content/projects' })),
+  ),
   schema: ({ image }) => {
     const media = z.discriminatedUnion('type', [
       z.object({
         type: z.literal('image'),
-        /** Local file under src/. Use the shared placeholder.svg when the real photo is missing. */
+        /**
+         * A bare filename for the project's image folder (`PCBKeyboard.png` →
+         * src/assets/projects/<slug>/; lib/image-folders.ts), or a path
+         * relative to this file. Use the shared placeholder.svg when the real
+         * photo is missing.
+         */
         src: image(),
         /** Alt text; `[[TODO: description of the photo needed]]` while it is a placeholder. */
         alt: z.string(),
@@ -60,11 +68,14 @@ const projects = defineCollection({
         /** Sort order within the tier, ascending. */
         order: z.number().int(),
         tags: z.array(z.enum(TAGS)).min(1).max(4),
-        dates: z.object({
-          start: dateOrPlaceholder,
-          /** Omitted = ongoing, or the same year as `start`. */
-          end: dateOrPlaceholder.optional(),
-        }),
+        /** Required for featured and secondary projects (validated below); archive cards don't show it. */
+        dates: z
+          .object({
+            start: dateOrPlaceholder,
+            /** Omitted = ongoing, or the same year as `start`. */
+            end: dateOrPlaceholder.optional(),
+          })
+          .optional(),
         status: z.enum(['complete', 'in-progress', 'ongoing']).default('complete'),
         /** University or personal work. Shown as a badge, and a filter on the index. */
         context: z.enum(CONTEXTS),
@@ -81,7 +92,8 @@ const projects = defineCollection({
           })
           .default({ size: 1 }),
         /** Skills from src/data/skills.ts, shown as chips; an unknown one is a build warning (lib/skill-check.ts). */
-        tech: z.array(z.string()).min(1),
+        /** Required for featured and secondary projects (validated below); archive cards don't show it. */
+        tech: z.array(z.string()).min(1).optional(),
         /** Optional stat row. */
         results: z
           .array(z.object({ value: z.string(), label: z.string() }))
@@ -102,18 +114,24 @@ const projects = defineCollection({
         hue: z.number().min(0).max(360).default(12),
         /** Simple icon shown on the project's placeholder panel and showcase tab. */
         icon: z.enum(PROJECT_ICONS).default('box'),
-        /** Animated showcase background. Omitted = the generic tinted scene. */
-        scene: z.enum(['pcb', 'signal']).optional(),
+        /**
+         * Animated showcase background. Omitted = the project's entry in
+         * DEFAULT_SCENES (lib/project-visuals.ts), otherwise the generic scene.
+         */
+        scene: z.enum(PROJECT_SCENES).optional(),
         /** Draft entries are excluded from every listing and get no page. */
         draft: z.boolean().default(false),
       })
       .superRefine((project, ctx) => {
-        if (project.tier !== 'archive' && project.cover === undefined) {
-          ctx.addIssue({
-            code: 'custom',
-            path: ['cover'],
-            message: 'cover is required for featured and secondary projects',
-          });
+        if (project.tier !== 'archive') {
+          for (const field of ['cover', 'dates', 'tech'] as const) {
+            if (project[field] !== undefined) continue;
+            ctx.addIssue({
+              code: 'custom',
+              path: [field],
+              message: `${field} is required for featured and secondary projects`,
+            });
+          }
         }
         if (project.team.size !== 1 && !project.team.role) {
           ctx.addIssue({
@@ -132,7 +150,9 @@ const projects = defineCollection({
  * the body is the detail shown on the Experience page.
  */
 const experience = defineCollection({
-  loader: withSkillCheck(glob({ pattern: '**/*.md', base: './src/content/experience' })),
+  loader: withImageFolders(
+    withSkillCheck(glob({ pattern: '**/*.md', base: './src/content/experience' })),
+  ),
   schema: z.object({
     title: z.string(),
     organisation: z.string(),

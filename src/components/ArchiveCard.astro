@@ -1,0 +1,106 @@
+---
+/**
+ * Compact card for an archive entry on the projects index (decision AE-2).
+ *
+ * The picture slot is controlled by `showArchiveMedia` in src/config/site.ts.
+ * When it is off, the card is text only, with the project's icon in a small
+ * badge in its colour beside the title.
+ *
+ * Archive entries have no page. With media, the card shows the entry's real image, or
+ * otherwise a tile in the project's colour with its icon (a design choice
+ * here, not a missing photo, so it has no "placeholder" label). Then the
+ * title, the one-line summary, and the context badge and tags in one row at
+ * the bottom.
+ *
+ * Only an entry with an external link is a link: its first link is stretched
+ * over the whole card, which then lifts on hover like the other linked cards.
+ * The badge and tag chips sit above it and can always be followed on their
+ * own. Styles are in projects.css.
+ */
+import placeholder from '../assets/placeholders/placeholder.svg';
+import { site } from '../config/site';
+import type { Project } from '../lib/projects';
+import ContextBadge from './ContextBadge.astro';
+import Icon from './Icon.astro';
+import MediaSlot from './MediaSlot.astro';
+import TagList from './TagList.astro';
+
+interface Props {
+  project: Project;
+  /** Position in its row, for the staggered reveal. */
+  index?: number;
+}
+
+const { project, index = 0 } = Astro.props;
+const { data } = project;
+const cover = data.cover;
+// A real picture: an image that isn't the shared placeholder, or a video's poster.
+const hasPicture =
+  cover !== undefined &&
+  (cover.type === 'image' ? cover.src.src !== placeholder.src : cover.poster !== undefined);
+const [link, ...moreLinks] = data.links;
+/** Picture slot on or off: `showArchiveMedia` in src/config/site.ts. */
+const showMedia = site.showArchiveMedia;
+---
+
+<article
+  class:list={['archive-card hue', { 'archive-card-text': !showMedia }]}
+  style={`--h:${data.hue};--i:${index % 3}`}
+  data-project
+  data-context={data.context}
+  data-tags={data.tags.join(' ')}
+  data-link={link ? '' : undefined}
+  data-reveal
+>
+  {showMedia &&
+    (hasPicture ? (
+      <MediaSlot
+        class="archive-media"
+        media={cover}
+        name={data.title}
+        icon={data.icon}
+        hue={data.hue}
+        sizes="(min-width: 64rem) 22rem, (min-width: 40rem) 46vw, 92vw"
+        still
+      />
+    ) : (
+      <div class="media-frame ph archive-media archive-tile" aria-hidden="true">
+        <Icon name={data.icon} size={36} />
+      </div>
+    ))}
+  <div class="archive-body">
+    <!-- With media this wrapper is `display: contents`, so the card is as before. -->
+    <div class="archive-head">
+      {!showMedia && (
+        <span class="archive-icon" aria-hidden="true">
+          <Icon name={data.icon} size={18} />
+        </span>
+      )}
+      <h3 class="archive-title">
+        {link ? (
+          <a class="card-link" href={link.url} rel="noopener">
+            {data.title}
+            <Icon name="arrow-up-right" size={16} class="archive-link-icon" />
+            <span class="sr-only"> ({link.label})</span>
+          </a>
+        ) : (
+          data.title
+        )}
+      </h3>
+    </div>
+    <p class="archive-summary">{data.summary}</p>
+    {moreLinks.length > 0 && (
+      <p class="archive-more-links">
+        {moreLinks.map((extra) => (
+          <a class="text-link" href={extra.url} rel="noopener">
+            {extra.label}
+          </a>
+        ))}
+      </p>
+    )}
+    <div class="archive-foot">
+      <ContextBadge context={data.context} />
+      <TagList tags={data.tags} />
+    </div>
+  </div>
+</article>

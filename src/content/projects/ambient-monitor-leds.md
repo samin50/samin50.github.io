@@ -4,8 +4,10 @@ title: Ambient Monitor LED Lighting
 summary: 'I used a Raspberry Pi Zero and a HDMI capture device to capture the screen, and attached strips of WS2812B LEDs to the back of my monitor.'
 tier: archive
 context: personal
-order: 25
+order: 1
+hue: 355
 tags: [embedded]
+status: complete
 dates:
   start: '[[CHECK: year]]'
 tech:
@@ -15,4 +17,9 @@ tech:
 links:
   - label: Hyperion
     url: https://github.com/hyperion-project/HyperBian
+cover:
+  type: image
+  src: ../../assets/placeholders/placeholder.svg
+  alt: '[[TODO: photo of the LEDs lit along the monitor]]'
+  todo: Photo of the LEDs lit along the keys, landscape
 ---

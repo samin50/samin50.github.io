@@ -17,9 +17,7 @@ import Icon from './Icon.astro';
 import MediaSlot from './MediaSlot.astro';
 import StatRow from './StatRow.astro';
 import TechList from './TechList.astro';
-import SceneGeneric from './scenes/SceneGeneric.astro';
-import ScenePcb from './scenes/ScenePcb.astro';
-import SceneSignal from './scenes/SceneSignal.astro';
+import Scene from './scenes/Scene.astro';
 
 const projects = await getProjects('featured');
 ---
@@ -32,19 +30,13 @@ const projects = await getProjects('featured');
   </script>
 
   <div class="scene-stage" aria-hidden="true">
-    {projects.map(({ id, data }, index) => (
+    {projects.map((project, index) => (
       <div
         class:list={['scene hue', { 'is-active': index === 0 }]}
-        data-scene={id}
-        style={`--h:${data.hue}`}
+        data-scene={project.id}
+        style={`--h:${project.data.hue}`}
       >
-        {data.scene === 'pcb' ? (
-          <ScenePcb />
-        ) : data.scene === 'signal' ? (
-          <SceneSignal />
-        ) : (
-          <SceneGeneric />
-        )}
+        <Scene project={project} />
       </div>
     ))}
   </div>
@@ -119,7 +111,7 @@ const projects = await getProjects('featured');
                 {data.results ? (
                   <StatRow results={data.results} compact />
                 ) : (
-                  <TechList tech={data.tech} />
+                  <TechList tech={data.tech ?? []} />
                 )}
               </div>
             </div>

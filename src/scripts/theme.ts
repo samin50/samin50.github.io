@@ -3,7 +3,7 @@
  *
  * The initial theme is applied by a tiny inline script in <head> (see
  * BaseLayout.astro) before first paint, so there is no flash. This module only
- * wires up the toggle button(s): dark is the default, the choice is remembered
+ * wires up the toggle button(s): light is the default, the choice is remembered
  * in localStorage, and the swap cross-fades where View Transitions are
  * available and the visitor has not asked for reduced motion.
  */
@@ -15,7 +15,7 @@ const buttons = document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle
 const themeColor = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
 
 function currentTheme(): Theme {
-  return root.dataset['theme'] === 'light' ? 'light' : 'dark';
+  return root.dataset['theme'] === 'dark' ? 'dark' : 'light';
 }
 
 function syncControls(): void {

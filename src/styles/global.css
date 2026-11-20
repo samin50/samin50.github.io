@@ -78,7 +78,10 @@
 
   /* One focus style for every interactive element, in the text colour so it
      shows on any of the coloured grounds. */
-  :focus-visible {
+  :focus-visible,
+  /* A video's own controls take focus inside the player, where the video
+     itself matches only :focus-within; give it the same ring. */
+  video:focus-within {
     outline: 3px solid var(--focus-ring);
     outline-offset: 3px;
   }

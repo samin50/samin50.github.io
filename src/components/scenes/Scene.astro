@@ -1,0 +1,51 @@
+---
+/**
+ * The animated scene for one project, used behind the home page showcase and
+ * a project page's header. The project's `scene` frontmatter wins; otherwise
+ * its entry in DEFAULT_SCENES; otherwise the generic scene.
+ *
+ * Every scene is purely decorative (its stage is aria-hidden), drawn in the
+ * project's colour (the surrounding `.hue` element's tokens), and animated
+ * by CSS only. Playback (on screen, not paused, no reduced motion) is decided
+ * by src/scripts/scenes.ts; without it each scene shows its still image.
+ */
+import '../../styles/scenes.css';
+import type { Project } from '../../lib/projects';
+import { DEFAULT_SCENES } from '../../lib/project-visuals';
+import SceneCompile from './SceneCompile.astro';
+import SceneDiffuse from './SceneDiffuse.astro';
+import SceneGeneric from './SceneGeneric.astro';
+import ScenePcb from './ScenePcb.astro';
+import SceneRack from './SceneRack.astro';
+import SceneRover from './SceneRover.astro';
+import SceneSignal from './SceneSignal.astro';
+import SceneSketch from './SceneSketch.astro';
+import SceneVision from './SceneVision.astro';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const scene = project.data.scene ?? DEFAULT_SCENES[project.id];
+---
+
+{scene === 'pcb' ? (
+  <ScenePcb />
+) : scene === 'signal' ? (
+  <SceneSignal />
+) : scene === 'vision' ? (
+  <SceneVision />
+) : scene === 'rover' ? (
+  <SceneRover />
+) : scene === 'sketch' ? (
+  <SceneSketch />
+) : scene === 'diffuse' ? (
+  <SceneDiffuse />
+) : scene === 'rack' ? (
+  <SceneRack />
+) : scene === 'compile' ? (
+  <SceneCompile />
+) : (
+  <SceneGeneric />
+)}
