@@ -45,18 +45,9 @@ cover:
 gallery:
   # From the old site (legacy/public/Imperial/WallEE/image018.jpg). It is only 370 x 278.
   - type: image
-    src: ../../assets/projects/autonomous-mars-rover/rover.jpg
+    src: rover.jpg
     alt: Greyscale camera frame with a red ball picked out in solid red; part of a red shoe beside it is picked out too
     caption: 'Output of the vision system identifying a red ball over a red piece of clothing.'
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: cropped camera frame of the red ball and red jumper with the two vertical bound lines, from Vision/Report.docx]]'
-    todo: Crop the camera area out of the noise-rejection screenshot in Vision/Report.docx (word/media/image7.jpeg, 1376 x 774)
-    caption: The red jumper also matches the red thresholds, but the bound lines stay on the ball because it has the longest run of red pixels.
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: block diagram of the Verilog vision pipeline]]'
-    todo: 'Block diagram of the pipeline: camera, Bayer to RGB, RGB to HSV, per-colour thresholds, shift-register filter, longest-run bounds, SPI to ESP32, with the average-brightness path to the NIOS II for auto gain'
 ---
 
 ## Overview

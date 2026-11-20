@@ -44,9 +44,9 @@ cover:
   todo: Photo of the finished keyboard, both halves, landscape, at least 1600 px wide
 gallery:
   - type: image
-    src: ../../assets/placeholders/placeholder.svg
+    src: current.jpeg
     alt: '[[TODO: photo of the bare generation-1 4-layer PCB]]'
-    caption: Generation 1, 4-layer.
+    caption: The current status of the keyboard
     todo: Bare generation-1 PCB, top side
   - type: image
     src: ../../assets/placeholders/placeholder.svg

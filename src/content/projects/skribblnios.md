@@ -42,19 +42,11 @@ cover:
   src: Startup.png
   alt: Demonstration of the board and the UI
 gallery:
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: screenshot of the app with a drawing]]'
-    todo: Screenshot of the app with a drawing
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: sequence diagram of the game–FPGA protocol: pre-game, round start, drawing, not drawing, game end]]'
-    caption: How the game and the FPGA talk to each other over the JTAG UART.
-    todo: 'Export Resources/FPGA-Game-Interface.pdf from the skribblnios repo as a PNG (it is a hand-drawn diagram on a dark background)'
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: photo of the DE10-Lite board mid-game, showing the LED round timer and the score on the seven-segment displays]]'
-    todo: Photo of the board during a round, if you have one
+  - type: video
+    src: skribbldemo.mp4
+    poster: ../../assets/projects/skribblnios/Startup.png
+    alt: 'Demo video'
+    caption: Demo video of the FPGA with the SkribblNios game
 ---
 
 ## Overview

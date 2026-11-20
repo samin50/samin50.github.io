@@ -39,23 +39,6 @@ cover:
   src: Lamps.png
   alt: '[[TODO: photo of the two lamps lit]]'
   todo: Photo of both lamps lit, landscape, at least 1600 px wide
-gallery:
-  - type: video
-    src: sampleVideo.mp4
-    alt: One lamp being touched and the other lighting up
-    todo: Short clip of one lamp triggering the other
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: FreeCAD render or exploded view of the enclosure parts]]'
-    todo: Render of design/Design.FCStd (base, housing, cover, lid, light mount, C6 mount, USB inlet)
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: photo of the electronics inside the base: XIAO ESP32-C6, TTP223, LED on its star PCB, driver]]'
-    todo: Close-up of the internals, lid off
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: "[[TODO: screenshot of the settings page served from the lamp's own access point]]"
-    todo: Phone screenshot of the settings page, with no personal background image or credentials visible
 ---
 
 ## Overview

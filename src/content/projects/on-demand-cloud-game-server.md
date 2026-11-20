@@ -35,15 +35,6 @@ cover:
   src: ../../assets/placeholders/placeholder.svg
   alt: '[[TODO: architecture diagram: Route 53 query, Lambda, ECS Fargate task (Crafty + watchdog), EFS, shutdown]]'
   todo: Architecture diagram of the start/stop lifecycle, landscape, at least 1600 px wide
-gallery:
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: screenshot of the Crafty Controller dashboard managing the Minecraft server]]'
-    todo: Crafty Controller dashboard screenshot
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: CloudWatch log showing the watchdog detecting idle and stopping the task]]'
-    todo: CloudWatch or watchdog log screenshot of an idle shutdown
 ---
 
 ## Overview

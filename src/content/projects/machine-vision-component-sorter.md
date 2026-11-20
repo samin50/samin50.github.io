@@ -53,25 +53,32 @@ gallery:
   #   todo: '20–40 s clip of the sorter running, 1080p, no audio needed'
   - type: image
     src: Predictions.jpg
-    alt: 'Oriented bounding boxes drawn around resistors, capacitors and LEDs'
+    alt: Oriented bounding boxes drawn around resistors, capacitors and LEDs
     caption: Oriented bounding boxes from the YOLOv8-OBB model.
   - type: image
     src: tmc2209-0.jpeg
-    alt: 'Custom circuit board for stepper control'
+    alt: Custom circuit board for stepper control
+    caption: A custom circuit board for stepper control
   - type: image
     src: fullsweeper.jpg
     alt: The design of the sweeper arm used to move components into bins
+    caption: The design of the sweeper arm used to move components into bins
   - type: image
     src: banddetect.jpg
     alt: 'Resistor band detection'
+    caption: Resistor band colour detection used to calculate its resistance
   - type: image
     src: finalmodelmap95.svg
     alt: 'Model evaluation pretrained vs from scratch'
+    caption: Performance (mAP50-95) of pretrained model (blue) vs from scratch (orange) over epochs
   - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: the custom dataset annotation tool with an oriented box drawn around a resistor and its colour bands labelled]]'
-    caption: The annotation tool I wrote to capture and label the dataset straight from the Pi.
-    todo: 'Screenshot of the dataset tool (candidate: doc/Final Report/imgs/python/captured.jpg or resistorannotate.jpg)'
+    src: screeninference.jpg
+    alt: 'The UI running on the screen'
+    caption: The UI displayed on the screen for an operator to use.
+  - type: image
+    src: profiler.jpg
+    alt: 'Snakeviz profiler'
+    caption: SnakeViz profiler used to optimise the system.
 ---
 
 ## Overview
