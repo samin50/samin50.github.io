@@ -19,6 +19,7 @@
  */
 import placeholder from '../assets/placeholders/placeholder.svg';
 import { site } from '../config/site';
+import { newTabAttrs } from '../lib/links';
 import type { Project } from '../lib/projects';
 import ContextBadge from './ContextBadge.astro';
 import Icon from './Icon.astro';
@@ -78,7 +79,7 @@ const showMedia = site.showArchiveMedia;
       )}
       <h3 class="archive-title">
         {link ? (
-          <a class="card-link" href={link.url} rel="noopener">
+          <a class="card-link" href={link.url} {...newTabAttrs(link.url)}>
             {data.title}
             <Icon name="arrow-up-right" size={16} class="archive-link-icon" />
             <span class="sr-only"> ({link.label})</span>
@@ -92,7 +93,7 @@ const showMedia = site.showArchiveMedia;
     {moreLinks.length > 0 && (
       <p class="archive-more-links">
         {moreLinks.map((extra) => (
-          <a class="text-link" href={extra.url} rel="noopener">
+          <a class="text-link" href={extra.url} {...newTabAttrs(extra.url)}>
             {extra.label}
           </a>
         ))}
