@@ -33,9 +33,10 @@ cover:
   caption: 'The feeder, modelled in SketchUp.'
 gallery:
   - type: video
-    src: sampleVideo.mp4
+    src: feedervid.mp4
     alt: The feeder dispensing food
-    todo: 'The old feeder video (legacy/public/Imperial/Embedded/PetFeeder/FeederVid.mp4) re-encoded'
+    poster: ../../assets/projects/automated-pet-feeder/cover.png      
+    caption: The pet feeder dispensing food
   - type: image
     src: ../../assets/projects/automated-pet-feeder/feeder-03.jpg
     alt: CAD model of the feeder seen from above, looking down into the hopper

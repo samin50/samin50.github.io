@@ -9,11 +9,18 @@
  * with a play icon and play in the lightbox, from the player kept in each
  * video's template. In the project page's right column, gallery-fit.ts fits
  * the column to the text beside it, ending on a "+N more" tile.
+ *
+ * Every thumbnail is the same fixed 16:10 frame; the picture is scaled to fit
+ * inside it, whole, never cropped. Pictures with transparent pixels (found at
+ * build time, src/lib/image-alpha.ts) sit on a light matte with some padding,
+ * in the frame and in the lightbox. Captions sit below the frame, two lines at
+ * most (the whole caption is in the lightbox). Style guide §11.19.
  */
 import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import placeholder from '../assets/placeholders/placeholder.svg';
 import type { IconName } from '../lib/icons';
+import { hasTransparency } from '../lib/image-alpha';
 import { url } from '../lib/paths';
 import Icon from './Icon.astro';
 import Lightbox from './Lightbox.astro';
@@ -67,27 +74,37 @@ const {
   dialog = true,
 } = Astro.props;
 const Heading = headingLevel === 3 ? 'h3' : 'h2';
+// Thumbnails keep room for a caption only when the gallery has captions.
+const hasCaptions = items.some((item) => item.caption);
 const total = items.length;
 
 const entries = await Promise.all(
   items.map(async (item) => {
-    if (item.type === 'video') return { item, full: url(item.src), isPlaceholder: false };
+    if (item.type === 'video') {
+      return { item, full: url(item.src), isPlaceholder: false, transparent: false };
+    }
     const isPlaceholder = item.src.src === placeholder.src;
     const full = isPlaceholder
       ? placeholder.src
       : (await getImage({ src: item.src, width: Math.min(1600, item.src.width), format: 'webp' }))
           .src;
-    return { item, full, isPlaceholder };
+    const transparent = !isPlaceholder && (await hasTransparency(item.src));
+    return { item, full, isPlaceholder, transparent };
   }),
 );
 ---
 
-<section class:list={['gallery', className]} aria-labelledby={headingId} data-gallery>
+<section
+  class:list={['gallery', className]}
+  aria-labelledby={headingId}
+  data-gallery
+  data-captions={hasCaptions ? '' : undefined}
+>
   <Heading class="heading" id={headingId} data-reveal>
     Gallery
   </Heading>
   <ul class="gallery-grid" data-gallery-grid>
-    {entries.map(({ item, full, isPlaceholder }, index) => {
+    {entries.map(({ item, full, isPlaceholder, transparent }, index) => {
       const kind = item.type === 'video' ? 'Video' : 'Picture';
       const label = `${kind} ${index + 1} of ${total}: ${item.caption ?? item.alt}`;
       return (
@@ -101,9 +118,18 @@ const entries = await Promise.all(
               data-lightbox
               data-video={item.type === 'video' ? '' : undefined}
               data-placeholder={isPlaceholder ? '' : undefined}
+              data-transparent={transparent ? '' : undefined}
               data-caption={item.caption}
             >
-              <MediaSlot media={item} name={name} icon={icon} hue={hue} sizes={sizes} still />
+              <MediaSlot
+                class={transparent ? 'gallery-frame is-transparent' : 'gallery-frame'}
+                media={item}
+                name={name}
+                icon={icon}
+                hue={hue}
+                sizes={sizes}
+                still
+              />
               {item.type === 'video' ? (
                 <span class="gallery-play" aria-hidden="true">
                   <Icon name="play" size={20} />

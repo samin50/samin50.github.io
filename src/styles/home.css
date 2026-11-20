@@ -389,6 +389,32 @@
       padding: 1.25rem;
     }
   }
+  /* Wide phones and foldables, while the list is a wrapping row of pills
+     above the panel: the list gets the same inner padding as the panel, a
+     pill never grows wider than the list (a long name wraps inside it), and
+     the single column is held to the container so nothing can push the
+     list or panel past the page's side margin. */
+  @media (min-width: 40rem) and (max-width: 63.999rem) {
+    .showcase-layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .showcase-tabs {
+      gap: 0.5rem;
+      padding: 1.25rem;
+    }
+    .showcase-tabs > li {
+      flex: none;
+      max-width: 100%;
+    }
+    /* A fixed size: the percentage in the base rule throws off the pill's
+       content-based width, so the name would wrap even with room to spare. */
+    .tab-icon {
+      width: 2rem;
+    }
+    .tab-label {
+      white-space: normal;
+    }
+  }
   @media (min-width: 48rem) {
     .showcase-panel {
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);

@@ -44,6 +44,8 @@ export function initLightbox(dialog: HTMLDialogElement): void {
       const image = document.createElement('img');
       image.src = link.href;
       image.alt = thumbnail?.alt ?? '';
+      // A picture with transparent pixels sits on a light matte, as in the grid.
+      image.classList.toggle('is-transparent', link.hasAttribute('data-transparent'));
       stage?.replaceChildren(image);
     }
     if (caption) {

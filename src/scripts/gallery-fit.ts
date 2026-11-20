@@ -13,7 +13,7 @@
  * Below 64rem, and without this script, every thumbnail is shown.
  *
  * Each pass reads every size first and then writes, at most once a frame.
- * Thumbnail rows are all the same height (captions are hidden in the column),
+ * Thumbnail rows are all the same height (fixed frames, two-line caption room),
  * so how many fit does not depend on how many are shown.
  */
 const WIDE = '(min-width: 64rem)';

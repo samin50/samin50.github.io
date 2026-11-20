@@ -26,12 +26,6 @@ cover:
   src: ../../assets/projects/c-compiler/bison-grammar.jpg
   alt: Bison grammar rules for functions, parameters, statements and if/else, each building a node of the C++ syntax tree
   caption: Part of the Bison grammar; each rule constructs an AST node.
-gallery:
-  - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: screenshot of the Flex lexer rules, without editor blame annotations]]'
-    caption: Lexer rules in Flex.
-    todo: Re-capture the lexer screenshot with GitLens blame annotations hidden (the existing one shows them)
 ---
 
 ## Overview
@@ -48,5 +42,4 @@ Take C source and produce correct MIPS assembly for a defined language subset, p
 
 - Lexer in Flex and grammar in Bison, producing an AST of C++ classes.
 - Code generation for functions, structs, arrays, pointers and basic arithmetic.
-- [[CHECK: register allocation / stack frame approach; how scoping and symbol tables were handled; pass rate on the test suite]]
 

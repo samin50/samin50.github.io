@@ -594,11 +594,28 @@
     gap: clamp(2.25rem, 1.75rem + 2.4vw, 4rem);
     padding-block: clamp(2rem, 1.5rem + 2.2vw, 3.5rem) clamp(3rem, 2.5rem + 3vw, 5rem);
   }
+  /* Captions sit below the frame, never over it, and show two lines at most;
+     the whole caption is in the lightbox and in the link's label. In a
+     gallery with captions every item keeps room for two lines, so items are
+     the same height (gallery-fit.ts relies on it in the project column). */
   .gallery-item figcaption {
+    display: -webkit-box;
     margin-top: 0.625rem;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
     color: var(--text-muted);
     font-size: 0.875rem;
     line-height: 1.5;
+  }
+  /* Room for two caption lines: the margin plus 2 × 1.5 × 0.875rem. */
+  [data-captions] .gallery-item {
+    display: grid;
+    grid-template-rows: auto 3.25rem;
+  }
+  [data-captions] .gallery-item figcaption {
+    align-self: start;
   }
   @media (min-width: 64rem) {
     .project-main {
@@ -631,18 +648,14 @@
     .project-main > .gallery .heading {
       font-size: 1.25rem;
     }
-    /* One item per row, the full width of the column (decision Z-5). With
-       the script, captions are hidden here (they are in each link's label and
-       in the lightbox) so every row is the same height, and gallery-fit.ts
-       shows only what fits beside the text. Without it every item is shown,
-       with its caption. */
+    /* One item per row, the full width of the column (decision Z-5). Every
+       row is the same height (fixed frame, two-line caption room), and
+       gallery-fit.ts shows only what fits beside the text. Without it every
+       item is shown. */
     .project-main > .gallery .gallery-grid {
       grid-template-columns: minmax(0, 1fr);
       gap: 1rem;
       margin-top: 1rem;
-    }
-    .project-main > [data-fit] .gallery-item figcaption {
-      display: none;
     }
   }
   /* A video's placeholder panel drops its icon and name: the play button
@@ -1173,6 +1186,22 @@
     display: block;
     border-radius: var(--r-md);
   }
+  /* Every thumbnail is the same 16:10 frame (from .media-frame). The picture
+     is scaled to fit inside it, whole and centred, on the frame's background;
+     never cropped, never scrolling. Placeholder panels keep their fill. */
+  .gallery-frame:not(.ph) > img {
+    object-fit: contain;
+  }
+  /* A picture with transparent pixels (src/lib/image-alpha.ts): a light
+     matte with a little padding, outlined so it reads as a card in either
+     theme. */
+  .gallery-frame.is-transparent {
+    background: var(--matte);
+    box-shadow: inset 0 0 0 1px var(--raised-border);
+  }
+  .gallery-frame.is-transparent > img {
+    padding: 6%;
+  }
   /* Marks a picture as one that opens larger. */
   .gallery-zoom {
     position: absolute;
@@ -1270,26 +1299,38 @@
     gap: 1rem;
     min-height: 2.5rem;
   }
+  /* The caption is in the bottom bar, so it is always on screen; the picture
+     takes whatever height is left. A very long caption is capped. */
   .lightbox-caption {
     flex: 1;
+    max-height: 30dvh;
+    overflow-y: auto;
     text-align: center;
     font-size: 0.9375rem;
   }
+  /* The space between the bars. Its size comes from the dialog's grid, so it
+     is a size container: the picture is fitted to it, whole, at any shape. */
   .lightbox-stage {
     display: grid;
     place-items: center;
     min-width: 0;
     min-height: 0;
+    overflow: hidden;
+    container-type: size;
   }
   .lightbox-stage > img {
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 100cqw;
+    max-height: 100cqh;
     border-radius: var(--r-md);
     object-fit: contain;
   }
+  .lightbox-stage > img.is-transparent {
+    padding: clamp(0.75rem, 3cqmin, 2rem);
+    background: var(--matte);
+  }
   /* A placeholder panel or a video player keeps its 16:10 shape and fits the space. */
   .lightbox-stage > .media-frame {
-    width: min(100%, (100dvh - 9rem) * 1.6);
+    width: min(100cqw, 100cqh * 1.6);
   }
   .lightbox-stage > .media-frame > video {
     object-fit: contain;
