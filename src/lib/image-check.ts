@@ -10,10 +10,11 @@ import {
  * Wraps a content loader so entries can name their images by filename alone
  * (decision AF-1; the convention is in src/lib/image-folders.ts).
  *
- * - Frontmatter: a bare filename in `cover.src` or `gallery[].src` (images
- *   only; videos are left as they are) is rewritten to the entry's image
- *   folder before the schema's `image()` sees it, so it is optimised by
- *   astro:assets exactly like a relative path.
+ * - Frontmatter: a bare filename in an image's `src` or a video's `poster`
+ *   (in `cover` or `gallery[]`) is rewritten to the entry's image folder
+ *   before the schema's `image()` sees it, so it is optimised by astro:assets
+ *   exactly like a relative path. A video's `src` is left as it is: it is a
+ *   path under public/.
  * - Body: bare filenames in Markdown images are rewritten by the Markdown
  *   plugin (src/lib/markdown-image-folders.ts), registered in astro.config.mjs.
  * - Once loading is done, every image an entry takes from its folder, in the
@@ -102,12 +103,22 @@ function* mediaFields(data: Record<string, unknown>): Generator<[string, Record<
   }
 }
 
+/**
+ * The key holding a media item's optimised image: `src` for an image,
+ * `poster` for a video (whose `src` is a file under public/).
+ */
+function imageKey(media: Record<string, unknown>): 'src' | 'poster' | undefined {
+  if (media.type === 'image') return 'src';
+  if (media.type === 'video') return 'poster';
+  return undefined;
+}
+
 /** Rewrites bare image filenames in the raw frontmatter, in place. */
 function resolveFrontmatter(data: Record<string, unknown>, entry: EntryImageFolder): void {
   for (const [, media] of mediaFields(data)) {
-    if (media.type === 'image' && typeof media.src === 'string') {
-      media.src = resolveImageSrc(media.src, entry);
-    }
+    const key = imageKey(media);
+    const value = key ? media[key] : undefined;
+    if (key && typeof value === 'string') media[key] = resolveImageSrc(value, entry);
   }
 }
 
@@ -115,8 +126,10 @@ function resolveFrontmatter(data: Record<string, unknown>, entry: EntryImageFold
 function frontmatterImages(data: Record<string, unknown>): { field: string; path: string }[] {
   const images: { field: string; path: string }[] = [];
   for (const [field, media] of mediaFields(data)) {
-    if (media.type === 'image' && typeof media.src === 'string') {
-      images.push({ field, path: media.src.replace(/^__ASTRO_IMAGE_/, '') });
+    const key = imageKey(media);
+    const value = key ? media[key] : undefined;
+    if (key && typeof value === 'string') {
+      images.push({ field: `${field}.${key}`, path: value.replace(/^__ASTRO_IMAGE_/, '') });
     }
   }
   return images;

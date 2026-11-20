@@ -28,38 +28,38 @@ links: []
 # They are 480 x 339, so they are shown small.
 cover:
   type: image
-  src: ../../assets/projects/automated-pet-feeder/feeder-02.jpg
+  src: feeder-02.jpg
   alt: CAD render of the pet feeder, a white box with a black lid and base and a slot at the front
   caption: 'The feeder, modelled in SketchUp.'
 gallery:
   - type: video
     src: feedervid.mp4
     alt: The feeder dispensing food
-    poster: ../../assets/projects/automated-pet-feeder/cover.png      
+    poster: cover.png      
     caption: The pet feeder dispensing food
   - type: image
-    src: ../../assets/projects/automated-pet-feeder/feeder-03.jpg
+    src: feeder-03.jpg
     alt: CAD model of the feeder seen from above, looking down into the hopper
   - type: image
-    src: ../../assets/projects/automated-pet-feeder/feeder-04.jpg
+    src: feeder-04.jpg
     alt: CAD model of the feeder with the outer shell removed, showing the hopper and the motor mount at the base
   - type: image
-    src: ../../assets/projects/automated-pet-feeder/feeder-05.jpg
+    src: feeder-05.jpg
     alt: CAD model of the feeder's inner frame from the other side
   - type: image
-    src: ../../assets/projects/automated-pet-feeder/feeder-06.jpg
+    src: feeder-06.jpg
     alt: CAD model of the base tray with the plate that carries the load cell
   - type: image
-    src: ../../assets/projects/automated-pet-feeder/feeder-07.jpg
+    src: feeder-07.jpg
     alt: CAD model of the base with the motor in its mount
   - type: image
-    src: ../../assets/projects/automated-pet-feeder/feeder-08.jpg
+    src: feeder-08.jpg
     alt: CAD model of the base with the dispensing platform tilted
   - type: image
-    src: ../../assets/projects/automated-pet-feeder/feeder-09.jpg
+    src: feeder-09.jpg
     alt: CAD model of the dispensing mechanism on its shaft, inside the frame
   - type: image
-    src: ../../assets/projects/automated-pet-feeder/feeder-10.jpg
+    src: feeder-10.jpg
     alt: CAD model of the assembled feeder without its outer shell
 ---
 

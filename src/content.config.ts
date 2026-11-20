@@ -49,6 +49,7 @@ const projects = defineCollection({
         type: z.literal('video'),
         /** Base-relative path under public/, e.g. 'sampleVideo.mp4'. */
         src: z.string(),
+        /** Still shown before it plays: a bare filename or a relative path, as for an image's `src`. */
         poster: image().optional(),
         /** Short description, used as the player's accessible name. */
         alt: z.string(),

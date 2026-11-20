@@ -18,6 +18,9 @@
 :root {
   --container: 72rem;
   --gutter: 1.25rem;
+  /* Space between the site header and the first thing on every page: the
+     home page intro, inner page heads and project headers. */
+  --page-top: clamp(0.25rem, 0.1rem + 0.5vw, 0.5rem);
 
   /* Motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
