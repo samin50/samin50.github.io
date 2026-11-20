@@ -20,6 +20,8 @@ const skills = skillGroups();
 /** The old site's "Interests" (legacy Sidebar.tsx). */
 const interests = ['3D Printing', 'Piano', 'DIY', 'CAD'];
 const social = site.contact.filter((link) => link.icon !== 'mail');
+
+import me from '../assets/me.jpeg';
 ---
 
 <BaseLayout
@@ -40,8 +42,8 @@ const social = site.contact.filter((link) => link.icon !== 'mail');
     <section class="about-profile" aria-labelledby="profile-heading">
       <MediaSlot
         class="about-photo"
-        alt="[[TODO: head-and-shoulders photo of me, square crop, at least 800×800]]"
         name="Picture of me!"
+        media={{ type: 'image', src: me, alt: 'Photo of me' }}
         icon="user"
         hue={285}
         sizes="(min-width: 48rem) 18rem, 60vw"
@@ -186,7 +188,7 @@ const social = site.contact.filter((link) => link.icon !== 'mail');
         <h3>My setup</h3>
         <!-- legacy Hero.tsx:22-25, unchanged (decision C-4) -->
         <p>
-          My current setup is a Legion 9 82F5 with an RTX 5090, which I use for work, gaming and AI; the 24 GB of VRAM has proven very useful for this"
+          My current setup is a Legion 9 82F5 with an RTX 5090, which I use for work, gaming and AI; the 24 GB of VRAM has proven very useful for this.
         </p>
       </div>
     </section>

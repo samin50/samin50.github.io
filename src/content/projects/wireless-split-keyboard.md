@@ -3,7 +3,7 @@ title: Wireless Split Keyboard
 summary: Battery-powered split keyboard built around a bare nRF52833, with custom Zephyr C firmware. Resin printed chassis and keycaps. Hand-soldered.
 description: 'Custom nRF52833 PCBs running C Zephyr firmware: BLE between halves, USB/BLE HID, Li-ion power path, MCUboot.'
 tier: featured
-order: 1
+order: 2
 hue: 25
 icon: keyboard
 scene: pcb

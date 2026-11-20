@@ -17,6 +17,7 @@ import Icon from './Icon.astro';
 import MediaSlot from './MediaSlot.astro';
 import Showcase from './Showcase.astro';
 
+import me from '../assets/formalme.jpeg';
 /**
  * Titles and skill lists follow the CV's Skills section (CV/main.tex:117-126).
  * `darkHue` replaces the tile's background hue in the dark theme only: a dark
@@ -103,6 +104,7 @@ const disciplines: {
       <MediaSlot
         class="intro-photo-frame"
         alt="[[TODO: photo of me - portrait orientation, at least 1200 px tall]]"
+        media={{ type: 'image', src: me, alt: 'Photo of me' }}
         name="Picture of me!"
         icon="user"
         hue={285}

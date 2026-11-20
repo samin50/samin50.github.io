@@ -3,7 +3,7 @@ title: Machine Vision Component Sorter
 summary: Conveyor-based sorter that detects, classifies and bins electronic components with on-device YOLOv8 on a Raspberry Pi 4B.
 description: 'MEng final-year project: a conveyor sorter that classifies electronic components on a Raspberry Pi with YOLOv8-OBB at 99.5 % mAP50.'
 tier: featured
-order: 2
+order: 1
 hue: 150
 icon: scan
 tags: [computer-vision, ai, embedded, fabrication]
@@ -46,32 +46,27 @@ cover:
   alt: '[[TODO: photo of the complete sorter: conveyor, camera mount and bins, three-quarter view]]'
   todo: Photo of the complete sorter, three-quarter view, landscape, at least 1600 px wide
 gallery:
-  - type: video
-    src: sampleVideo.mp4
-    alt: 'Sorter running: components detected on the belt and dropped into bins'
-    caption: The sorter running end to end.
-    todo: '20–40 s clip of the sorter running, 1080p, no audio needed'
+  # - type: video
+  #   src: sampleVideo.mp4
+  #   alt: 'Sorter running: components detected on the belt and dropped into bins'
+  #   caption: The sorter running end to end.
+  #   todo: '20–40 s clip of the sorter running, 1080p, no audio needed'
   - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: camera frame with oriented bounding boxes drawn around resistors, capacitors and LEDs]]'
+    src: Predictions.jpg
+    alt: 'Oriented bounding boxes drawn around resistors, capacitors and LEDs'
     caption: Oriented bounding boxes from the YOLOv8-OBB model.
-    todo: 'Annotated inference frame with OBB boxes and class labels (candidate in the FYP repo: doc/Final Report/imgs/graphs/val_batch1_pred.jpg)'
   - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: training curve or confusion matrix for the YOLOv8 model]]'
-    todo: 'Training curve or confusion matrix (candidates: doc/Final Report/imgs/graphs/confusion_matrix_final_valtest.png, finalmodelmap95.svg)'
+    src: tmc2209-0.jpeg
+    alt: 'Custom circuit board for stepper control'
   - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: diagram of the multiprocess software architecture]]'
-    todo: 'Software architecture diagram (candidate: doc/Final Report/imgs/diagrams/System Diagram.png; it labels the Vision Handler with SparseML, which the final build did not use, so a redrawn version may be better)'
+    src: fullsweeper.jpg
+    alt: The design of the sweeper arm used to move components into bins
   - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: CAD view of the conveyor and camera mount]]'
-    todo: 'CAD view of the conveyor (candidates: doc/Final Report/imgs/freecad/wholefront.jpg, wholeback.jpg)'
+    src: banddetect.jpg
+    alt: 'Resistor band detection'
   - type: image
-    src: ../../assets/placeholders/placeholder.svg
-    alt: '[[TODO: close-up of the sorting bins]]'
-    todo: 'Close-up of the bins (only a CAD render exists in the repo: doc/Final Report/imgs/freecad/bin.jpg)'
+    src: finalmodelmap95.svg
+    alt: 'Model evaluation pretrained vs from scratch'
   - type: image
     src: ../../assets/placeholders/placeholder.svg
     alt: '[[TODO: the custom dataset annotation tool with an oriented box drawn around a resistor and its colour bands labelled]]'

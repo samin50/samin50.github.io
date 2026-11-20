@@ -35,4 +35,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  image: {
+    dangerouslyProcessSVG: true, // Enable if you trust your SVG sources
+  },
 });

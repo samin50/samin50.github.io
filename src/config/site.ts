@@ -23,9 +23,9 @@ export interface SiteLink {
 }
 
 export const site = {
-  name: '[WIP] [[TODO: full name]]',
+  name: '[WIP] Shaheen Amin',
   /** Used in the home page greeting ("Hi! I'm …!"), as on the old site. */
-  firstName: '[[TODO: first name]]',
+  firstName: 'Shaheen',
   /** The old site's strapline, kept verbatim (legacy/src/components/Navbar.tsx:36). */
   strapline: 'Engineer, Programmer and DIY Enthusiast',
   role: 'Software engineer',
@@ -41,29 +41,29 @@ export const site = {
   /** A single general CV PDF (decision 11). Put the file in public/ and set e.g. 'cv.pdf'. */
   cv: {
     label: 'Download CV',
-    href: null as string | null,
+    href: 'Shaheen-Amin-CV.pdf',
     todo: 'CV PDF path',
   },
 
   contact: [
     {
       label: 'Email',
-      text: '[[TODO: email address]]',
-      href: null,
+      text: 'shaheen.amin.uk@gmail.com',
+      href: 'mailto:shaheen.amin.uk@gmail.com',
       todo: 'mailto link',
       icon: 'mail',
     },
     {
       label: 'LinkedIn',
       text: 'LinkedIn',
-      href: null,
+      href: 'https://linkedin.com/in/shaheen-amin',
       todo: 'LinkedIn URL',
       icon: 'linkedin',
     },
     {
       label: 'GitHub',
       text: 'GitHub',
-      href: null,
+      href: 'https://github.com/samin50',
       todo: 'GitHub URL',
       icon: 'github',
     },
